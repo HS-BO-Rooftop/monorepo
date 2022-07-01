@@ -1,0 +1,28 @@
+{
+  "root": "apps/farmer-companion-e2e",
+  "sourceRoot": "apps/farmer-companion-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/farmer-companion-e2e/cypress.json",
+        "devServerTarget": "farmer-companion:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "farmer-companion:serve:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/farmer-companion-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["farmer-companion"]
+}

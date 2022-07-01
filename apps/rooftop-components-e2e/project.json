@@ -1,0 +1,28 @@
+{
+  "root": "apps/rooftop-components-e2e",
+  "sourceRoot": "apps/rooftop-components-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/rooftop-components-e2e/cypress.json",
+        "devServerTarget": "rooftop-components:storybook"
+      },
+      "configurations": {
+        "ci": {
+          "devServerTarget": "rooftop-components:storybook:ci"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/rooftop-components-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["rooftop-components"]
+}

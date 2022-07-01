@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "projects": {
+    "farmer-companion": "apps/farmer-companion",
+    "farmer-companion-e2e": "apps/farmer-companion-e2e",
+    "rooftop-api": "apps/rooftop-api",
+    "rooftop-components": "libs/rooftop-components",
+    "rooftop-components-e2e": "apps/rooftop-components-e2e"
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "projectType": "library",
+  "root": "libs/rooftop-components",
+  "sourceRoot": "libs/rooftop-components/src",
+  "prefix": "rooftop",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/angular:package",
+      "outputs": ["dist/libs/rooftop-components"],
+      "options": {
+        "project": "libs/rooftop-components/ng-package.json",
+        "tailwindConfig": "libs/rooftop-components/tailwind.config.js"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "libs/rooftop-components/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "libs/rooftop-components/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/rooftop-components"],
+      "options": {
+        "jestConfig": "libs/rooftop-components/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/rooftop-components/src/**/*.ts",
+          "libs/rooftop-components/src/**/*.html"
+        ]
+      }
+    },
+    "storybook": {
+      "executor": "@nrwl/storybook:storybook",
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "port": 4400,
+        "config": {
+          "configFolder": "libs/rooftop-components/.storybook"
+        },
+        "projectBuildConfig": "rooftop-components:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "build-storybook": {
+      "executor": "@nrwl/storybook:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "uiFramework": "@storybook/angular",
+        "outputPath": "dist/storybook/rooftop-components",
+        "config": {
+          "configFolder": "libs/rooftop-components/.storybook"
+        },
+        "projectBuildConfig": "rooftop-components:build-storybook"
+      },
+      "configurations": {
+        "ci": {
+          "quiet": true
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "commitMessageFormat": "chore(${projectName}): release version ${version}"
+      }
+    }
+  },
+  "tags": ["rooftop", "components"]
+}

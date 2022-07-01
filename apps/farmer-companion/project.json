@@ -1,0 +1,200 @@
+{
+  "projectType": "application",
+  "root": "apps/farmer-companion",
+  "sourceRoot": "apps/farmer-companion/src",
+  "prefix": "rooftop",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/farmer-companion",
+        "index": "apps/farmer-companion/src/index.html",
+        "main": "apps/farmer-companion/src/main.ts",
+        "polyfills": "apps/farmer-companion/src/polyfills.ts",
+        "tsConfig": "apps/farmer-companion/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/farmer-companion/src/assets",
+          {
+            "glob": "**/*.svg",
+            "input": "node_modules/ionicons/dist/ionicons/svg",
+            "output": "./svg"
+          }
+        ],
+        "styles": [
+          "apps/farmer-companion/src/styles.scss",
+          {
+            "input": "apps/farmer-companion/src/theme/variables.scss"
+          }
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "fileReplacements": [
+            {
+              "replace": "apps/farmer-companion/src/environments/environment.ts",
+              "with": "apps/farmer-companion/src/environments/environment.prod.ts"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "farmer-companion:build:production"
+        },
+        "development": {
+          "browserTarget": "farmer-companion:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "farmer-companion:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "apps/farmer-companion/src/**/*.ts",
+          "apps/farmer-companion/src/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/farmer-companion"],
+      "options": {
+        "jestConfig": "apps/farmer-companion/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "cap": {
+      "executor": "@nxtend/capacitor:cap",
+      "options": {
+        "cmd": "--help"
+      }
+    },
+    "add": {
+      "executor": "@nxtend/capacitor:cap",
+      "options": {
+        "cmd": "add"
+      },
+      "configurations": {
+        "ios": {
+          "cmd": "add ios"
+        },
+        "android": {
+          "cmd": "add android"
+        }
+      }
+    },
+    "copy": {
+      "executor": "@nxtend/capacitor:cap",
+      "options": {
+        "cmd": "copy"
+      },
+      "configurations": {
+        "ios": {
+          "cmd": "copy ios"
+        },
+        "android": {
+          "cmd": "copy android"
+        }
+      }
+    },
+    "open": {
+      "executor": "@nxtend/capacitor:cap",
+      "options": {
+        "cmd": "open"
+      },
+      "configurations": {
+        "ios": {
+          "cmd": "open ios"
+        },
+        "android": {
+          "cmd": "open android"
+        }
+      }
+    },
+    "run": {
+      "executor": "@nxtend/capacitor:cap",
+      "options": {
+        "cmd": "run"
+      },
+      "configurations": {
+        "ios": {
+          "cmd": "run ios"
+        },
+        "android": {
+          "cmd": "run android"
+        }
+      }
+    },
+    "sync": {
+      "executor": "@nxtend/capacitor:cap",
+      "options": {
+        "cmd": "sync"
+      },
+      "configurations": {
+        "ios": {
+          "cmd": "sync ios"
+        },
+        "android": {
+          "cmd": "sync android"
+        }
+      }
+    },
+    "update": {
+      "executor": "@nxtend/capacitor:cap",
+      "options": {
+        "cmd": "update"
+      },
+      "configurations": {
+        "ios": {
+          "cmd": "update ios"
+        },
+        "android": {
+          "cmd": "update android"
+        }
+      }
+    },
+    "version": {
+      "executor": "@jscutlery/semver:version",
+      "options": {
+        "preset": "conventional",
+        "commitMessageFormat": "chore(${projectName}): release version ${version}"
+      }
+    }
+  },
+  "tags": []
+}
