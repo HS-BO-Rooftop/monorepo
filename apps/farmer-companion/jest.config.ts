@@ -1,5 +1,6 @@
-module.exports = {
-  displayName: 'rooftop-components',
+/* eslint-disable */
+export default {
+  displayName: 'farmer-companion',
   preset: '../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
@@ -8,7 +9,7 @@ module.exports = {
       stringifyContentPathRegex: '\\.(html|svg)$',
     },
   },
-  coverageDirectory: '../../coverage/libs/rooftop-components',
+  coverageDirectory: '../../coverage/apps/farmer-companion',
   transform: {
     '^.+\\.(ts|mjs|js|html)$': 'jest-preset-angular',
   },

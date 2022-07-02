@@ -1,6 +1,6 @@
 {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "apps/farmer-companion",
   "sourceRoot": "apps/farmer-companion/src",
   "prefix": "rooftop",
   "targets": {
@@ -94,7 +94,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/apps/farmer-companion"],
       "options": {
-        "jestConfig": "apps/farmer-companion/jest.config.js",
+        "jestConfig": "apps/farmer-companion/jest.config.ts",
         "passWithNoTests": true
       }
     },

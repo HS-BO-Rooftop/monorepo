@@ -6,5 +6,6 @@
     "rooftop-api": "apps/rooftop-api",
     "rooftop-components": "libs/rooftop-components",
     "rooftop-components-e2e": "apps/rooftop-components-e2e"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

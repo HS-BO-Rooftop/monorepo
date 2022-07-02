@@ -1,6 +1,6 @@
 {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "library",
-  "root": "libs/rooftop-components",
   "sourceRoot": "libs/rooftop-components/src",
   "prefix": "rooftop",
   "targets": {
@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/rooftop-components"],
       "options": {
-        "jestConfig": "libs/rooftop-components/jest.config.js",
+        "jestConfig": "libs/rooftop-components/jest.config.ts",
         "passWithNoTests": true
       }
     },
@@ -39,14 +39,12 @@
       }
     },
     "storybook": {
-      "executor": "@nrwl/storybook:storybook",
+      "executor": "@storybook/angular:start-storybook",
       "options": {
-        "uiFramework": "@storybook/angular",
         "port": 4400,
-        "config": {
-          "configFolder": "libs/rooftop-components/.storybook"
-        },
-        "projectBuildConfig": "rooftop-components:build-storybook"
+        "configDir": "libs/rooftop-components/.storybook",
+        "browserTarget": "rooftop-components:build-storybook",
+        "compodoc": false
       },
       "configurations": {
         "ci": {
@@ -55,15 +53,13 @@
       }
     },
     "build-storybook": {
-      "executor": "@nrwl/storybook:build",
+      "executor": "@storybook/angular:build-storybook",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "uiFramework": "@storybook/angular",
-        "outputPath": "dist/storybook/rooftop-components",
-        "config": {
-          "configFolder": "libs/rooftop-components/.storybook"
-        },
-        "projectBuildConfig": "rooftop-components:build-storybook"
+        "outputDir": "dist/storybook/rooftop-components",
+        "configDir": "libs/rooftop-components/.storybook",
+        "browserTarget": "rooftop-components:build-storybook",
+        "compodoc": false
       },
       "configurations": {
         "ci": {
