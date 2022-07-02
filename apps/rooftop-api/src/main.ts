@@ -1,11 +1,13 @@
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
+import { ShutdownService } from './shutdown/shutdown.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
 
   // Setup Swagger
   const config = new DocumentBuilder()
@@ -16,7 +18,13 @@ async function bootstrap() {
     .addTag('Auth')
     .build();
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('api', app, document);
+
+  // Register shutdown service
+  app.get(ShutdownService).subscribeToShutdown(() => {
+    console.log('Shutting down');
+    app.close();
+  });
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);

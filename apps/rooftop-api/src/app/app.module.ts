@@ -2,7 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
-
+import { AuthModule } from '../auth/auth.module';
+import { ShutdownModule } from '../shutdown/shutdown.module';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -20,6 +21,8 @@ import { getMetadataArgsStorage } from 'typeorm';
       inject: [ConfigService],
       imports: [ConfigModule],
     }),
+    AuthModule,
+    ShutdownModule,
   ],
   controllers: [],
   providers: [],
