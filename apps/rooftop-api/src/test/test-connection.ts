@@ -1,5 +1,7 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { getMetadataArgsStorage } from 'typeorm';
+import { ApplicationEntity } from '../application/entities/application.entity';
+import { RefreshTokenEntity } from '../auth/entities/refresh-token.entity';
+import { UserEntity } from '../user/entities/user.entity';
 
 export const TypeOrmTestModule = TypeOrmModule.forRoot({
   type: 'postgres',
@@ -9,5 +11,5 @@ export const TypeOrmTestModule = TypeOrmModule.forRoot({
   username: 'postgres',
   password: 'postgres',
   database: 'test',
-  entities: getMetadataArgsStorage().tables.map((t) => t.target),
+  entities: [UserEntity, ApplicationEntity, RefreshTokenEntity],
 });

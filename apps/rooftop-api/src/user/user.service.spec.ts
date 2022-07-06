@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from './user.service';
-import { TypeOrmTestModule } from '../test/test-connection';
 import { getRepositoryToken, TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './entities/user.entity';
-import { Connection, getConnection, Repository } from 'typeorm';
-import { compareSync, hashSync } from 'bcrypt';
 import {
   randEmail,
   randFirstName,
   randLastName,
   randPassword,
 } from '@ngneat/falso';
+import { compareSync, hashSync } from 'bcrypt';
+import { Repository } from 'typeorm';
+import { TypeOrmTestModule } from '../test/test-connection';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UserEntity } from './entities/user.entity';
+import { UserService } from './user.service';
 
 describe('UserService', () => {
   let service: UserService;
@@ -120,9 +120,6 @@ describe('UserService', () => {
 
   afterEach(async () => {
     await repo.delete({});
-  });
-
-  afterAll(async () => {
     await module.close();
   });
 });
