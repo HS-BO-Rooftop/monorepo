@@ -45,6 +45,11 @@
       "options": {
         "jestConfig": "apps/rooftop-api/jest.config.ts",
         "passWithNoTests": true
+      },
+      "configurations": {
+        "watch": {
+          "watch": true
+        }
       }
     },
     "version": {
