@@ -25,7 +25,8 @@ export class UserService {
 
   async createOne(data: CreateUserDto): Promise<UserEntity> {
     const user = this.repo.create(data);
-    return this.repo.save(user);
+    const created = await this.repo.save(user);
+    return this.findOne(created.id);
   }
 
   async findOneWithPassword(email: string): Promise<UserEntity | null> {

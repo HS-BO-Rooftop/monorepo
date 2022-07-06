@@ -49,6 +49,9 @@
       "configurations": {
         "watch": {
           "watch": true
+        },
+        "detect": {
+          "detectOpenHandles": true
         }
       }
     },
