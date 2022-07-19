@@ -82,7 +82,7 @@
     "@angular/platform-browser-dynamic": "14.0.4",
     "@angular/router": "14.0.4",
     "@capacitor/core": "^3.2.5",
-    "@ionic/angular": "^5.8.3",
+    "@ionic/angular": "6.1.14",
     "@nestjs/common": "^8.0.0",
     "@nestjs/config": "^2.1.0",
     "@nestjs/core": "^8.0.0",
