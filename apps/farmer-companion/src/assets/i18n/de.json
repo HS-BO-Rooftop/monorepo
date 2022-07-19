@@ -1,0 +1,16 @@
+{
+  "Forgot password": "Passwort vergessen",
+  "Password": "Passwort",
+  "Login": "Anmelden",
+  "Get started": "Jetzt anmelden",
+  "Request code": "Code anfordern",
+  "Enter your E-Mail address and if it exists, a code will be mailed to you": "Geben Sie Ihre E-Mail-Adresse ein. Falls diese existiert, wird ein Code an Sie gesendet",
+  "Enter the Code that you have recieved in your E-Mail Inbox": "Geben Sie den Code ein, den Sie in der E-Mail erhalten haben",
+  "Reset": "Zurücksetzen",
+  "New Password": "Neues Passwort",
+  "Repeat Password": "Passwort wiederholen",
+  "Save password": "Passwort speichern",
+  "Passwords do not match": "Passwörter stimmen nicht überein",
+  "Password is required": "Passwort ist erforderlich",
+  "Password must be at least 8 characters long": "Passwort muss mindestens 8 Zeichen lang sein"
+}

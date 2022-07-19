@@ -8,6 +8,7 @@ import { LandingPageRoutingModule } from './landing-routing.module';
 
 import { LandingPage } from './landing.page';
 import { LandingContainerModule } from './landing-background-container/landing-background-container.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   imports: [
@@ -16,6 +17,7 @@ import { LandingContainerModule } from './landing-background-container/landing-b
     IonicModule,
     LandingPageRoutingModule,
     LandingContainerModule,
+    TranslateModule.forChild(),
   ],
   declarations: [LandingPage],
 })

@@ -59,6 +59,12 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "de": {
+          "localize": ["de"]
+        },
+        "en": {
+          "localize": ["en"]
         }
       },
       "defaultConfiguration": "production"
@@ -78,7 +84,8 @@
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "farmer-companion:build"
+        "browserTarget": "farmer-companion:build",
+        "outputPath": "./apps/farmer-companion/src/locale"
       }
     },
     "lint": {

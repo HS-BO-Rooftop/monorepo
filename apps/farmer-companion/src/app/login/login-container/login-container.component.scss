@@ -1,0 +1,12 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+.container-background {
+  background-color: rgba($color: #aaa, $alpha: 0.8);
+}
+
+#back-button {
+  --padding-start: 0;
+}
