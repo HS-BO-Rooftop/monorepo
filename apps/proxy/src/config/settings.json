@@ -1,0 +1,7 @@
+{
+    "host": "192.168.0.158",
+    "port": 1883,
+    "username": "proxy",
+    "password": "S%Q&NRPK694gc2",
+    "client_id": "OnTop-PyClient"
+}

@@ -42,3 +42,8 @@ Thumbs.db
 
 .env
 ormconfig.json
+
+/apps/proxy/src/__pycache__
+/apps/proxy/src/docker/redis/data/*
+/apps/proxy/src/docker/mqtt/data/*
+/apps/proxy/src/docker/mqtt/log/*
