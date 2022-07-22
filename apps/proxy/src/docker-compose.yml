@@ -1,0 +1,37 @@
+version: '1.0'
+
+services:
+    ##################### MQTT
+    mqtt:
+        container_name: MQTT
+        image: eclipse-mosquitto:latest
+        restart: always
+        volumes:
+            - ./docker/mqtt/data:/mosquitto/data
+            - ./docker/mqtt/config:/mosquitto/config
+            - ./docker/mqtt/log:/mosquitto/log
+        ports:
+            - 1883:1883
+            - 9001:9001
+
+    ##################### Redis
+    redis:
+        container_name: Redis
+        image: redis:latest
+        restart: always
+        ports:
+            - 6379:6379
+        volumes:
+            - ./docker/redis/data:/data
+
+        environment:
+            - REDIS_REPLICATION_MODE=master
+            - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG
+            - REDIS_PASSWORD=McB*MR2@cY7^r4
+
+    ###################### Python-Proxy
+    py-proxy:
+        container_name: Python-Proxy
+        build: ./
+        depends_on:
+            - mqtt
