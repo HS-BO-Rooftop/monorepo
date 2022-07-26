@@ -9,7 +9,7 @@ export class CreateUserDto {
 
   @IsString()
   @MaxLength(255)
-  @ApiProperty()
+  @ApiProperty({ maxLength: 255 })
   password: string;
 
   @IsString()

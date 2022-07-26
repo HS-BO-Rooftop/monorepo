@@ -4,11 +4,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
 import { AuthModule } from '../auth/auth.module';
 import { ShutdownModule } from '../shutdown/shutdown.module';
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
+import { ScheduleModule } from '@nestjs/schedule';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      useFactory: async (configService: ConfigService) => ({
+      useFactory: (configService: ConfigService) => ({
         type: 'postgres',
         host: configService.get('DB_HOST', 'localhost'),
         port: configService.get('DB_PORT', 5432),
@@ -23,6 +27,24 @@ import { ShutdownModule } from '../shutdown/shutdown.module';
     }),
     AuthModule,
     ShutdownModule,
+    MailerModule.forRootAsync({
+      useFactory: (configService: ConfigService) => ({
+        transport: configService.get('EMAIL_TRANSPORT'),
+        defaults: {
+          from: '"OnTop Farmer Companion" <ontop@jan-krueger.eu>',
+        },
+        template: {
+          dir: __dirname + '/assets/mail/templates',
+          adapter: new HandlebarsAdapter(),
+          options: {
+            strict: true,
+          },
+        },
+      }),
+      inject: [ConfigService],
+      imports: [ConfigModule],
+    }),
+    ScheduleModule.forRoot(),
   ],
   controllers: [],
   providers: [],

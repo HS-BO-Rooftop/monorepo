@@ -1,6 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Transactional } from 'typeorm-transactional-cls-hooked';
+import { MailService } from '../mail/mail.service';
+import { PasswordResetService } from '../password-reset/password-reset.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
 
@@ -10,7 +13,9 @@ export class UserService {
 
   constructor(
     @InjectRepository(UserEntity)
-    private readonly repo: Repository<UserEntity>
+    private readonly repo: Repository<UserEntity>,
+    private readonly mailService: MailService,
+    private readonly passwordResetService: PasswordResetService
   ) {}
 
   async findOne(id: string): Promise<UserEntity | null> {
@@ -34,5 +39,25 @@ export class UserService {
     qb.where('user.email = :email', { email });
     qb.addSelect('user.password');
     return qb.getOne();
+  }
+
+  async requestPasswordMail(email: string): Promise<void> {
+    const user = await this.findOneByEmail(email);
+    if (!user) {
+      return;
+    }
+    await this.mailService.sendResetPasswordEmail(user);
+  }
+
+  @Transactional()
+  async setNewPassword(code: string, password: string): Promise<void> {
+    // Verify the code is correct
+    const user = await this.passwordResetService.findOne(code);
+
+    // Set the password on the user
+    user.password = password;
+    await this.repo.save(user);
+
+    await this.passwordResetService.deleteOne(code);
   }
 }

@@ -28,11 +28,13 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly appService: ApplicationService
   ) {
-    this.appService.boostrapDone.subscribe(() => {
-      this.applicationSecret =
-        this.configService.get<string>('APPLICATION_SECRET');
+    this.appService.boostrapDone.subscribe((done) => {
+      if (done === false) {
+        return;
+      }
+      this.applicationSecret = this.configService.get<string>('CLIENT_SECRET');
       if (!this.applicationSecret) {
-        throw new Error('APPLICATION_SECRET is not set');
+        throw new Error('CLIENT_SECRET is not set');
       }
     });
   }
@@ -66,7 +68,7 @@ export class AuthService {
         sub: userId,
         clientId,
       },
-      this.applicationSecret,
+      application.secret,
       {
         expiresIn: AuthService.ACCESS_TOKEN_LIFETIME,
       }

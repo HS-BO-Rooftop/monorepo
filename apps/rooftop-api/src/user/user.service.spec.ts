@@ -8,6 +8,8 @@ import {
 } from '@ngneat/falso';
 import { compareSync, hashSync } from 'bcrypt';
 import { Repository } from 'typeorm';
+import { MailService } from '../mail/mail.service';
+import { PasswordResetService } from '../password-reset/password-reset.service';
 import { TypeOrmTestModule } from '../test/test-connection';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UserEntity } from './entities/user.entity';
@@ -22,7 +24,21 @@ describe('UserService', () => {
   beforeEach(async () => {
     module = await Test.createTestingModule({
       imports: [TypeOrmTestModule, TypeOrmModule.forFeature([UserEntity])],
-      providers: [UserService],
+      providers: [
+        UserService,
+        {
+          provide: MailService,
+          useValue: {
+            sendResetPasswordEmail: jest.fn(),
+          },
+        },
+        {
+          provide: PasswordResetService,
+          useValue: {
+            createPasswordResetCode: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<UserService>(UserService);
