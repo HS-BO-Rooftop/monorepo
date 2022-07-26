@@ -16,6 +16,8 @@ import { compare } from 'bcrypt';
 @Injectable()
 export class AuthService {
   private logger = new Logger(AuthService.name);
+  private static readonly ACCESS_TOKEN_LIFETIME = 15 * 60; // 15m
+  private static readonly REFRESH_TOKEN_LIFETIME = 90 * 24 * 60 * 60; // 90d
 
   private applicationSecret: string;
 
@@ -56,7 +58,7 @@ export class AuthService {
     };
 
     const refreshToken = jwt.sign(refreshTokenPayload, this.applicationSecret, {
-      expiresIn: '90d',
+      expiresIn: AuthService.REFRESH_TOKEN_LIFETIME,
     });
 
     const accessToken = jwt.sign(
@@ -66,13 +68,15 @@ export class AuthService {
       },
       this.applicationSecret,
       {
-        expiresIn: '15m',
+        expiresIn: AuthService.ACCESS_TOKEN_LIFETIME,
       }
     );
 
     return {
-      accessToken,
-      refreshToken,
+      access_token: accessToken,
+      refresh_token: refreshToken,
+      expires_in: AuthService.ACCESS_TOKEN_LIFETIME,
+      token_type: 'Bearer',
     };
   }
 
