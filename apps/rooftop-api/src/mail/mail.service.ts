@@ -1,13 +1,9 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable, Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { PasswordResetService } from '../password-reset/password-reset.service';
 import { UserEntity } from '../user/entities/user.entity';
-import { PasswordResetCodeEntity } from '../password-reset/entities/password-reset-code.entity';
 import { Mail } from './mails/mail';
 import { PasswordResetMail } from './mails/password-reset.mail';
-import { PasswordResetService } from '../password-reset/password-reset.service';
 
 @Injectable()
 export class MailService {

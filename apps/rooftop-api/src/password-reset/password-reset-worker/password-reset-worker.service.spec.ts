@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { PasswordResetService } from '../password-reset.service';
 import { PasswordResetWorkerService } from './password-reset-worker.service';
 
 describe('PasswordResetWorkerService', () => {
@@ -6,7 +7,15 @@ describe('PasswordResetWorkerService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [PasswordResetWorkerService],
+      providers: [
+        PasswordResetWorkerService,
+        {
+          provide: PasswordResetService,
+          useValue: {
+            cleanupExpiredCodes: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     service = module.get<PasswordResetWorkerService>(
