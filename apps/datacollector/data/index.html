@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>OnTop - WiFi Manager</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="data:,">
+        <link rel="stylesheet" type="text/css" href="css/style.css">
+        <link rel="stylesheet" type="text/css" href="css/font.css">
+      </head>
+      <body onload="getUID()">
+       <header class="primary-header">
+        <div class="container">
+          <a href="#"><img src="static/svg/logo.svg" id="logo" alt="OnTop-Logo"></a>
+        </div>
+       </header>
+       <main>
+        <div class="container fc-primary-400 ff-priamry">
+          <div class="form-wrapper">
+            <div class="text-wrapper">
+              <h1>WiFi-Konfiguration</h1>
+              <p id="uid"></p> 
+            </div>
+            <form class="wifi-form" action="/" method="POST">
+              <div class="input-wrapper">
+                <p class="label fs-700">SSID</p>
+                <input placeholder="Heimnetzwerk" id="ssid" class="fs-800" maxlength="32" type="text" on="validate(this)" onchange="validate(this)">
+              </div>
+              <div class="input-wrapper">
+                <p class="label fs-700">Passwort</p>
+                <input type="password" id="password" maxlength="32" class="fs-800" onchange="validate(this)">
+              </div>
+              <div class="input-wrapper">
+                <p class="label fs-700">Gateway</p>
+                <input placeholder="192.168.10.1" id="gateway" class="fs-800" maxlength="15" type="text" onchange="validate(this)">
+              </div>
+              <div class="input-wrapper">
+                <p class="label fs-700"> IP-Adresse</p>
+                <div class="option-wrapper">
+                  <div class="option-child">
+                    <p class="text fs-700">Dynamische IP-Adresse</p>
+                    <label class="switch">
+                      <input type="checkbox" id="cb-static-ip" checked onchange="changeVisibility(this)">
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                  <div id="div-static-ip" class="option-child">
+                    <p class="text fs-700">Statische IP-Adresse</p>
+                    <input placeholder="192.168.10.53" class="fs-800" type="text" maxlength="15" id="static-ip" onchange="validate(this)">
+                  </div>
+                </div>
+              </div>
+              <input type ="submit" disabled class="button fw-bold" id="save-btn" value ="Speichern">
+            </form>
+          </div>
+        </div>
+       </main>
+       <img src="static/svg/graphic.svg" id="bottom-graphic" alt="">
+       <script src="js/index.js"></script>
+      </body>
+</html>
