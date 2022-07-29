@@ -1,7 +1,8 @@
 #include <Arduino.h>
 #include "display.h"
-#include "inputController.h"
-#include "Model/viewController.h"
+#include "input_controller.h"
+#include "Model/view_controller.h"
+#include "wifi_manager.h"
 
 void setup()
 {
@@ -9,9 +10,12 @@ void setup()
   Display *display = Display::getInstance();
   ViewController *viewController = ViewController::getInstance();
   InputController *inputController = InputController::getInstance();
+  WifiManager wifiManager;
 
-  Serial.print((int)&viewController);
-  Serial.print((int)&inputController);
+  wifiManager.setup();
+
+  Serial.println((int)&viewController);
+  Serial.println((int)&inputController);
 }
 
 void loop()
