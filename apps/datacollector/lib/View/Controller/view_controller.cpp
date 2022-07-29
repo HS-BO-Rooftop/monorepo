@@ -1,4 +1,4 @@
-#include "../Model/viewController.h"
+#include "../Model/view_controller.h"
 
 ViewController *ViewController::instance = nullptr;
 

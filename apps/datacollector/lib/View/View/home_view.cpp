@@ -1,4 +1,4 @@
-#include "homeView.h"
+#include "home_view.h"
 
 Display *display = Display::getInstance();
 

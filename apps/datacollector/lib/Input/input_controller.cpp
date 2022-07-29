@@ -1,4 +1,4 @@
-#include <inputController.h>
+#include <input_controller.h>
 
 #define LED_BUILTIN GPIO_NUM_25
 #define PIN_35 GPIO_NUM_35
@@ -40,4 +40,6 @@ int InputController::setup()
     {
         //  viewController();
     }
+
+    return 0;
 }
