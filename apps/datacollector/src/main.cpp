@@ -10,9 +10,7 @@ void setup()
   Display *display = Display::getInstance();
   ViewController *viewController = ViewController::getInstance();
   InputController *inputController = InputController::getInstance();
-  WifiManager wifiManager;
-
-  wifiManager.setup();
+  WifiManager *WifiManager = WifiManager::getInstance();
 
   Serial.println((int)&viewController);
   Serial.println((int)&inputController);
