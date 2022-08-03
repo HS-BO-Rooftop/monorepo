@@ -6,18 +6,8 @@ IPAddress localIP;
 IPAddress localGateway;
 IPAddress subnet(255, 255, 0, 0);
 
-const char *ssid_buffer;
-const char *password;
-const char *ip;
-const char *gateway;
-
 unsigned long previousMillis = 0;
 const long interval = TIMEOUT_MS;
-
-const char *SSID_PATH = "/ssid.txt";
-const char *PASSWORD_PATH = "/password.txt";
-const char *IP_PATH = "/ip.txt";
-const char *GATEWAY_PATH = "/gateway.txt";
 
 const char *WEB_INPUT_SSID = "ssid";
 const char *WEB_INPUT_PASSWORD = "password";
@@ -25,21 +15,37 @@ const char *WEB_INPUT_GATEWAY = "gateway";
 const char *WEB_INPUT_STATIC_IP = "static-ip";
 const char *WEB_CHECKBOX_STATIC_IP = "cb-static-ip";
 
+char const *CONFIG_PATH = NETWORK_CONFIG;
+WifiManager *WifiManager::instance = nullptr;
+
+WifiManager *WifiManager::getInstance()
+{
+    if (instance == nullptr)
+    {
+        instance = new WifiManager();
+    }
+    return instance;
+}
+
 WifiManager::WifiManager()
 {
+    this->fh = FileHandler::getInstance();
+    connectionStatus = 0;
+
+    setup();
 }
 
 int WifiManager::initWifi()
 {
-    if (ssid_buffer == "" || ip == "")
+    if (networkConfig.ssid == "" || networkConfig.staticAddress == "")
     {
         Serial.println("Undefined SSID or IP address.");
         return 1;
     }
 
     WiFi.mode(WIFI_STA);
-    localIP.fromString(ip);
-    localGateway.fromString(gateway);
+    // localIP.fromString(networkConfig.);
+    localGateway.fromString(networkConfig.gateway);
 
     if (!WiFi.config(localIP, localGateway, subnet))
     {
@@ -96,33 +102,35 @@ void WifiManager::httpListener()
             if(p->isPost()){
             // HTTP POST ssid value
             if (p->name() == WEB_INPUT_SSID) {
-                ssid_buffer = p->value().c_str();
                 Serial.print("SSID set to: ");
-                Serial.println(ssid_buffer);
+                Serial.println(p->value().c_str());
                 // Write file to save value
                 //writeFile(SPIFFS, ssidPath, ssid.c_str());
             }
             // HTTP POST pass value
             if (p->name() == WEB_INPUT_PASSWORD) {
-                password = p->value().c_str();
                 Serial.print("Password set to: ");
-                Serial.println(password);
+                Serial.println(p->value().c_str());
                 // Write file to save value
                 //writeFile(SPIFFS, passPath, pass.c_str());
             }
             // HTTP POST ip value
-            if (p->name() == WEB_INPUT_IP) {
-                ip = p->value().c_str();
+            if (p->name() == WEB_INPUT_STATIC_IP) {
                 Serial.print("IP Address set to: ");
-                Serial.println(ip);
+                Serial.println(p->value().c_str());
+                // Write file to save value
+                //writeFile(SPIFFS, ipPath, ip.c_str());
+            }
+            if (p->name() == WEB_CHECKBOX_STATIC_IP) {
+                Serial.print("CBset to: ");
+                Serial.println(p->value().c_str());
                 // Write file to save value
                 //writeFile(SPIFFS, ipPath, ip.c_str());
             }
             // HTTP POST gateway value
             if (p->name() == WEB_INPUT_GATEWAY) {
-                gateway = p->value().c_str();
                 Serial.print("Gateway set to: ");
-                Serial.println(gateway);
+                Serial.println(p->value().c_str());
                 // Write file to save value
                 //writeFile(SPIFFS, gatewayPath, gateway.c_str());
             }
@@ -136,8 +144,6 @@ void WifiManager::httpListener()
 
 void WifiManager::setup()
 {
-    Serial.begin(115200);
-
     initSPIFFS();
 
     IPAddress localIP;
@@ -164,5 +170,38 @@ void WifiManager::setup()
         httpListener();
         server.begin();
     }
-    Serial.println("DONE");
+}
+
+int WifiManager::writeNetworkConfig()
+{
+    return true;
+}
+
+int WifiManager::removeNetworkConfig()
+{
+    return fh->remove((char *)CONFIG_PATH);
+}
+
+int WifiManager::checkNetworkConfig()
+{
+    strcpy(networkConfig.ssid, "PROGRAM 1");
+    strcpy(networkConfig.gateway, "123.123.123.123");
+    strcpy(networkConfig.password, "Test123");
+    strcpy(networkConfig.staticAddress, "124.124.124.124");
+    networkConfig.isDynamicAddress = 0;
+    // Serial.println(fh->write(CONFIG_PATH, (byte *)&config, sizeof(config)));
+
+    /*     NetworkConfig readConfig = {};
+        fh->read(CONFIG_PATH, (byte *)&readConfig, sizeof(readConfig));
+        Serial.println(readConfig.ssid);
+        Serial.println(readConfig.gateway);
+        Serial.println(readConfig.password);
+        Serial.println(readConfig.staticAddress);
+        Serial.println(readConfig.isDynamicAddress);
+        Serial.println(fh->exists(CONFIG_PATH)); */
+    Serial.println(fh->exists((char *)CONFIG_PATH));
+    Serial.println(fh->remove((char *)CONFIG_PATH));
+    Serial.println(fh->exists((char *)CONFIG_PATH));
+    // Serial.println(fh->remove(CONFIG_PATH));
+    return 0;
 }
