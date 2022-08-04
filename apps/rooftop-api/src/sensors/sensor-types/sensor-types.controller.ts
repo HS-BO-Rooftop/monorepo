@@ -18,7 +18,7 @@ import {
 import { FindByUUIDDto } from '../../common/dto/find-by-uuid.dto';
 import { RBadRequestResponse } from '../../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
-import { RNotFoundResposne } from '../../common/responses/NotFoundResponse.dto';
+import { RNotFoundResponse } from '../../common/responses/NotFoundResponse.dto';
 import { CreateSensorTypeDto } from './dto/create-sensor-type.dto';
 import { SensorTypeDto } from './dto/sensory-type.dto';
 import { UpdateSensorTypeDto } from './dto/update-sensor-type.dto';
@@ -47,14 +47,14 @@ export class SensorTypesController {
 
   @Get(':id')
   @ApiOkResponse({ type: SensorTypeDto })
-  @RNotFoundResposne()
+  @RNotFoundResponse()
   findOne(@Param() params: FindByUUIDDto) {
     return this.sensorTypesService.findOne(params.id);
   }
 
   @Patch(':id')
   @ApiOkResponse({ type: SensorTypeDto })
-  @RNotFoundResposne()
+  @RNotFoundResponse()
   update(
     @Param() params: FindByUUIDDto,
     @Body() updateSensorTypeDto: UpdateSensorTypeDto
@@ -67,7 +67,7 @@ export class SensorTypesController {
   @ApiNoContentResponse({
     description: 'Sensor Type was deleted successfully',
   })
-  @RNotFoundResposne()
+  @RNotFoundResponse()
   remove(@Param('id') id: string) {
     return this.sensorTypesService.remove(id);
   }

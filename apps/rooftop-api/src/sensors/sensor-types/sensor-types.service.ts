@@ -5,7 +5,7 @@ import {
   QueryFailedError,
   Repository,
 } from 'typeorm';
-import { SensorTypeEntity } from '../entities/sensor-type.entity';
+import { SensorTypeEntity } from './entities/sensor-type.entity';
 import { CreateSensorTypeDto } from './dto/create-sensor-type.dto';
 import { UpdateSensorTypeDto } from './dto/update-sensor-type.dto';
 

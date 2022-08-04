@@ -1,11 +1,5 @@
-import {
-  Column,
-  Entity,
-  Index,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { SensorConfigurationEntity } from './sensor.entity';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { SensorConfigurationEntity } from '../../entities/sensor.entity';
 
 @Entity({ name: 'sensor_interfaces' })
 export class SensorInterfaceEntity {

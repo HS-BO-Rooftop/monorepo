@@ -1,13 +1,13 @@
 {
   "version": 2,
   "projects": {
+    "datacollector": "apps/datacollector",
     "farmer-companion": "apps/farmer-companion",
     "farmer-companion-e2e": "apps/farmer-companion-e2e",
+    "proxy": "apps/proxy",
     "rooftop-api": "apps/rooftop-api",
     "rooftop-components": "libs/rooftop-components",
-    "rooftop-components-e2e": "apps/rooftop-components-e2e",
-    "datacollector": "apps/datacollector",
-    "proxy": "apps/proxy"
+    "rooftop-components-e2e": "apps/rooftop-components-e2e"
   },
   "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

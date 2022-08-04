@@ -1,14 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsString, MaxLength } from 'class-validator';
 
-export class SensorTypeDto {
-  @ApiProperty({ format: 'uuid', description: 'The UUID of the sensor type' })
-  @IsString()
-  id: string;
-
+export class CreateSensorInterfaceDto {
   @ApiProperty({
     maxLength: 255,
-    description: 'The name of this sensor. Must be unique',
+    description: 'The name of this sensor interface. Must be unique',
     uniqueItems: true,
   })
   @IsString()

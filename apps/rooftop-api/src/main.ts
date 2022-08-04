@@ -1,14 +1,14 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
-import { AppModule } from './app/app.module';
-import { ShutdownService } from './shutdown/shutdown.service';
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
+import { AppModule } from './app/app.module';
 import { TypeOrmExceptionFilter } from './common/exception-filters/typeorm-exception-filter';
+import { ShutdownService } from './shutdown/shutdown.service';
 
 async function bootstrap() {
   initializeTransactionalContext();
@@ -38,7 +38,8 @@ async function bootstrap() {
     .addTag('Boards')
     .addTag('Sensors')
     .addTag('Configurations')
-    .addTag('Sensor Types');
+    .addTag('Sensor Types')
+    .addTag('Sensor Interfaces');
 
   if (process.env.NODE_ENV === 'development') {
     documentBuilder.addServer(`http://localhost:${port}`);

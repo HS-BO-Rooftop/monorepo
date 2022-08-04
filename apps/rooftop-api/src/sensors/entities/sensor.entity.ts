@@ -5,8 +5,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { SensorInterfaceEntity } from './sensor-interface.entity';
-import { SensorTypeEntity } from './sensor-type.entity';
+import { SensorInterfaceEntity } from '../sensor-interfaces/entities/sensor-interface.entity';
+import { SensorTypeEntity } from '../sensor-types/entities/sensor-type.entity';
 
 @Entity({ name: 'sensor_configurations' })
 export class SensorConfigurationEntity {
