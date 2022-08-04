@@ -47,3 +47,5 @@ ormconfig.json
 /apps/proxy/src/docker/redis/data/*
 /apps/proxy/src/docker/mqtt/data/*
 /apps/proxy/src/docker/mqtt/log/*
+
+/apps/rooftop-api/datasource.ts

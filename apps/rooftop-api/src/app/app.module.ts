@@ -7,6 +7,7 @@ import { ShutdownModule } from '../shutdown/shutdown.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ConfigurationsModule } from '../configurations/configurations.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { ScheduleModule } from '@nestjs/schedule';
       imports: [ConfigModule],
     }),
     ScheduleModule.forRoot(),
+    ConfigurationsModule,
   ],
   controllers: [],
   providers: [],
