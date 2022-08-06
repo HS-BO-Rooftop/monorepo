@@ -3,32 +3,15 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryColumn,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { SensorConfigurationEntity } from '../../sensors/entities/sensor.entity';
-
-@Entity({ name: 'boards' })
-export class BoardEntity {
-  @PrimaryGeneratedColumn('uuid')
-  deviceId: string;
-
-  @Column({ nullable: true })
-  deviceName?: string;
-}
-
-@Entity({ name: 'board_pins' })
-export class BoardPinEntity {
-  @PrimaryColumn('uuid')
-  id: string;
-
-  @Column({ nullable: false })
-  pin: string;
-}
+import { BoardPinEntity } from '../board-pins/entities/board-pin.entity';
+import { BoardEntity } from '../boards/entities/board.entity';
 
 @Entity({ name: 'board_sensors' })
 export class BoardSensorEntity {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column('uuid')

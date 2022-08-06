@@ -8,5 +8,6 @@ import { SensorInterfacesService } from './sensor-interfaces.service';
   controllers: [SensorInterfacesController],
   providers: [SensorInterfacesService],
   imports: [TypeOrmModule.forFeature([SensorInterfaceEntity])],
+  exports: [SensorInterfacesService],
 })
 export class SensorInterfacesModule {}

@@ -1,13 +1,13 @@
+import { MailerModule } from '@nestjs-modules/mailer';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
 import { AuthModule } from '../auth/auth.module';
+import { BoardsModule } from '../configurations/boards/boards.module';
 import { ShutdownModule } from '../shutdown/shutdown.module';
-import { MailerModule } from '@nestjs-modules/mailer';
-import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
-import { ScheduleModule } from '@nestjs/schedule';
-import { ConfigurationsModule } from '../configurations/configurations.module';
 
 @Module({
   imports: [
@@ -46,7 +46,7 @@ import { ConfigurationsModule } from '../configurations/configurations.module';
       imports: [ConfigModule],
     }),
     ScheduleModule.forRoot(),
-    ConfigurationsModule,
+    BoardsModule,
   ],
   controllers: [],
   providers: [],

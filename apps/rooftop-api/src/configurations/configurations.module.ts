@@ -3,11 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SensorsModule } from '../sensors/sensors.module';
 import { ConfigurationsController } from './configurations.controller';
 import { ConfigurationsService } from './configurations.service';
-import { BoardEntity } from './entities/configuration.entity';
+import { BoardSensorEntity } from './entities/configuration.entity';
 
 @Module({
   controllers: [ConfigurationsController],
   providers: [ConfigurationsService],
-  imports: [TypeOrmModule.forFeature([BoardEntity]), SensorsModule],
+  imports: [TypeOrmModule.forFeature([BoardSensorEntity]), SensorsModule],
+  exports: [ConfigurationsService],
 })
 export class ConfigurationsModule {}

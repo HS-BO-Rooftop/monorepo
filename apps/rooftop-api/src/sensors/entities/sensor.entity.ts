@@ -21,6 +21,7 @@ export class SensorConfigurationEntity {
 
   @ManyToOne(() => SensorTypeEntity, (sensorType) => sensorType.sensors, {
     onDelete: 'CASCADE',
+    eager: true,
   })
   @JoinColumn({ name: 'sensorTypeId' })
   sensorType: SensorTypeEntity;
@@ -31,7 +32,7 @@ export class SensorConfigurationEntity {
   @ManyToOne(
     () => SensorInterfaceEntity,
     (sensorInterface) => sensorInterface.sensors,
-    { onDelete: 'CASCADE' }
+    { onDelete: 'CASCADE', eager: true }
   )
   @JoinColumn({ name: 'sensorInterfaceId' })
   interface: SensorInterfaceEntity;
