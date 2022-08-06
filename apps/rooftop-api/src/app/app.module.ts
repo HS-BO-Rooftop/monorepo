@@ -3,6 +3,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
 import { ClassSerializerInterceptor, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
@@ -48,6 +49,7 @@ import { ShutdownModule } from '../shutdown/shutdown.module';
     }),
     ScheduleModule.forRoot(),
     BoardsModule,
+    EventEmitterModule.forRoot(),
   ],
   controllers: [],
   providers: [

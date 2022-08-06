@@ -3,8 +3,10 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BoardSensorEntity } from '../../configurations/entities/configuration.entity';
 import { SensorInterfaceEntity } from '../sensor-interfaces/entities/sensor-interface.entity';
 import { SensorTypeEntity } from '../sensor-types/entities/sensor-type.entity';
 
@@ -39,4 +41,7 @@ export class SensorConfigurationEntity {
 
   @Column({ nullable: true })
   i2cAddress?: number;
+
+  @OneToMany(() => BoardSensorEntity, (boardSensor) => boardSensor.sensor)
+  boardSensors: BoardSensorEntity[];
 }

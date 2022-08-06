@@ -8,14 +8,18 @@ import {
   Param,
   Patch,
   Post,
+  Sse,
 } from '@nestjs/common';
+import { OnEvent } from '@nestjs/event-emitter';
 import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { filter, Observable, Subject } from 'rxjs';
 import { FindByUUIDDto } from '../../common/dto/find-by-uuid.dto';
+import { BoardConfigurationUpdatedEvent } from '../../common/events/board-configuration-updated.event';
 import { RBadRequestResponse } from '../../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../../common/responses/NotFoundResponse.dto';
@@ -31,10 +35,17 @@ import { UpdateBoardDto } from './dto/update-board.dto';
 @RInternalServerErrorResponse()
 @RBadRequestResponse()
 export class BoardsController {
+  private $_configurationChangedEvent = new Subject<string>();
+
   constructor(
     private readonly boardsService: BoardsService,
     private readonly configurationsService: ConfigurationsService
   ) {}
+
+  @OnEvent(BoardConfigurationUpdatedEvent.eventName)
+  onConfigurationChangedEvent(payload: BoardConfigurationUpdatedEvent) {
+    this.$_configurationChangedEvent.next(payload.boardId);
+  }
 
   @Post()
   @ApiCreatedResponse({ type: BoardDto })
@@ -58,17 +69,6 @@ export class BoardsController {
     return this.boardsService.findOne(params.id);
   }
 
-  @Get('/:id/configurations')
-  @ApiOkResponse({
-    type: BoardConfigurationDto,
-    isArray: true,
-  })
-  @RNotFoundResponse()
-  async findAllConfigurations(@Param() params: FindByUUIDDto) {
-    await this.boardsService.findOne(params.id);
-    return this.configurationsService.findAllByBoard(params.id);
-  }
-
   @Patch(':id')
   @ApiOkResponse({ type: BoardDto })
   @RNotFoundResponse()
@@ -85,5 +85,34 @@ export class BoardsController {
   @ApiNoContentResponse({ description: 'Board deleted' })
   remove(@Param() params: FindByUUIDDto) {
     return this.boardsService.remove(params.id);
+  }
+
+  @Get('/:id/configurations')
+  @ApiOkResponse({
+    type: BoardConfigurationDto,
+    isArray: true,
+  })
+  @RNotFoundResponse()
+  async findAllConfigurations(@Param() params: FindByUUIDDto) {
+    await this.boardsService.findOne(params.id);
+    return this.configurationsService.findAllByBoard(params.id);
+  }
+
+  @Sse(':id/configurations/updated')
+  @ApiOkResponse({
+    schema: {
+      type: 'string',
+      format: 'uuid',
+      description: 'UUID of the board that was updated',
+    },
+  })
+  @RNotFoundResponse()
+  async getConfigurationChangedEvent(
+    @Param() params: FindByUUIDDto
+  ): Promise<Observable<unknown>> {
+    await this.boardsService.findOne(params.id);
+    return this.$_configurationChangedEvent
+      .asObservable()
+      .pipe(filter((id) => id === params.id));
   }
 }

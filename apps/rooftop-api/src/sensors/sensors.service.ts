@@ -1,6 +1,8 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { BoardConfigurationUpdatedEvent } from '../common/events/board-configuration-updated.event';
 import { CreateSensorConfigurationDto } from './dto/create-sensor-configuration.dto';
 import { UpdateSensorDto } from './dto/update-sensor.dto';
 import { SensorConfigurationEntity } from './entities/sensor.entity';
@@ -11,7 +13,8 @@ export class SensorsService {
   constructor(
     @InjectRepository(SensorConfigurationEntity)
     private readonly repo: Repository<SensorConfigurationEntity>,
-    private readonly interfaceService: SensorInterfacesService
+    private readonly interfaceService: SensorInterfacesService,
+    private readonly eventEmitter: EventEmitter2
   ) {}
 
   async create(createSensorDto: CreateSensorConfigurationDto) {
@@ -22,6 +25,11 @@ export class SensorsService {
     this.verifyI2CAddress(foundInterface.name, createSensorDto.i2cAddress);
 
     const created = await this.repo.save(createSensorDto);
+
+    this.eventEmitter.emit(
+      BoardConfigurationUpdatedEvent.eventName,
+      new BoardConfigurationUpdatedEvent(created.id)
+    );
 
     return this.findOne(created.id);
   }
@@ -60,12 +68,53 @@ export class SensorsService {
       ...updateSensorDto,
     });
 
+    await this.sendBoardConfigurationChangedEvent(id);
+
     return this.findOne(id);
+  }
+
+  private async sendBoardConfigurationChangedEvent(id: string) {
+    const boards = await this.repo.findOne({
+      where: { id },
+      relations: {
+        boardSensors: true,
+      },
+    });
+
+    const affectedBoards = new Set(
+      boards.boardSensors.map((bs) => bs.deviceId)
+    );
+
+    // Emit an event for each affected board
+    affectedBoards.forEach((boardId) => {
+      this.eventEmitter.emit(
+        BoardConfigurationUpdatedEvent.eventName,
+        new BoardConfigurationUpdatedEvent(boardId)
+      );
+    });
   }
 
   async remove(id: string) {
     const existing = await this.findOne(id);
-    return this.repo.remove(existing);
+
+    const boardsQuery = await this.repo.findOne({
+      where: { id },
+      relations: {
+        boardSensors: true,
+      },
+    });
+
+    const affectedBoards = new Set(
+      boardsQuery.boardSensors.map((bs) => bs.deviceId)
+    );
+
+    await this.repo.remove(existing);
+    affectedBoards.forEach((boardId) => {
+      this.eventEmitter.emit(
+        BoardConfigurationUpdatedEvent.eventName,
+        new BoardConfigurationUpdatedEvent(boardId)
+      );
+    });
   }
 
   private verifyI2CAddress(interfaceName: string, i2cAddress?: number) {

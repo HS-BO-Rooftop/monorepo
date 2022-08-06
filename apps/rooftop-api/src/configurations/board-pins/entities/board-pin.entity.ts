@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { BoardSensorEntity } from '../../entities/configuration.entity';
 
 @Entity({ name: 'board_pins' })
 export class BoardPinEntity {
@@ -7,4 +8,7 @@ export class BoardPinEntity {
 
   @Column({ nullable: false, unique: true })
   pin: string;
+
+  @OneToMany(() => BoardSensorEntity, (sensor) => sensor.boardPin)
+  sensors: BoardSensorEntity[];
 }

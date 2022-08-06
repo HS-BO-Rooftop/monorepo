@@ -1,6 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOptionsRelations, Repository } from 'typeorm';
+import { BoardConfigurationUpdatedEvent } from '../common/events/board-configuration-updated.event';
 import { BoardConfigurationDto } from './boards/dto/board-configuration.dto';
 import { CreateBoardSensorDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
@@ -16,11 +18,18 @@ export class ConfigurationsService {
 
   constructor(
     @InjectRepository(BoardSensorEntity)
-    private readonly repo: Repository<BoardSensorEntity>
+    private readonly repo: Repository<BoardSensorEntity>,
+    private eventEmitter: EventEmitter2
   ) {}
 
   async create(createConfigurationDto: CreateBoardSensorDto) {
     const created = await this.repo.save(createConfigurationDto);
+
+    this.eventEmitter.emit(
+      BoardConfigurationUpdatedEvent.eventName,
+      new BoardConfigurationUpdatedEvent(created.deviceId)
+    );
+
     return this.findOne(created.id);
   }
 
@@ -55,12 +64,24 @@ export class ConfigurationsService {
       ...updateConfigurationDto,
     });
 
+    const postUpdate = await this.findOne(updated.id);
+
+    this.eventEmitter.emit(
+      BoardConfigurationUpdatedEvent.eventName,
+      new BoardConfigurationUpdatedEvent(postUpdate.deviceId)
+    );
+
     return this.findOne(updated.id);
   }
 
   async remove(id: string) {
     const existing = await this.findOne(id);
     await this.repo.delete(existing.id);
+
+    this.eventEmitter.emit(
+      BoardConfigurationUpdatedEvent.eventName,
+      new BoardConfigurationUpdatedEvent(existing.deviceId)
+    );
   }
 
   async findAllByBoard(deviceId: string) {
