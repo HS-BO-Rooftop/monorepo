@@ -1,6 +1,7 @@
 {
   "extends": ["@commitlint/config-conventional"],
   "rules": {
-    "scope-enum": [2, "always", ["api", "app", "ci", "docs", "lib", "test"]]
+    "scope-enum": [2, "always", ["api", "app", "ci", "docs", "lib", "test"]],
+    "scope-empty": [1, "never"]
   }
 }
