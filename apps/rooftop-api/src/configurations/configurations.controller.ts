@@ -19,8 +19,8 @@ import { FindByUUIDDto } from '../common/dto/find-by-uuid.dto';
 import { RBadRequestResponse } from '../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
+import { BoardConfigurationDto } from './boards/dto/board-configuration.dto';
 import { ConfigurationsService } from './configurations.service';
-import { BoardSensorDto } from './dto/board-sensor.dto';
 import { CreateBoardSensorDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
 
@@ -33,7 +33,7 @@ export class ConfigurationsController {
 
   @Post()
   @ApiCreatedResponse({
-    type: BoardSensorDto,
+    type: BoardConfigurationDto,
   })
   create(@Body() createConfigurationDto: CreateBoardSensorDto) {
     return this.configurationsService.create(createConfigurationDto);
@@ -41,7 +41,7 @@ export class ConfigurationsController {
 
   @Get()
   @ApiOkResponse({
-    type: BoardSensorDto,
+    type: BoardConfigurationDto,
     isArray: true,
   })
   findAll() {
@@ -50,7 +50,7 @@ export class ConfigurationsController {
 
   @Get(':id')
   @ApiOkResponse({
-    type: BoardSensorDto,
+    type: BoardConfigurationDto,
   })
   @RNotFoundResponse()
   findOne(@Param() params: FindByUUIDDto) {
@@ -59,7 +59,7 @@ export class ConfigurationsController {
 
   @Patch(':id')
   @ApiOkResponse({
-    type: BoardSensorDto,
+    type: BoardConfigurationDto,
   })
   @RNotFoundResponse()
   update(

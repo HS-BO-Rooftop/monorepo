@@ -15,7 +15,12 @@ async function bootstrap() {
   patchTypeORMRepositoryWithBaseRepository();
 
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+    })
+  );
   app.useGlobalFilters(new TypeOrmExceptionFilter());
 
   // Register shutdown service

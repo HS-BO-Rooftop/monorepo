@@ -1,12 +1,19 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { FindOptionsRelations, Repository } from 'typeorm';
+import { BoardConfigurationDto } from './boards/dto/board-configuration.dto';
 import { CreateBoardSensorDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
 import { BoardSensorEntity } from './entities/configuration.entity';
 
 @Injectable()
 export class ConfigurationsService {
+  private relations: FindOptionsRelations<BoardSensorEntity> = {
+    sensor: true,
+    board: true,
+    boardPin: true,
+  };
+
   constructor(
     @InjectRepository(BoardSensorEntity)
     private readonly repo: Repository<BoardSensorEntity>
@@ -18,7 +25,13 @@ export class ConfigurationsService {
   }
 
   findAll() {
-    return this.repo.find();
+    return this.repo
+      .find({
+        relations: this.relations,
+      })
+      .then((configs) =>
+        configs.map((config) => new BoardConfigurationDto(config))
+      );
   }
 
   async findOne(id: string) {
@@ -26,17 +39,13 @@ export class ConfigurationsService {
       where: {
         id,
       },
-      relations: {
-        sensor: true,
-        board: true,
-        boardPin: true,
-      },
+      relations: this.relations,
     });
 
     if (!entity) {
       throw new NotFoundException(`Configuration with id ${id} not found`);
     }
-    return entity;
+    return new BoardConfigurationDto(entity);
   }
 
   async update(id: string, updateConfigurationDto: UpdateConfigurationDto) {
@@ -46,12 +55,12 @@ export class ConfigurationsService {
       ...updateConfigurationDto,
     });
 
-    return updated;
+    return this.findOne(updated.id);
   }
 
   async remove(id: string) {
     const existing = await this.findOne(id);
-    return this.repo.remove(existing);
+    await this.repo.delete(existing.id);
   }
 
   async findAllByBoard(deviceId: string) {
@@ -59,13 +68,11 @@ export class ConfigurationsService {
       where: {
         deviceId,
       },
-      relations: {
-        sensor: true,
-        board: true,
-        boardPin: true,
-      },
+      relations: this.relations,
     });
 
-    return configurations;
+    return configurations.map(
+      (configuration) => new BoardConfigurationDto(configuration)
+    );
   }
 }
