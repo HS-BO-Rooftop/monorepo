@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Repository } from 'typeorm';
 import { ShutdownService } from '../shutdown/shutdown.service';
 import { CreateApplicationDto } from './dto/create-application.dto';
@@ -11,7 +11,7 @@ import { ApplicationEntity } from './entities/application.entity';
 export class ApplicationService {
   private logger = new Logger(ApplicationService.name);
 
-  private _boostrapDone = new Subject<void>();
+  private _boostrapDone = new BehaviorSubject<boolean>(false);
 
   boostrapDone = this._boostrapDone.asObservable();
 
@@ -59,7 +59,7 @@ export class ApplicationService {
         this.shutdownService.shutdown();
       }
     } else {
-      this._boostrapDone.next();
+      this._boostrapDone.next(true);
     }
   }
 

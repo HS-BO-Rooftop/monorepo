@@ -11,7 +11,11 @@ export class LoginRequestDto {
   @MaxLength(255)
   password: string;
 
-  @ApiProperty({ maxLength: 255 })
+  @ApiProperty({
+    maxLength: 255,
+    format: 'uuid',
+    description: 'The id of the client that requested the token.',
+  })
   @MaxLength(255)
   clientId: string;
 }
