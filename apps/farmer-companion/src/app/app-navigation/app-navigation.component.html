@@ -1,0 +1,35 @@
+<ion-menu side="start" contentId="main">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>
+        <div class="flex flex-row items-center">
+          <img
+            src="assets/icons/logo-black.png"
+            class="block dark:hidden h-8 pr-4"
+          />
+          <img
+            src="assets/icons/logo-white.png"
+            class="hidden dark:block h-8 pr-4"
+          />
+          <span>Farmer Companion</span>
+          <ion-menu-button class="mt-1"></ion-menu-button>
+        </div>
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <ion-item>
+        <ion-icon slot="start" name="home"></ion-icon>
+        <ion-label>{{ 'Home' | translate }}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon slot="start" name="settings"></ion-icon>
+        <ion-label>{{ 'Settings' | translate }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+  <ng-content></ng-content>
+</ion-menu>
