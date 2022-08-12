@@ -38,6 +38,6 @@
 }
 
 span.error {
-  @apply text-red-600;
+  color: var(--ion-color-danger);
   font-weight: 700;
 }

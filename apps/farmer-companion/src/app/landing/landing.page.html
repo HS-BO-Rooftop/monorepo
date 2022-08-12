@@ -1,5 +1,5 @@
 <rooftop-landing-container>
-  <div class="flex flex-col justify-around h-full px-10 py-5">
+  <div class="flex flex-col justify-around h-full px-10 py-5 items-center">
     <!-- Logo and text -->
     <div>
       <img src="assets/icons/logo-white.png" alt="Logo" class="mx-auto" />
@@ -10,8 +10,8 @@
     </div>
 
     <!-- CTA Button -->
-    <ion-button color="success" routerLink="/login">
-      {{ 'Get started' | translate }}
+    <ion-button color="success" routerLink="/login" class="max-w-xs">
+      <span class="px-4"> {{ 'Get started' | translate }} </span>
     </ion-button>
   </div>
 </rooftop-landing-container>
