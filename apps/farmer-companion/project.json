@@ -77,9 +77,24 @@
         },
         "development": {
           "browserTarget": "farmer-companion:build:development"
+        },
+        "all-hosts": {
+          "browserTarget": "farmer-companion:build:development",
+          "port": 4200,
+          "host": "0.0.0.0"
         }
       },
       "defaultConfiguration": "development"
+    },
+    "lab": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx serve farmer-companion",
+          "npm run ionic:lab http://localhost:4200"
+        ],
+        "parallel": true
+      }
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
