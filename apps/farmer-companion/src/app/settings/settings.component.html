@@ -1,0 +1,108 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title> {{ 'Settings' | translate }} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <!-- Users header -->
+    <ion-list-header>
+      <h1 class="text-xl">{{ 'Users' | translate }}</h1>
+    </ion-list-header>
+
+    <!-- Profile settings link -->
+    <ion-item>
+      <ion-icon name="person-sharp" slot="start"></ion-icon>
+      <ion-label>
+        <h2>
+          {{ 'Profile' | translate }}
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <!-- Users settings link -->
+    <ion-item>
+      <ion-icon name="people-sharp" slot="start"></ion-icon>
+      <ion-label>
+        <h2>
+          {{ 'Users' | translate }}
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item-divider></ion-item-divider>
+
+    <!-- Plants and beds header -->
+    <ion-list-header>
+      <h1 class="text-xl">{{ 'Plants and beds' | translate }}</h1>
+    </ion-list-header>
+
+    <!-- Plants settings link -->
+    <ion-item>
+      <ion-icon name="leaf-sharp" slot="start"></ion-icon>
+      <ion-label>
+        <h2>
+          {{ 'Plants' | translate }}
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <!-- Beds settings link -->
+    <ion-item>
+      <ion-icon name="albums-sharp" slot="start"></ion-icon>
+      <ion-label>
+        <h2>
+          {{ 'Beds' | translate }}
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item-divider></ion-item-divider>
+
+    <!-- Plants Header -->
+    <ion-list-header>
+      <h1 class="text-xl">{{ 'Boards and sensors' | translate }}</h1>
+    </ion-list-header>
+
+    <!-- Boards settings link -->
+    <ion-item>
+      <ion-icon name="wifi-sharp" slot="start"></ion-icon>
+      <ion-label>
+        <h2>
+          {{ 'Boards' | translate }}
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <!-- Sensors settings link -->
+    <ion-item>
+      <ion-icon name="analytics-sharp" slot="start"></ion-icon>
+      <ion-label>
+        <h2>
+          {{ 'Sensors' | translate }}
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <ion-item-divider></ion-item-divider>
+
+    <!-- Power header -->
+    <ion-list-header>
+      <h1 class="text-xl">{{ 'Power' | translate }}</h1>
+    </ion-list-header>
+
+    <!-- Battery settings link -->
+    <ion-item>
+      <ion-icon name="battery-full-sharp" slot="start"></ion-icon>
+      <ion-label>
+        <h2>
+          {{ 'Battery' | translate }}
+        </h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
