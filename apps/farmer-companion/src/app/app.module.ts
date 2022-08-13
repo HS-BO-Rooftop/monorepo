@@ -18,7 +18,7 @@ import { HttpLoaderFactory } from './translate-loader';
   imports: [
     BrowserModule,
     IonicModule.forRoot({
-      mode: 'md',
+      // mode: 'ios',
     }),
     BrowserAnimationsModule,
     HttpClientModule,

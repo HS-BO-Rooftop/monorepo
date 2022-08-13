@@ -1,0 +1,20 @@
+ion-title {
+  padding: 0;
+}
+
+.ios ion-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.ios .header {
+  justify-content: space-evenly !important;
+}
+
+.toolbar-logo {
+  // Hide if screen is below 360px
+  @media (max-width: 320px) {
+    display: none;
+  }
+}

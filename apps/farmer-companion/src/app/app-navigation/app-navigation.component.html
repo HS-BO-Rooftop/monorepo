@@ -2,15 +2,17 @@
   <ion-header>
     <ion-toolbar>
       <ion-title>
-        <div class="flex flex-row items-center">
-          <img
-            src="assets/icons/logo-black.png"
-            class="block dark:hidden h-8 pr-4"
-          />
-          <img
-            src="assets/icons/logo-white.png"
-            class="hidden dark:block h-8 pr-4"
-          />
+        <div class="flex flex-row items-center header justify-evenly">
+          <div class="toolbar-logo">
+            <img
+              src="assets/icons/logo-black.png"
+              class="block dark:hidden h-8"
+            />
+            <img
+              src="assets/icons/logo-white.png"
+              class="hidden dark:block h-8"
+            />
+          </div>
           <span>Farmer Companion</span>
           <ion-menu-button class="mt-1"></ion-menu-button>
         </div>
@@ -22,11 +24,15 @@
     <ion-list>
       <ion-menu-toggle>
         <ion-item routerLink="/home">
-          <ion-icon slot="start" name="home-sharp"></ion-icon>
+          <ion-icon slot="start" md="home-sharp" ios="home-outline"></ion-icon>
           <ion-label>{{ 'Home' | translate }}</ion-label>
         </ion-item>
         <ion-item routerLink="/settings">
-          <ion-icon slot="start" name="settings-sharp"></ion-icon>
+          <ion-icon
+            slot="start"
+            md="settings-sharp"
+            ios="cog-outline"
+          ></ion-icon>
           <ion-label>{{ 'Settings' | translate }}</ion-label>
         </ion-item>
       </ion-menu-toggle>

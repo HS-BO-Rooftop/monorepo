@@ -37,3 +37,13 @@ span.error {
   color: var(--ion-color-danger);
   font-weight: 700;
 }
+
+.ios {
+  // Prefers dark mode
+  @media (prefers-color-scheme: dark) {
+    // Remove background from item divider
+    ion-item-divider {
+      background: none;
+    }
+  }
+}

@@ -15,8 +15,8 @@
     </ion-list-header>
 
     <!-- Profile settings link -->
-    <ion-item>
-      <ion-icon name="person-sharp" slot="start"></ion-icon>
+    <ion-item routerLink="profile">
+      <ion-icon md="person-sharp" ios="person-outline" slot="start"></ion-icon>
       <ion-label>
         <h2>
           {{ 'Profile' | translate }}
@@ -25,8 +25,8 @@
     </ion-item>
 
     <!-- Users settings link -->
-    <ion-item>
-      <ion-icon name="people-sharp" slot="start"></ion-icon>
+    <ion-item routerLink="users">
+      <ion-icon md="people-sharp" ios="people-outline" slot="start"></ion-icon>
       <ion-label>
         <h2>
           {{ 'Users' | translate }}
@@ -42,8 +42,8 @@
     </ion-list-header>
 
     <!-- Plants settings link -->
-    <ion-item>
-      <ion-icon name="leaf-sharp" slot="start"></ion-icon>
+    <ion-item routerLink="plants">
+      <ion-icon md="leaf-sharp" ios="leaf-outline" slot="start"></ion-icon>
       <ion-label>
         <h2>
           {{ 'Plants' | translate }}
@@ -52,8 +52,8 @@
     </ion-item>
 
     <!-- Beds settings link -->
-    <ion-item>
-      <ion-icon name="albums-sharp" slot="start"></ion-icon>
+    <ion-item routerLink="beds">
+      <ion-icon md="albums-sharp" ios="albums-outline" slot="start"></ion-icon>
       <ion-label>
         <h2>
           {{ 'Beds' | translate }}
@@ -69,8 +69,8 @@
     </ion-list-header>
 
     <!-- Boards settings link -->
-    <ion-item>
-      <ion-icon name="wifi-sharp" slot="start"></ion-icon>
+    <ion-item routerLink="boards">
+      <ion-icon md="wifi-sharp" ios="wifi-outline" slot="start"></ion-icon>
       <ion-label>
         <h2>
           {{ 'Boards' | translate }}
@@ -79,8 +79,12 @@
     </ion-item>
 
     <!-- Sensors settings link -->
-    <ion-item>
-      <ion-icon name="analytics-sharp" slot="start"></ion-icon>
+    <ion-item routerLink="sensors">
+      <ion-icon
+        md="analytics-sharp"
+        ios="analytics-outline"
+        slot="start"
+      ></ion-icon>
       <ion-label>
         <h2>
           {{ 'Sensors' | translate }}
@@ -96,8 +100,12 @@
     </ion-list-header>
 
     <!-- Battery settings link -->
-    <ion-item>
-      <ion-icon name="battery-full-sharp" slot="start"></ion-icon>
+    <ion-item routerLink="battery">
+      <ion-icon
+        md="battery-full-sharp"
+        ios="battery-full-outline"
+        slot="start"
+      ></ion-icon>
       <ion-label>
         <h2>
           {{ 'Battery' | translate }}
