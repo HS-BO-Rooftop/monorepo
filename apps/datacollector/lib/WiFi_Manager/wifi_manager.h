@@ -7,6 +7,15 @@
 #include "SPIFFS.h"
 #include "../Utils/file_handler.h"
 
+#define WIFI_HOSTNAME "Datacollector"
+#define WIFI_PASSWORD "123454321"
+
+#define WEB_INPUT_SSID "ssid"
+#define WEB_INPUT_PASSWORD "password"
+#define WEB_INPUT_GATEWAY "gateway"
+#define WEB_INPUT_SUBNET "subnet"
+#define WEB_INPUT_STATIC_IP "static-ip"
+
 #define NETWORK_CONFIG "/config/network.txt"
 #define TIMEOUT_MS 10000
 
@@ -15,6 +24,7 @@ struct NetworkConfig
     char ssid[33];
     char password[33];
     char gateway[16];
+    char subnet[16];
     bool isDynamicAddress;
     char staticAddress[16];
 };
@@ -23,12 +33,11 @@ class WifiManager
 {
 public:
     static WifiManager *getInstance();
+    NetworkConfig networkConfig;
 
 private:
     static WifiManager *instance;
-    int connectionStatus;
     FileHandler *fh;
-    NetworkConfig networkConfig;
 
     WifiManager();
     void setup();
@@ -38,7 +47,8 @@ private:
     void httpListener();
     int checkNetworkConfig();
     int removeNetworkConfig();
-    int writeNetworkConfig();
+    int writeNetworkConfig(NetworkConfig configPtr);
+    int readNetworkConfig();
 
 protected:
 };

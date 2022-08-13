@@ -158,6 +158,8 @@ body {
 body > header > .container {
   display: flex;
   justify-content: center;
+  position: relative;
+  z-index: 10;
 }
 
 .wifi-form > .button {
@@ -350,7 +352,7 @@ h1 {
 #logo {
   width : 250px;
   height: auto; 
-  
+  z-index: 5;
 }
 
 #uid {

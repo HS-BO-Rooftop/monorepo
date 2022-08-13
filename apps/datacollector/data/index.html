@@ -23,15 +23,19 @@
             <form class="wifi-form" action="/" method="POST">
               <div class="input-wrapper">
                 <p class="label fs-700">SSID</p>
-                <input placeholder="Heimnetzwerk" id="ssid" class="fs-800" maxlength="32" type="text" on="validate(this)" onchange="validate(this)">
+                <input placeholder="Heimnetzwerk" id="ssid" name="ssid" class="fs-800" maxlength="32" type="text" on="validate(this)" onchange="validate(this)">
               </div>
               <div class="input-wrapper">
                 <p class="label fs-700">Passwort</p>
-                <input type="password" id="password" maxlength="32" class="fs-800" onchange="validate(this)">
+                <input type="password" id="password" name="password" maxlength="32" class="fs-800" onchange="validate(this)">
               </div>
               <div class="input-wrapper">
                 <p class="label fs-700">Gateway</p>
-                <input placeholder="192.168.10.1" id="gateway" class="fs-800" maxlength="15" type="text" onchange="validate(this)">
+                <input placeholder="192.168.10.1" id="gateway" name="gateway" class="fs-800" maxlength="15" type="text" onchange="validate(this)">
+              </div>
+              <div class="input-wrapper">
+                <p class="label fs-700">Subnetzmaske</p>
+                <input placeholder="255.255.255.0" id="subnet" name="subnet" class="fs-800" maxlength="15" type="text" onchange="validate(this)">
               </div>
               <div class="input-wrapper">
                 <p class="label fs-700"> IP-Adresse</p>
@@ -39,13 +43,13 @@
                   <div class="option-child">
                     <p class="text fs-700">Dynamische IP-Adresse</p>
                     <label class="switch">
-                      <input type="checkbox" id="cb-static-ip" checked onchange="changeVisibility(this)">
+                      <input type="checkbox" id="cb-static-ip" name="cb-static-ip" checked onchange="changeVisibility(this)">
                       <span class="slider round"></span>
                     </label>
                   </div>
                   <div id="div-static-ip" class="option-child">
                     <p class="text fs-700">Statische IP-Adresse</p>
-                    <input placeholder="192.168.10.53" class="fs-800" type="text" maxlength="15" id="static-ip" onchange="validate(this)">
+                    <input placeholder="192.168.10.53" class="fs-800" type="text" maxlength="15" id="static-ip" name="static-ip" onchange="validate(this)">
                   </div>
                 </div>
               </div>
