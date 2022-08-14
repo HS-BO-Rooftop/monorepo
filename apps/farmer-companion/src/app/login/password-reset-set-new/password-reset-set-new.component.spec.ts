@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { IonicModule } from '@ionic/angular';
+import { TranslateTestingModule } from 'ngx-translate-testing';
+import { MockLoginContainerComponent } from '../../../testing/mocks/components/login-container.mock';
 
 import { PasswordResetSetNewComponent } from './password-reset-set-new.component';
 
@@ -8,7 +12,12 @@ describe('PasswordResetSetNewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PasswordResetSetNewComponent],
+      declarations: [PasswordResetSetNewComponent, MockLoginContainerComponent],
+      imports: [
+        IonicModule.forRoot(),
+        ReactiveFormsModule,
+        TranslateTestingModule.withTranslations({}),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(PasswordResetSetNewComponent);

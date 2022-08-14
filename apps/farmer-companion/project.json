@@ -118,7 +118,17 @@
       "options": {
         "jestConfig": "apps/farmer-companion/jest.config.ts",
         "passWithNoTests": true
-      }
+      },
+      "configurations": {
+        "production": {
+          "coverageReporters": ["lcov", "text", "clover"]
+        },
+        "development": {
+          "coverageReporters": ["text", "clover"],
+          "watch": true
+        }
+      },
+      "defaultConfiguration": "development"
     },
     "cap": {
       "executor": "@nxtend/capacitor:cap",

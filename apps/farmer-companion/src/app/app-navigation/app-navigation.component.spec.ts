@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { IonicModule } from '@ionic/angular';
+import { TranslateTestingModule } from 'ngx-translate-testing';
 
 import { AppNavigationComponent } from './app-navigation.component';
 
@@ -9,6 +12,11 @@ describe('AppNavigationComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AppNavigationComponent],
+      imports: [
+        IonicModule.forRoot(),
+        RouterTestingModule,
+        TranslateTestingModule.withTranslations({}),
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(AppNavigationComponent);
