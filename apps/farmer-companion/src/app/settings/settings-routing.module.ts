@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BatterySettingsPage } from './battery-settings/battery-settings.component';
 import { BedsSettingsPage } from './beds-settings/beds-settings.component';
+import { BoardSettingsPage } from './boards-settings/board-settings/board-settings.component';
 import { BoardsSettingsPage } from './boards-settings/boards-settings.component';
 import { PlantsSettingsPage } from './plants-settings/plants-settings.component';
 import { ProfileSettingsPage } from './profile-settings/profile-settings.component';
@@ -17,7 +18,14 @@ const routes: Routes = [
   { path: 'profile', component: ProfileSettingsPage },
   { path: 'users', component: UsersSettingsPage },
   { path: 'beds', component: BedsSettingsPage },
-  { path: 'boards', component: BoardsSettingsPage },
+  {
+    path: 'boards',
+    component: BoardsSettingsPage,
+  },
+  {
+    path: 'boards/:id',
+    component: BoardSettingsPage,
+  },
   { path: 'plants', component: PlantsSettingsPage },
   { path: 'sensors', component: SensorsSettingsPage },
   { path: 'battery', component: BatterySettingsPage },

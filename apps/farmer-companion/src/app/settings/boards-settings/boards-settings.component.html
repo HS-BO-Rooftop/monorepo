@@ -1,1 +1,23 @@
-<p>boards-settings works!</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="settings"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{ 'Boards settings' | translate }}
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="boards">
+    <ion-item *ngFor="let board of boards" [routerLink]="[board.id]">
+      <ion-label>
+        {{ board.name }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

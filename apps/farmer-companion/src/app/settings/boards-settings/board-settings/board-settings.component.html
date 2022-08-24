@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="settings/boards"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{ 'Boards settings' | translate }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <h1 class="text-3xl text-center">UUID</h1>
+
+  <form class="ion-padding-vertical">
+    <ion-item>
+      <ion-label position="floating">{{ 'Board name' | translate }}</ion-label>
+      <ion-input type="text"></ion-input>
+    </ion-item>
+
+    <!-- Beet selection -->
+    <ion-item>
+      <ion-label position="floating">{{ 'Beet' | translate }}</ion-label>
+      <ion-select
+        interface="alert"
+        placeholder="Select one"
+        [interfaceOptions]="alertOptions"
+      >
+        <ion-select-option value="1">{{
+          'Beet 1' | translate
+        }}</ion-select-option>
+        <ion-select-option value="2">{{
+          'Beet 2' | translate
+        }}</ion-select-option>
+        <ion-select-option value="3">{{
+          'Beet 3' | translate
+        }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+  </form>
+
+  <!-- Sensor configurations -->
+  <ion-list>
+    <ion-list-header class="text-2xl">Sensors</ion-list-header>
+    <ion-item-sliding>
+      <ion-item-options side="end">
+        <ion-item-option color="danger">
+          <ion-icon name="trash" class="px-4"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item>
+        <ion-label> Sensor 1 </ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+
+  <!-- Save button -->
+  <ion-button
+    expand="block"
+    color="primary"
+    slot="fixed"
+    style="bottom: 1rem; left: 1rem; right: 1rem"
+  >
+    {{ 'Save' | translate }}
+  </ion-button>
+</ion-content>
