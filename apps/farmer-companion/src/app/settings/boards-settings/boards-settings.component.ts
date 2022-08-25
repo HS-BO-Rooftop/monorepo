@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'rooftop-boards-settings',
   templateUrl: './boards-settings.component.html',
-  styleUrls: ['./boards-settings.component.css'],
+  styleUrls: ['./boards-settings.component.scss'],
 })
 export class BoardsSettingsPage implements OnInit {
   boards: Board[];
@@ -14,12 +14,9 @@ export class BoardsSettingsPage implements OnInit {
       id: `${k + 1}`,
       name: `Board ${k + 1}`,
     }));
-    console.log('Boards', this.boards);
   }
 
-  ngOnInit(): void {
-    console.log(this.boards);
-  }
+  ngOnInit(): void {}
 }
 
 type Board = {
