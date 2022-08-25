@@ -3,9 +3,7 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="settings/boards"></ion-back-button>
     </ion-buttons>
-    <ion-title>
-      {{ 'Boards settings' | translate }}
-    </ion-title>
+    <ion-title translate>Boards settings </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -14,34 +12,30 @@
 
   <form class="ion-padding-vertical">
     <ion-item>
-      <ion-label position="floating">{{ 'Board name' | translate }}</ion-label>
+      <ion-label position="floating" translate>Board name</ion-label>
       <ion-input type="text"></ion-input>
     </ion-item>
 
     <!-- Beet selection -->
     <ion-item>
-      <ion-label position="floating">{{ 'Beet' | translate }}</ion-label>
+      <ion-label position="floating" translate>Bed</ion-label>
       <ion-select
         interface="alert"
-        placeholder="Select one"
+        [placeholder]="'Select one' | translate"
         [interfaceOptions]="alertOptions"
+        [okText]="'OK' | translate"
+        [cancelText]="'Cancel' | translate"
       >
-        <ion-select-option value="1">{{
-          'Beet 1' | translate
-        }}</ion-select-option>
-        <ion-select-option value="2">{{
-          'Beet 2' | translate
-        }}</ion-select-option>
-        <ion-select-option value="3">{{
-          'Beet 3' | translate
-        }}</ion-select-option>
+        <ion-select-option value="1">Beet 1</ion-select-option>
+        <ion-select-option value="2">Beet 2</ion-select-option>
+        <ion-select-option value="3">Beet 3</ion-select-option>
       </ion-select>
     </ion-item>
   </form>
 
   <!-- Sensor configurations -->
   <ion-list>
-    <ion-list-header class="text-2xl">Sensors</ion-list-header>
+    <ion-list-header class="text-2xl" translate>Sensors</ion-list-header>
     <ion-item-sliding>
       <ion-item-options side="end">
         <ion-item-option color="danger">
@@ -60,7 +54,7 @@
     color="primary"
     slot="fixed"
     style="bottom: 1rem; left: 1rem; right: 1rem"
+    translate
+    >Save</ion-button
   >
-    {{ 'Save' | translate }}
-  </ion-button>
 </ion-content>

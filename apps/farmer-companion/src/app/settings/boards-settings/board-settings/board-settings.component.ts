@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'rooftop-board-settings',
@@ -7,12 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BoardSettingsPage implements OnInit {
   readonly alertOptions = {
-    header: 'Select a bed',
-    subHeader: 'Select the bed where the board is installed',
+    header: this.translation.instant('Select a bed') || 'Select a bed',
+    subHeader:
+      this.translation.instant('Select the bed where the board is installed') ||
+      'Select the bed where the board is installed',
     translucent: true,
   };
 
-  constructor() {}
+  constructor(private readonly translation: TranslateService) {}
 
   ngOnInit(): void {}
 }

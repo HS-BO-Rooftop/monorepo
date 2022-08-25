@@ -23,5 +23,15 @@
   "Boards and sensors": "Platinen und Sensoren",
   "Boards": "Platinen",
   "Sensors": "Sensoren",
-  "Boards settings": "Platinen Einstellungen"
+  "Boards settings": "Platinen Einstellungen",
+  "Bed": "Beet",
+  "Board settings": "Platinen Einstellungen",
+  "Board name": "Platinenname",
+  "Select a bed": "Wählen Sie ein Beet aus",
+  "Select the bed where the board is installed": "Wählen Sie das Beet aus, in dem die Platinen installiert ist",
+  "Select": "Auswählen",
+  "Cancel": "Abbrechen",
+  "Select one": "Beet auswählen",
+  "Save": "Speichern",
+  "Back": "Zurück"
 }
