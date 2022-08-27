@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BatterySettingsPage } from './battery-settings/battery-settings.component';
 import { BedsSettingsPage } from './beds-settings/beds-settings.component';
+import { BoardSensorSettingsPage } from './boards-settings/board-sensor-settings/board-sensor-settings.component';
 import { BoardSettingsPage } from './boards-settings/board-settings/board-settings.component';
 import { BoardsSettingsPage } from './boards-settings/boards-settings.component';
 import { PlantsSettingsPage } from './plants-settings/plants-settings.component';
@@ -23,8 +24,12 @@ const routes: Routes = [
     component: BoardsSettingsPage,
   },
   {
-    path: 'boards/:id',
+    path: 'boards/:boardId',
     component: BoardSettingsPage,
+  },
+  {
+    path: 'boards/:boardId/sensors/:sensorId',
+    component: BoardSensorSettingsPage,
   },
   { path: 'plants', component: PlantsSettingsPage },
   { path: 'sensors', component: SensorsSettingsPage },

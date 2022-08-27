@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { BatterySettingsPage } from './battery-settings/battery-settings.component';
 import { BedsSettingsPage } from './beds-settings/beds-settings.component';
+import { BoardSensorSettingsPage } from './boards-settings/board-sensor-settings/board-sensor-settings.component';
 import { BoardSettingsPage } from './boards-settings/board-settings/board-settings.component';
 import { BoardsSettingsPage } from './boards-settings/boards-settings.component';
 import { PlantsSettingsPage } from './plants-settings/plants-settings.component';
@@ -25,6 +26,7 @@ import { UsersSettingsPage } from './users-settings/users-settings.component';
     SensorsSettingsPage,
     BatterySettingsPage,
     BoardSettingsPage,
+    BoardSensorSettingsPage,
   ],
   imports: [CommonModule, SettingsRoutingModule, IonicModule, TranslateModule],
 })

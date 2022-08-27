@@ -15,7 +15,23 @@ export class BoardSettingsPage implements OnInit {
     translucent: true,
   };
 
+  sensors: BoardSensor[] = [
+    {
+      id: '1',
+      name: 'Sensor 1',
+    },
+    {
+      id: '2',
+      name: 'Sensor 2',
+    },
+  ];
+
   constructor(private readonly translation: TranslateService) {}
 
   ngOnInit(): void {}
 }
+
+type BoardSensor = {
+  id: string;
+  name: string;
+};
