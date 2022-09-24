@@ -7,13 +7,14 @@ public:
     static InputController *getInstance();
 
 protected:
-    int btnConfirm = 0;
-    int isBtnConfirmPressed = 0;
-    int btnPressStartTime;
-    int btnPressTime = 0;
+    inline static int btnConfirm = 0;
+    inline static int btnConfirmIsPressed = 0;
+    inline static int btnConfirmPressTime = 0 ;
+    inline static int btnConfirmPressStartTime = 0;
 
 private:
     static InputController *instance;
     InputController();
     int setup();
+    static void task(void * parameters);
 };

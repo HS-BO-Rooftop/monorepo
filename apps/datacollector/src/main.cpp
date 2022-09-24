@@ -6,14 +6,13 @@
 
 void setup()
 {
-  Serial.begin(115200);
-  Display *display = Display::getInstance();
-  ViewController *viewController = ViewController::getInstance();
-  InputController *inputController = InputController::getInstance();
-  WifiManager *WifiManager = WifiManager::getInstance();
+    Serial.begin(115200);
+    InputController *inputController = InputController::getInstance();
+    //Display *display = Display::getInstance();
 
-  Serial.println((int)&viewController);
-  Serial.println((int)&inputController);
+    //display->test();
+    //ViewController *viewController = ViewController::getInstance();
+    //WifiManager *WifiManager = WifiManager::getInstance();
 }
 
 void loop()

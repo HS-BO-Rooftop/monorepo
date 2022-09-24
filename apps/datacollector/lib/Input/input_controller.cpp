@@ -1,12 +1,13 @@
 #include <input_controller.h>
 
 #define LED_BUILTIN GPIO_NUM_25
-#define PIN_35 GPIO_NUM_35
+#define BTN_CONFIRM GPIO_NUM_35
 
 InputController *InputController::instance = nullptr;
 
 InputController::InputController()
 {
+    setup();
 }
 
 InputController *InputController::getInstance()
@@ -19,27 +20,40 @@ InputController *InputController::getInstance()
     return instance;
 }
 
+void InputController::task(void *parameters)
+{
+    for(;;){
+        btnConfirm = digitalRead(BTN_CONFIRM);
+
+        if (btnConfirm == HIGH && btnConfirmIsPressed == 0)
+        {
+            btnConfirmPressStartTime = millis();
+            btnConfirmIsPressed = 1;
+            digitalWrite(LED_BUILTIN, HIGH);
+        }
+        if (btnConfirm == LOW && btnConfirmIsPressed == 1)
+        {
+            btnConfirmPressTime = millis() - btnConfirmPressStartTime;
+            btnConfirmIsPressed = 0;
+            digitalWrite(LED_BUILTIN, LOW);
+        }
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    };
+}
+
 int InputController::setup()
 {
-    btnConfirm = digitalRead(PIN_35);
+    pinMode(BTN_CONFIRM, INPUT);
+    pinMode(LED_BUILTIN, OUTPUT);
 
-    if (btnConfirm == HIGH && isBtnConfirmPressed == 0)
-    {
-        btnPressStartTime = millis();
-        isBtnConfirmPressed = 1;
-        digitalWrite(LED_BUILTIN, HIGH);
-    }
-    if (btnConfirm == LOW && isBtnConfirmPressed == 1)
-    {
-        btnPressTime = millis() - btnPressStartTime;
-        isBtnConfirmPressed = 0;
-        digitalWrite(LED_BUILTIN, LOW);
-    }
-
-    if (btnPressTime > 0)
-    {
-        //  viewController();
-    }
+    xTaskCreate(
+        this->task,
+        "INPUT_CONTROLLER_TASK",
+        1000,
+        NULL,
+        1,
+        NULL
+    );
 
     return 0;
 }
