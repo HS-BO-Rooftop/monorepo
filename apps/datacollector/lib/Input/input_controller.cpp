@@ -7,7 +7,7 @@ InputController *InputController::instance = nullptr;
 
 InputController::InputController()
 {
-    setup();
+    init();
 }
 
 InputController *InputController::getInstance()
@@ -36,13 +36,15 @@ void InputController::task(void *parameters)
             btnConfirmPressTime = millis() - btnConfirmPressStartTime;
             btnConfirmIsPressed = 0;
             digitalWrite(LED_BUILTIN, LOW);
+            instance->notifyObservers();
         }
         vTaskDelay(100 / portTICK_PERIOD_MS);
     };
 }
 
-int InputController::setup()
+int InputController::init()
 {
+    Serial.println("[Info]:Initilizing input_controller...");
     pinMode(BTN_CONFIRM, INPUT);
     pinMode(LED_BUILTIN, OUTPUT);
 
@@ -56,4 +58,27 @@ int InputController::setup()
     );
 
     return 0;
+}
+
+void InputController::notifyObservers()
+{
+    for(Observer *observer : observerList)
+    {
+        observer->update();
+    }
+}
+
+void InputController::registerObserver(Observer *observer)
+{
+    observerList.push_back(observer);
+}
+
+void InputController::removeObserver(Observer *observer)
+{
+    auto iterator = std::find(observerList.begin(), observerList.end(), observer);
+
+    if (iterator != observerList.end())
+    {
+        observerList.erase(iterator);
+    }
 }

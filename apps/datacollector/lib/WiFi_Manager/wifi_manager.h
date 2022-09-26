@@ -5,7 +5,7 @@
 #include <AsyncTCP.h>
 #include <string>
 #include "SPIFFS.h"
-#include "../Utils/file_handler.h"
+#include "../Utils/Filehandler/file_handler.h"
 
 #define WIFI_HOSTNAME "Datacollector"
 #define WIFI_PASSWORD "123454321"
@@ -31,24 +31,24 @@ struct NetworkConfig
 
 class WifiManager
 {
-public:
-    static WifiManager *getInstance();
-    NetworkConfig networkConfig;
+    public:
+        static WifiManager *getInstance();
+        NetworkConfig networkConfig;
 
-private:
-    static WifiManager *instance;
-    FileHandler *fh;
+    private:
+        static WifiManager *instance;
+        FileHandler *fh;
 
-    WifiManager();
-    void setup();
-    unsigned long previousMillis;
-    void initSPIFFS();
-    int initWifi();
-    void httpListener();
-    int checkNetworkConfig();
-    int removeNetworkConfig();
-    int writeNetworkConfig(NetworkConfig configPtr);
-    int readNetworkConfig();
+        WifiManager();
+        void setup();
+        unsigned long previousMillis;
+        void initSPIFFS();
+        int initWifi();
+        void httpListener();
+        int checkNetworkConfig();
+        int removeNetworkConfig();
+        int writeNetworkConfig(NetworkConfig configPtr);
+        int readNetworkConfig();
 
-protected:
+    protected:
 };

@@ -1,14 +1,17 @@
 #include <Arduino.h>
-#include "display.h"
+#include <map>
+#include <string>
+#include "display_controller.h"
 #include "input_controller.h"
-#include "Model/view_controller.h"
 #include "wifi_manager.h"
 
 void setup()
 {
     Serial.begin(115200);
     InputController *inputController = InputController::getInstance();
-    //Display *display = Display::getInstance();
+    DisplayController *displayController = DisplayController::getInstance();
+
+    inputController->registerObserver(displayController);
 
     //display->test();
     //ViewController *viewController = ViewController::getInstance();
