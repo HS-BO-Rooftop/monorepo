@@ -10,6 +10,7 @@ import { getMetadataArgsStorage } from 'typeorm';
 import { AuthModule } from '../auth/auth.module';
 import { BoardsModule } from '../configurations/boards/boards.module';
 import { ShutdownModule } from '../shutdown/shutdown.module';
+import { WeatherModule } from '../weather/weather.module';
 
 @Module({
   imports: [
@@ -50,6 +51,7 @@ import { ShutdownModule } from '../shutdown/shutdown.module';
     ScheduleModule.forRoot(),
     BoardsModule,
     EventEmitterModule.forRoot(),
+    WeatherModule,
   ],
   controllers: [],
   providers: [
