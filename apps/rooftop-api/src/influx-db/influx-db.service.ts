@@ -3,6 +3,7 @@ import {
   FluxTableMetaData,
   InfluxDB,
   ParameterizedQuery,
+  Point,
   QueryOptions,
 } from '@influxdata/influxdb-client';
 import { Injectable, Logger } from '@nestjs/common';
@@ -87,5 +88,11 @@ export class InfluxDbService {
 
       this._influx.getQueryApi(org).queryRows(query, observer);
     });
+  }
+
+  public write(org: string, bucket: string, ...data: Point[]) {
+    const writeApi = this._influx.getWriteApi(org, bucket);
+    writeApi.writePoints(data);
+    writeApi.close();
   }
 }
