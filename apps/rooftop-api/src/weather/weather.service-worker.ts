@@ -32,9 +32,9 @@ export class WeatherServiceWorker {
         `Got new weather at ${weather?.timestamp.toLocaleString()}`
       );
       // Write datapoint in influx
-      const point = new Point('dwd_current_weather').timestamp(
-        weather.timestamp
-      );
+      const point = new Point('dwd_current_weather')
+        .tag('source', 'dwd')
+        .timestamp(weather.timestamp);
 
       for (const key in weather) {
         if (Object.prototype.hasOwnProperty.call(weather, key)) {
@@ -55,8 +55,8 @@ export class WeatherServiceWorker {
     this.getCurrentLocalWeather();
   }
 
-  // Get current weatherat :00, :30
-  @Cron('0 */30 * * * *')
+  // Get current weather at :5, :35
+  @Cron('0 5,35 * * * *')
   async getCurrentDwDWeather() {
     try {
       const response = await lastValueFrom(

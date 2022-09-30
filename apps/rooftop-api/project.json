@@ -22,7 +22,8 @@
               "replace": "apps/rooftop-api/src/environments/environment.ts",
               "with": "apps/rooftop-api/src/environments/environment.prod.ts"
             }
-          ]
+          ],
+          "generatePackageJson": true
         }
       }
     },
@@ -60,6 +61,44 @@
       "options": {
         "preset": "conventional",
         "commitMessageFormat": "chore(api): release version ${version}"
+      }
+    },
+
+    "build-docker": {
+      "builder": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          {
+            "command": "nx run rooftop-api:build:production",
+            "forwardAllArgs": false
+          },
+          {
+            "command": "docker build {args.tag} {args.build-arg} -f ./apps/rooftop-api/Dockerfile . ",
+            "forwardAllArgs": false
+          },
+          {
+            "command": "docker push ghcr.io/hs-bo-rooftop/cloud-api --all-tags",
+            "forwardAllArgs": false
+          }
+        ],
+        "parallel": false
+      },
+      "defaultConfiguration": {
+        "tag": "latest"
+      },
+      "configurations": {
+        "latest": {
+          "args": "--tag='-t ghcr.io/hs-bo-rooftop/cloud-api:latest' --build-arg='--build-arg VERSION=latest'"
+        },
+        "next": {
+          "args": "--tag='-t ghcr.io/hs-bo-rooftop/cloud-api:next' --build-arg='--build-arg VERSION=next'"
+        },
+        "test": {
+          "args": "--tag='-t ghcr.io/hs-bo-rooftop/cloud-api:test' --build-arg='--build-arg VERSION=test'"
+        },
+        "version": {
+          "args": "--tag='-t ghcr.io/hs-bo-rooftop/cloud-api:latest -t ghcr.io/hs-bo-rooftop/cloud-api:${version}' --build-arg='--build-arg VERSION=${version}'"
+        }
       }
     }
   },
