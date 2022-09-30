@@ -2,6 +2,7 @@
   "version": 2,
   "projects": {
     "datacollector": "apps/datacollector",
+    "dwd-weather-importer": "apps/dwd-weather-importer",
     "farmer-companion": "apps/farmer-companion",
     "farmer-companion-e2e": "apps/farmer-companion-e2e",
     "proxy": "apps/proxy",

@@ -85,6 +85,7 @@
     "@angular/router": "14.0.4",
     "@capacitor/core": "^3.2.5",
     "@influxdata/influxdb-client": "^1.29.0",
+    "@influxdata/influxdb-client-apis": "^1.30.0",
     "@ionic/angular": "^5.8.3",
     "@nestjs-modules/mailer": "^1.7.1",
     "@nestjs/axios": "^0.1.0",
