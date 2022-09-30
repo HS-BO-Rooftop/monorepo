@@ -41,6 +41,7 @@ export class WeatherService {
   private async init() {
     const initialData = await this.serviceWorker.getCurrentDwDWeather();
     this._currentDwDWeather.next(initialData);
+    this.getCurrentLocalWeather();
   }
 
   @OnEvent('dwd.weather.updated')
