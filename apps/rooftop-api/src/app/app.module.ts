@@ -11,6 +11,7 @@ import { AuthModule } from '../auth/auth.module';
 import { BoardsModule } from '../configurations/boards/boards.module';
 import { ShutdownModule } from '../shutdown/shutdown.module';
 import { WeatherModule } from '../weather/weather.module';
+import { VersionController } from './version.controller';
 
 @Module({
   imports: [
@@ -53,7 +54,7 @@ import { WeatherModule } from '../weather/weather.module';
     EventEmitterModule.forRoot(),
     WeatherModule,
   ],
-  controllers: [],
+  controllers: [VersionController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
