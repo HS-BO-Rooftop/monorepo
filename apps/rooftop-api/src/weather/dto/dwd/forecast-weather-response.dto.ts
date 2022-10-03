@@ -18,13 +18,29 @@ export class WeatherForcastDto {
   @ApiProperty({ nullable: true })
   cloud_cover: number | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({ nullable: true, enum: WeatherCondition })
   condition: WeatherCondition | null;
 
   @ApiProperty({ nullable: true })
   dew_point: number | null;
 
-  @ApiProperty({ nullable: true })
+  @ApiProperty({
+    nullable: true,
+    enum: [
+      'clear-day',
+      'clear-night',
+      'partly-cloudy-day',
+      'partly-cloudy-night',
+      'cloudy',
+      'fog',
+      'wind',
+      'rain',
+      'sleet',
+      'snow',
+      'hail',
+      'thunderstorm',
+    ],
+  })
   icon: WeatherIcon | null;
 
   @ApiProperty({ nullable: true })

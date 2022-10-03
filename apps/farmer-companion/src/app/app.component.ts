@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
+import { WeatherService } from './weather.service';
 
 @Component({
   selector: 'rooftop-root',
@@ -8,8 +9,14 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor(translate: TranslateService, plattform: Platform) {
+  constructor(
+    translate: TranslateService,
+    plattform: Platform,
+    weather: WeatherService
+  ) {
     translate.setDefaultLang('en');
+
+    weather.$weatherForecastForDays.subscribe((data) => console.log(data));
 
     // Get the current language
     const browserLang = translate.getBrowserLang() || 'en';

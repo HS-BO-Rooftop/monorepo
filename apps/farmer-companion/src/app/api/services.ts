@@ -1,0 +1,11 @@
+export { VersionService } from './services/version.service';
+export { AuthService } from './services/auth.service';
+export { UserService } from './services/user.service';
+export { BoardsService } from './services/boards.service';
+export { ConfigurationService } from './services/configuration.service';
+export { BoardPinsService } from './services/board-pins.service';
+export { ConfigurationsService } from './services/configurations.service';
+export { SensorsService } from './services/sensors.service';
+export { SensorTypesService } from './services/sensor-types.service';
+export { SensorInterfacesService } from './services/sensor-interfaces.service';
+export { WeatherService } from './services/weather.service';

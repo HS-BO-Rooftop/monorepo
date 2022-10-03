@@ -216,6 +216,13 @@
         "preset": "conventional",
         "commitMessageFormat": "chore(${projectName}): release version ${version}"
       }
+    },
+    "codegen": {
+      "builder": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["ng-openapi-gen"],
+        "cwd": "apps/farmer-companion"
+      }
     }
   },
   "tags": []

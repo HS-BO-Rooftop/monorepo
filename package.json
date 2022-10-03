@@ -62,6 +62,7 @@
     "husky": "^7.0.4",
     "jest": "27.4.1",
     "jest-preset-angular": "11.1.2",
+    "ng-openapi-gen": "^0.23.0",
     "ng-packagr": "14.0.2",
     "nx": "14.4.0",
     "postcss": "^8.4.5",

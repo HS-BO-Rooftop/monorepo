@@ -47,6 +47,7 @@ export class WeatherController {
   @ApiOkResponse({
     description: 'Gets the weather forecast',
     type: WeatherForcastDto,
+    isArray: true,
   })
   async getDwdWeatherForecast() {
     return this.weatherService.dwdForecast;
@@ -54,8 +55,6 @@ export class WeatherController {
 
   @Sse('forecast/dwd/sse')
   currentDwdForecastSse() {
-    return this.weatherService.$currentDwDWeather.pipe(
-      map((data) => ({ data }))
-    );
+    return this.weatherService.$dwdForecast.pipe(map((data) => ({ data })));
   }
 }

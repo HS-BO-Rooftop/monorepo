@@ -23,6 +23,8 @@ async function bootstrap() {
   );
   app.useGlobalFilters(new TypeOrmExceptionFilter());
 
+  app.enableCors();
+
   // Register shutdown service
   app.get(ShutdownService).subscribeToShutdown(() => {
     console.log('Shutting down');
