@@ -3,6 +3,7 @@ import { OnEvent } from '@nestjs/event-emitter';
 import { BehaviorSubject } from 'rxjs';
 import { InfluxDbService, QueryRow } from '../influx-db/influx-db.service';
 import { CurrentWeatherResponseDto } from './dto/dwd/current-weather-response.dto';
+import { WeatherForecastResponseDto } from './dto/dwd/forecast-weather-response.dto';
 import { LocalWeatherStationRow } from './dto/local/weather-station-data.type';
 import { WeatherServiceWorker } from './weather.service-worker';
 
@@ -18,6 +19,18 @@ export class WeatherService {
   private _currentDwDWeather = new BehaviorSubject<
     CurrentWeatherResponseDto['weather'] | null
   >(null);
+
+  private _dwdForecast = new BehaviorSubject<
+    WeatherForecastResponseDto['weather'] | null
+  >(null);
+
+  get $dwdForecast() {
+    return this._dwdForecast.asObservable();
+  }
+
+  get dwdForecast() {
+    return this._dwdForecast.getValue();
+  }
 
   get $currentLocalWeather() {
     return this._currentLocalWeather.asObservable();
@@ -39,14 +52,23 @@ export class WeatherService {
   }
 
   private async init() {
-    const initialData = await this.serviceWorker.getCurrentDwDWeather();
-    this._currentDwDWeather.next(initialData);
+    const initialCurrentWeatherData =
+      await this.serviceWorker.getCurrentDwDWeather();
+    this._currentDwDWeather.next(initialCurrentWeatherData);
+    const initialWeatherForecastData =
+      await this.serviceWorker.getWeatherForecast();
+    this._dwdForecast.next(initialWeatherForecastData);
     this.getCurrentLocalWeather();
   }
 
-  @OnEvent('dwd.weather.updated')
+  @OnEvent('dwd.current_weather.updated')
   async updateDwDWeather(weather: CurrentWeatherResponseDto['weather']) {
     this._currentDwDWeather.next(weather);
+  }
+
+  @OnEvent('dwd.forecast.updated')
+  async updateForecastWeather(weather: WeatherForecastResponseDto['weather']) {
+    this._dwdForecast.next(weather);
   }
 
   async getCurrentLocalWeather() {

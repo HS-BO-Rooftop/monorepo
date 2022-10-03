@@ -4,9 +4,11 @@ import { Injectable, Logger } from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Cron } from '@nestjs/schedule';
 import { plainToInstance } from 'class-transformer';
+import { addDays, endOfDay } from 'date-fns';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { InfluxDbService } from '../influx-db/influx-db.service';
 import { CurrentWeatherResponseDto } from './dto/dwd/current-weather-response.dto';
+import { WeatherForecastResponseDto } from './dto/dwd/forecast-weather-response.dto';
 
 const LAT = 51.48;
 const LON = 7.21;
@@ -21,6 +23,14 @@ export class WeatherServiceWorker {
 
   get $currentDwDWeather() {
     return this._currentDwDWeather.asObservable();
+  }
+
+  private _dwdWeatherForecast = new BehaviorSubject<
+    WeatherForecastResponseDto['weather'] | null
+  >(null);
+
+  get $dwdWeatherForecast() {
+    return this._dwdWeatherForecast.asObservable();
   }
 
   constructor(
@@ -52,7 +62,7 @@ export class WeatherServiceWorker {
         }
       }
       this.influx.write('ontop.hs-bochum.de', 'initial', point);
-      this.eventEmitter.emit('dwd.weather.updated', weather);
+      this.eventEmitter.emit('dwd.current_weather.updated', weather);
     });
   }
 
@@ -73,6 +83,25 @@ export class WeatherServiceWorker {
       return data;
     } catch (error) {
       console.log(error);
+    }
+  }
+
+  @Cron('0 5 * * * *')
+  async getWeatherForecast() {
+    const startDate = new Date();
+    const endDate = endOfDay(addDays(startDate, 10));
+
+    try {
+      const response = await lastValueFrom(
+        this.http.get<WeatherForecastResponseDto>(
+          `${API_URL}/weather?lat=${LAT}&lon=${LON}&date=${startDate.toISOString()}&last_date=${endDate.toISOString()}`
+        )
+      );
+      this._dwdWeatherForecast.next(response.data.weather);
+      return response.data.weather;
+    } catch (error) {
+      this.logger.error('Error getting weather forecast', error);
+      console.error(error);
     }
   }
 }

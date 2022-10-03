@@ -2,6 +2,7 @@ import { Controller, Get, Sse } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { map } from 'rxjs';
 import { DwdWeatherDto } from './dto/dwd/current-weather-response.dto';
+import { WeatherForcastDto } from './dto/dwd/forecast-weather-response.dto';
 import { LocalWeatherStationRow } from './dto/local/weather-station-data.type';
 import { WeatherService } from './weather.service';
 
@@ -37,6 +38,22 @@ export class WeatherController {
 
   @Sse('current/dwd/sse')
   currentDwdWeatherSse() {
+    return this.weatherService.$currentDwDWeather.pipe(
+      map((data) => ({ data }))
+    );
+  }
+
+  @Get('forecast/dwd')
+  @ApiOkResponse({
+    description: 'Gets the weather forecast',
+    type: WeatherForcastDto,
+  })
+  async getDwdWeatherForecast() {
+    return this.weatherService.dwdForecast;
+  }
+
+  @Sse('forecast/dwd/sse')
+  currentDwdForecastSse() {
     return this.weatherService.$currentDwDWeather.pipe(
       map((data) => ({ data }))
     );
