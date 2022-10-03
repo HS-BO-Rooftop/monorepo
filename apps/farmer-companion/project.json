@@ -59,6 +59,12 @@
           "extractLicenses": false,
           "sourceMap": true,
           "namedChunks": true
+        },
+        "de": {
+          "localize": ["de"]
+        },
+        "en": {
+          "localize": ["en"]
         }
       },
       "defaultConfiguration": "production"
@@ -71,14 +77,30 @@
         },
         "development": {
           "browserTarget": "farmer-companion:build:development"
+        },
+        "all-hosts": {
+          "browserTarget": "farmer-companion:build:development",
+          "port": 4200,
+          "host": "0.0.0.0"
         }
       },
       "defaultConfiguration": "development"
     },
+    "lab": {
+      "executor": "nx:run-commands",
+      "options": {
+        "commands": [
+          "nx serve farmer-companion",
+          "npm run ionic:lab http://localhost:4200"
+        ],
+        "parallel": true
+      }
+    },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
       "options": {
-        "browserTarget": "farmer-companion:build"
+        "browserTarget": "farmer-companion:build",
+        "outputPath": "./apps/farmer-companion/src/locale"
       }
     },
     "lint": {

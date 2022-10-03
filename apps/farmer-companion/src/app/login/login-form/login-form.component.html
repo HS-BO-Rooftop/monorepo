@@ -1,0 +1,27 @@
+<rooftop-login-container>
+  <form class="flex h-full flex-col">
+    <div class="flex flex-col">
+      <ion-item>
+        <ion-label position="floating">E-Mail</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">{{ 'Password' | translate }}</ion-label>
+        <ion-input></ion-input>
+      </ion-item>
+
+      <a
+        class="pl-5 mt-4 text-green font-bold text-lg"
+        routerLink="password-reset"
+      >
+        {{ 'Forgot password' | translate }}
+      </a>
+    </div>
+
+    <!-- Login button -->
+    <ion-button color="success" class="mt-8" type="submit">{{
+      'Login' | translate
+    }}</ion-button>
+  </form>
+</rooftop-login-container>

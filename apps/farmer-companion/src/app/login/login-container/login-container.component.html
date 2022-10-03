@@ -1,0 +1,30 @@
+<rooftop-landing-container>
+  <div class="flex justify-center flex-col items-center h-full">
+    <div class="flex-col rounded container-background p-5 max-w-xs">
+      <div class="flex h-full flex-col p-4 pb-8">
+        <!-- Back button -->
+        <div class="h-12 flex-none">
+          <ion-button
+            fill="clear"
+            color="light"
+            *ngIf="backButtonVisible"
+            id="back-button"
+            (click)="location.back()"
+          >
+            <ion-icon
+              slot="icon-only"
+              md="arrow-back-sharp"
+              ios="arrow-back-outline"
+            ></ion-icon>
+          </ion-button>
+        </div>
+
+        <!-- Logo -->
+        <img src="assets/icons/logo-black.png" alt="Logo" class="mx-auto" />
+
+        <!-- Content projection -->
+        <ng-content></ng-content>
+      </div>
+    </div>
+  </div>
+</rooftop-landing-container>

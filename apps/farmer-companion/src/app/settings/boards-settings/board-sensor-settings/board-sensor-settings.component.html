@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [defaultHref]="'settings/boards/' + boardId"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title translate>Sensor settings</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <!-- Sensor Type -->
+    <ion-item>
+      <ion-label position="floating" translate>Sensor type</ion-label>
+      <ion-select>
+        <ion-select-option
+          *ngFor="let sensorType of sensorTypes"
+          [value]="sensorType.id"
+          >{{ sensorType.name }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <!-- Sensor Pin -->
+    <ion-item>
+      <ion-label position="floating" translate>Sensor pin</ion-label>
+      <ion-select>
+        <ion-select-option
+          *ngFor="let sensorPin of sensorPins"
+          [value]="sensorPin.id"
+          >{{ sensorPin.name }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <!-- Sensor is connected -->
+    <ion-item class="ion-padding-vertical">
+      <ion-label translate>Connected to board</ion-label>
+      <ion-checkbox slot="start"></ion-checkbox>
+    </ion-item>
+  </form>
+  <ion-button
+    expand="block"
+    type="submit"
+    slot="fixed"
+    style="bottom: 1rem; left: 1rem; right: 1rem"
+    translate
+  >
+    Save
+  </ion-button>
+</ion-content>
