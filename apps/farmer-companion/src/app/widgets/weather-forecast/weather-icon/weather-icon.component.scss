@@ -1,0 +1,6 @@
+// Set icon to white if the user has a dark theme
+@media (prefers-color-scheme: dark) {
+  img {
+    filter: invert(0.9);
+  }
+}

@@ -4,7 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { HomePage } from './home.page';
 
+import { TranslateModule } from '@ngx-translate/core';
 import { AppNavigationModule } from '../app-navigation/app-navigation.module';
+import { WidgetsModule } from '../widgets/widgets.module';
 import { HomePageRoutingModule } from './home-routing.module';
 
 @NgModule({
@@ -14,6 +16,8 @@ import { HomePageRoutingModule } from './home-routing.module';
     IonicModule,
     HomePageRoutingModule,
     AppNavigationModule,
+    WidgetsModule,
+    TranslateModule,
   ],
   declarations: [HomePage],
 })

@@ -39,5 +39,6 @@
   "Select a sensor type": "Wählen Sie einen Sensor Typ aus",
   "Select the type of sensor": "Wählen Sie den Sensor Typ aus",
   "Sensor pin": "Sensor Pin",
-  "Connected to board": "Angeschlossen"
+  "Connected to board": "Angeschlossen",
+  "Weather forecast": "Wettervorhersage"
 }

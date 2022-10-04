@@ -1,1 +1,14 @@
-<p>weather-forecast works!</p>
+<div
+  class="flex flex-col justify-center items-center"
+  *ngFor="
+    let day of (weatherService.$weatherForecastForDays | async)?.slice(1, 6)
+  "
+>
+  <ng-container *ngIf="day && getDayData(day)">
+    <span class="font-bold dark:text-neutral-200">{{
+      getShortDay(day.date)
+    }}</span>
+    <rooftop-weather-icon [icon]="getDayData(day)?.icon"></rooftop-weather-icon>
+    <span> {{ getDayData(day)?.temperature?.toFixed(0) }}°</span>
+  </ng-container>
+</div>

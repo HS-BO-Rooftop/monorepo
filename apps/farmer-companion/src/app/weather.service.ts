@@ -32,10 +32,10 @@ export class WeatherService {
         }
         /**
          * Foreach day get
-         * morning 7AM
+         * morning 9AM
          * day 12AM
          * evening 6PM
-         * Night 11PM
+         * Night 3AM
          * Weather
          */
         // Group the forecast by day
@@ -58,9 +58,9 @@ export class WeatherService {
             .map(([_, items]) => {
               const morning = items.find((item) => {
                 const date = new Date(item.timestamp);
-                return date.getHours() === 7;
+                return date.getHours() === 9;
               });
-              const dayTime = items.find((item) => {
+              const day = items.find((item) => {
                 const date = new Date(item.timestamp);
                 return date.getHours() === 12;
               });
@@ -70,7 +70,7 @@ export class WeatherService {
               });
               const night = items.find((item) => {
                 const date = new Date(item.timestamp);
-                return date.getHours() === 23;
+                return date.getHours() === 3;
               });
               if (!morning) {
                 return null;
@@ -78,7 +78,7 @@ export class WeatherService {
               return {
                 date: startOfDay(new Date(morning.timestamp)),
                 morning,
-                dayTime,
+                day,
                 evening,
                 night,
               } as WeatherForecastForDay;
@@ -128,7 +128,7 @@ export class WeatherService {
   }
 }
 
-type WeatherForecastForDay = {
+export type WeatherForecastForDay = {
   date: Date;
   morning: WeatherForcastDto;
   day?: WeatherForcastDto;
