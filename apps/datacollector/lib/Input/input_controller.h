@@ -13,6 +13,7 @@ class InputController : public Subject
         void registerObserver(Observer *observer) override;
         void removeObserver(Observer *observer) override;
         void notifyObservers() override;
+        int getBtnConfirmPressTime();
 
     protected:
         inline static int btnConfirm = 0;

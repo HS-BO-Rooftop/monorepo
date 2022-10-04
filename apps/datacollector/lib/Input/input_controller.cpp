@@ -51,7 +51,7 @@ int InputController::init()
     xTaskCreate(
         this->task,
         "INPUT_CONTROLLER_TASK",
-        1000,
+        2000,
         NULL,
         1,
         NULL
@@ -81,4 +81,9 @@ void InputController::removeObserver(Observer *observer)
     {
         observerList.erase(iterator);
     }
+}
+
+int InputController::getBtnConfirmPressTime()
+{
+    return btnConfirmPressTime;
 }
