@@ -121,13 +121,13 @@
       }
     },
     "cap": {
-      "executor": "@nxtend/capacitor:cap",
+      "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "--help"
       }
     },
     "add": {
-      "executor": "@nxtend/capacitor:cap",
+      "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "add"
       },
@@ -141,7 +141,7 @@
       }
     },
     "copy": {
-      "executor": "@nxtend/capacitor:cap",
+      "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "copy"
       },
@@ -155,7 +155,7 @@
       }
     },
     "open": {
-      "executor": "@nxtend/capacitor:cap",
+      "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "open"
       },
@@ -169,7 +169,7 @@
       }
     },
     "run": {
-      "executor": "@nxtend/capacitor:cap",
+      "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "run"
       },
@@ -183,7 +183,7 @@
       }
     },
     "sync": {
-      "executor": "@nxtend/capacitor:cap",
+      "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "sync"
       },
@@ -197,7 +197,7 @@
       }
     },
     "update": {
-      "executor": "@nxtend/capacitor:cap",
+      "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "update"
       },
@@ -218,7 +218,7 @@
       }
     },
     "codegen": {
-      "builder": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": ["ng-openapi-gen"],
         "cwd": "apps/farmer-companion"

@@ -4,13 +4,15 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/rooftop-api",
         "main": "apps/rooftop-api/src/main.ts",
         "tsConfig": "apps/rooftop-api/tsconfig.app.json",
-        "assets": ["apps/rooftop-api/src/assets"]
+        "assets": ["apps/rooftop-api/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
@@ -63,9 +65,8 @@
         "commitMessageFormat": "chore(api): release version ${version}"
       }
     },
-
     "build-docker": {
-      "builder": "@nrwl/workspace:run-commands",
+      "executor": "nx:run-commands",
       "options": {
         "commands": [
           {

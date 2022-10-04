@@ -4,13 +4,15 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:webpack",
+      "executor": "@nrwl/webpack:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/dwd-weather-importer",
         "main": "apps/dwd-weather-importer/src/main.ts",
         "tsConfig": "apps/dwd-weather-importer/tsconfig.app.json",
-        "assets": ["apps/dwd-weather-importer/src/assets"]
+        "assets": ["apps/dwd-weather-importer/src/assets"],
+        "target": "node",
+        "compiler": "tsc"
       },
       "configurations": {
         "production": {
