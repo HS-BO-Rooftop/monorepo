@@ -60,11 +60,19 @@
           "sourceMap": true,
           "namedChunks": true
         },
-        "de": {
-          "localize": ["de"]
-        },
-        "en": {
-          "localize": ["en"]
+        "development-android": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "fileReplacements": [
+            {
+              "replace": "apps/farmer-companion/src/environments/environment.ts",
+              "with": "apps/farmer-companion/src/environments/environment.android-dev.ts"
+            }
+          ]
         }
       },
       "defaultConfiguration": "production"
@@ -168,7 +176,7 @@
         }
       }
     },
-    "run": {
+    "run-native": {
       "executor": "@nxext/capacitor:cap",
       "options": {
         "cmd": "run"
@@ -179,6 +187,9 @@
         },
         "android": {
           "cmd": "run android"
+        },
+        "android-dev": {
+          "cmd": "run android --livereload --configuration=development"
         }
       }
     },

@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'farmer-companion',
+  appId: 'de.hs-bochum.ontop.farmer-companion',
+  appName: 'Ontop Farmer Companion',
   webDir: '../../dist/apps/farmer-companion',
   bundledWebRuntime: false,
 };
