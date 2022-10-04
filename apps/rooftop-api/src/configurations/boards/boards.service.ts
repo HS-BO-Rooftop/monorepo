@@ -21,6 +21,7 @@ export class BoardsService {
       BoardConfigurationUpdatedEvent.eventName,
       new BoardConfigurationUpdatedEvent(created.id)
     );
+    return created;
   }
 
   findAll() {
