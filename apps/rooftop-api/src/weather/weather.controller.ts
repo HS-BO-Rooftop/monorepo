@@ -7,7 +7,7 @@ import { LocalWeatherStationRow } from './dto/local/weather-station-data.type';
 import { WeatherService } from './weather.service';
 
 @Controller('weather')
-@ApiTags('weather')
+@ApiTags('Weather')
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
 

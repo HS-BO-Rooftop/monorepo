@@ -1,7 +1,10 @@
-import { ApiNotFoundResponse } from '@nestjs/swagger';
+import { ApiNotFoundResponse, ApiResponseOptions } from '@nestjs/swagger';
 
-export const RNotFoundResponse = (): MethodDecorator & ClassDecorator => {
+export const RNotFoundResponse = (
+  options?: ApiResponseOptions
+): MethodDecorator & ClassDecorator => {
   return ApiNotFoundResponse({
-    description: 'The requested resource could not be found',
+    description: options?.description || 'The requested resource was not found',
+    ...options,
   });
 };

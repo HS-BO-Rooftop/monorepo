@@ -5,9 +5,10 @@ import { ConfigurationsModule } from '../configurations.module';
 import { BoardsController } from './boards.controller';
 import { BoardsService } from './boards.service';
 import { BoardEntity } from './entities/board.entity';
+import { RegisterController } from './register.controller';
 
 @Module({
-  controllers: [BoardsController],
+  controllers: [BoardsController, RegisterController],
   providers: [BoardsService],
   imports: [
     TypeOrmModule.forFeature([BoardEntity]),

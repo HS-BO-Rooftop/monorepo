@@ -7,4 +7,7 @@ export class BoardEntity {
 
   @Column({ nullable: false })
   name: string;
+
+  @Column({ nullable: true })
+  last_seen_at: Date;
 }
