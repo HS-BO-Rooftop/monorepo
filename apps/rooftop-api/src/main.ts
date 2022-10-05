@@ -51,7 +51,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development') {
     documentBuilder.addServer(`http://localhost:${port}`);
   } else {
-    documentBuilder.addServer(`https://rooftop.hs-bochum.de`);
+    documentBuilder.addServer(`http://ontop.hs-bochum.de`);
   }
 
   const config = documentBuilder.build();
