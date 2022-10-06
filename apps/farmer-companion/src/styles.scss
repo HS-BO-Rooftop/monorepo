@@ -29,6 +29,11 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+/* Swiper imports */
+@import 'swiper/scss';
+@import 'swiper/scss/pagination';
+@import '@ionic/angular/css/ionic-swiper';
+
 .text-green {
   color: var(--ion-color-success);
 }
@@ -45,5 +50,26 @@ span.error {
     ion-item-divider {
       background: none;
     }
+  }
+}
+
+.swiper-pagination-bullet {
+  background-color: #000 !important;
+  width: .75rem;
+  height: .25rem;
+  border-radius: 2px;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: var(--ion-color-primary) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .swiper-pagination-bullet {
+    background-color: #fff !important;
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color: var(--ion-color-primary) !important;
   }
 }

@@ -12,10 +12,10 @@ export class BoardSensorSettingsPage implements OnInit {
 
   readonly alertOptions = {
     header:
-      this.translation.instant('Select a sensor type') ||
+      this.translation.instant('Select a sensor type') ??
       'Select a sensor type',
     subHeader:
-      this.translation.instant('Select the type of sensor') ||
+      this.translation.instant('Select the type of sensor') ??
       'Select the type of sensor',
     translucent: true,
   };

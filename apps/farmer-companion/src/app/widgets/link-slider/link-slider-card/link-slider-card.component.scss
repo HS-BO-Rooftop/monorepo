@@ -1,0 +1,27 @@
+:host {
+  width: 100%;
+  display: flex;
+  position: relative;
+  height: 40vh;
+
+  a {
+    width: 100%;
+  }
+
+  img {
+    height: 40vh;
+    width: 100%;
+    object-fit: cover;
+    position: absolute;
+    border-radius: .5rem;
+    filter: brightness(70%);
+  }
+
+  .title {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    font-weight: bold;
+    font-size: larger;
+  }
+}

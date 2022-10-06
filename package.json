@@ -118,6 +118,7 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "~7.5.0",
     "swagger-ui-express": "^4.4.0",
+    "swiper": "^8.4.3",
     "tslib": "^2.0.0",
     "typeorm": "^0.3.7",
     "typeorm-transactional-cls-hooked": "git+https://github.com/jczacharia/typeorm-transactional-cls-hooked.git",
