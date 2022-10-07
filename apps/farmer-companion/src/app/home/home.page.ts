@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { LinkSliderOptions } from '../widgets/link-slider/link-slider.component';
 
 @Component({
@@ -10,7 +9,7 @@ import { LinkSliderOptions } from '../widgets/link-slider/link-slider.component'
 export class HomePage {
   linkCards: LinkSliderOptions = [
     {
-      title: 'Board List',
+      title: 'Beds',
       imageUrl: 'assets/images/home-slider/beds.jpg',
       routerLink: ['/boards'],
     },
@@ -25,6 +24,4 @@ export class HomePage {
       routerLink: ['/sensors'],
     },
   ];
-
-  constructor(private readonly translate: TranslateService) {}
 }

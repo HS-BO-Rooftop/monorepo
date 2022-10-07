@@ -3,20 +3,29 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Home</ion-title>
+    <ion-title>{{'Home' | translate}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
+  <h1 class="my-4 ml-4 font-bold text-xl">{{'Welcome' | translate}} NAME</h1>
+
+  <rooftop-link-slider [cards]="linkCards"></rooftop-link-slider>
+
   <ion-card>
-    <ion-card-header>
-      <ion-card-title>{{'Weather forecast' | translate}}</ion-card-title>
+    <ion-card-header class="flex flex-row items-center justify-between">
+      <ion-card-title>{{'Current weather' | translate}}</ion-card-title>
+      <a
+        class="p-0 text-blue-500 text-3xl flex items-center"
+        routerLink="/weather"
+      >
+        <ion-icon name="ellipsis-horizontal"></ion-icon>
+      </a>
     </ion-card-header>
 
     <ion-card-content>
-      <rooftop-weather-forecast></rooftop-weather-forecast>
+      <!-- <rooftop-weather-forecast></rooftop-weather-forecast> -->
+      <rooftop-current-weather></rooftop-current-weather>
     </ion-card-content>
   </ion-card>
-
-  <rooftop-link-slider [cards]="linkCards"></rooftop-link-slider>
 </ion-content>

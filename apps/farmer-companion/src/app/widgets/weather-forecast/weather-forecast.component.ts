@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { format } from 'date-fns';
-import { WeatherForecastForDay, WeatherService } from '../../weather.service';
+import {
+  WeatherDataService,
+  WeatherForecastForDay,
+} from '../../weather.service';
 
 @Component({
   selector: 'rooftop-weather-forecast',
@@ -10,7 +13,7 @@ import { WeatherForecastForDay, WeatherService } from '../../weather.service';
 export class WeatherForecastComponent implements OnInit {
   locale = 'en-US';
 
-  constructor(public weatherService: WeatherService) {}
+  constructor(public weatherService: WeatherDataService) {}
 
   ngOnInit(): void {
     this.locale = navigator.language;

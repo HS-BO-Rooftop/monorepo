@@ -16,6 +16,10 @@ import { CreateBoardDto } from '../models/create-board-dto';
 import { CreateBoardPinDto } from '../models/create-board-pin-dto';
 import { CreateBoardSensorDto } from '../models/create-board-sensor-dto';
 import { CreateSensorConfigurationDto } from '../models/create-sensor-configuration-dto';
+import { HeartbeatRequestDto } from '../models/heartbeat-request-dto';
+import { HeartbeatResponseDto } from '../models/heartbeat-response-dto';
+import { RegisterRequestDto } from '../models/register-request-dto';
+import { RegisterResponseDto } from '../models/register-response-dto';
 import { SensorConfigurationDto } from '../models/sensor-configuration-dto';
 import { UpdateBoardDto } from '../models/update-board-dto';
 import { UpdateBoardPinDto } from '../models/update-board-pin-dto';
@@ -427,6 +431,57 @@ export class BoardsService extends BaseService {
 
     return this.boardsControllerGetConfigurationChangedEvent$Response(params).pipe(
       map((r: StrictHttpResponse<string>) => r.body as string)
+    );
+  }
+
+  /**
+   * Path part for operation registerControllerRegister
+   */
+  static readonly RegisterControllerRegisterPath = '/api/register';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `registerControllerRegister()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  registerControllerRegister$Response(params: {
+    context?: HttpContext
+    body: RegisterRequestDto
+  }
+): Observable<StrictHttpResponse<RegisterResponseDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, BoardsService.RegisterControllerRegisterPath, 'post');
+    if (params) {
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<RegisterResponseDto>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `registerControllerRegister$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  registerControllerRegister(params: {
+    context?: HttpContext
+    body: RegisterRequestDto
+  }
+): Observable<RegisterResponseDto> {
+
+    return this.registerControllerRegister$Response(params).pipe(
+      map((r: StrictHttpResponse<RegisterResponseDto>) => r.body as RegisterResponseDto)
     );
   }
 
@@ -1264,6 +1319,57 @@ export class BoardsService extends BaseService {
 
     return this.sensorsControllerUpdate$Response(params).pipe(
       map((r: StrictHttpResponse<SensorConfigurationDto>) => r.body as SensorConfigurationDto)
+    );
+  }
+
+  /**
+   * Path part for operation heartbeatControllerHeartbeat
+   */
+  static readonly HeartbeatControllerHeartbeatPath = '/api/heartbeat';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `heartbeatControllerHeartbeat()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  heartbeatControllerHeartbeat$Response(params: {
+    context?: HttpContext
+    body: HeartbeatRequestDto
+  }
+): Observable<StrictHttpResponse<HeartbeatResponseDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, BoardsService.HeartbeatControllerHeartbeatPath, 'post');
+    if (params) {
+      rb.body(params.body, 'application/json');
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<HeartbeatResponseDto>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `heartbeatControllerHeartbeat$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  heartbeatControllerHeartbeat(params: {
+    context?: HttpContext
+    body: HeartbeatRequestDto
+  }
+): Observable<HeartbeatResponseDto> {
+
+    return this.heartbeatControllerHeartbeat$Response(params).pipe(
+      map((r: StrictHttpResponse<HeartbeatResponseDto>) => r.body as HeartbeatResponseDto)
     );
   }
 

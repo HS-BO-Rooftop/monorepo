@@ -9,12 +9,14 @@ import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { BoardsService } from './services/boards.service';
 import { ConfigurationService } from './services/configuration.service';
+import { RegisterService } from './services/register.service';
 import { BoardPinsService } from './services/board-pins.service';
 import { ConfigurationsService } from './services/configurations.service';
 import { SensorsService } from './services/sensors.service';
 import { SensorTypesService } from './services/sensor-types.service';
 import { SensorInterfacesService } from './services/sensor-interfaces.service';
 import { WeatherService } from './services/weather.service';
+import { HeartbeatService } from './services/heartbeat.service';
 
 /**
  * Module that provides all services and configuration.
@@ -29,12 +31,14 @@ import { WeatherService } from './services/weather.service';
     UserService,
     BoardsService,
     ConfigurationService,
+    RegisterService,
     BoardPinsService,
     ConfigurationsService,
     SensorsService,
     SensorTypesService,
     SensorInterfacesService,
     WeatherService,
+    HeartbeatService,
     ApiConfiguration
   ],
 })

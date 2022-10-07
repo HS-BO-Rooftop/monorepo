@@ -1,6 +1,6 @@
 <ng-container *ngIf="options">
   <a [routerLink]="options.routerLink">
     <img [src]="options.imageUrl" alt="" />
-    <h2 class="title">{{ options.title }}</h2>
+    <h2 class="title">{{ options.title | translate }}</h2>
   </a>
 </ng-container>

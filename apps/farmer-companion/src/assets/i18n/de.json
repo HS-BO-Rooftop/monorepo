@@ -40,5 +40,15 @@
   "Select the type of sensor": "Wählen Sie den Sensor Typ aus",
   "Sensor pin": "Sensor Pin",
   "Connected to board": "Angeschlossen",
-  "Weather forecast": "Wettervorhersage"
+  "Weather forecast": "Wettervorhersage",
+  "Welcome": "Willkommen",
+  "Bed List": "Beetliste",
+  "Watering": "Bewässerung",
+  "Percipitation": "Niederschlag",
+  "Temperature": "Temperatur",
+  "Humidity": "Luftfeuchtigkeit",
+  "Wind": "Wind",
+  "Current weather": "Aktuelles Wetter",
+  "Low": "Tief",
+  "High": "Hoch"
 }

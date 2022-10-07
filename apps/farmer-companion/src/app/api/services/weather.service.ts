@@ -12,6 +12,7 @@ import { map, filter } from 'rxjs/operators';
 import { DwdWeatherDto } from '../models/dwd-weather-dto';
 import { LocalWeatherStationRow } from '../models/local-weather-station-row';
 import { WeatherForcastDto } from '../models/weather-forcast-dto';
+import { WeatherTodayResponseDto } from '../models/weather-today-response-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -309,6 +310,54 @@ export class WeatherService extends BaseService {
 
     return this.weatherControllerCurrentDwdForecastSse$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
+    );
+  }
+
+  /**
+   * Path part for operation weatherControllerGetToday
+   */
+  static readonly WeatherControllerGetTodayPath = '/api/weather/today';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `weatherControllerGetToday()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  weatherControllerGetToday$Response(params?: {
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<WeatherTodayResponseDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, WeatherService.WeatherControllerGetTodayPath, 'get');
+    if (params) {
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<WeatherTodayResponseDto>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `weatherControllerGetToday$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  weatherControllerGetToday(params?: {
+    context?: HttpContext
+  }
+): Observable<WeatherTodayResponseDto> {
+
+    return this.weatherControllerGetToday$Response(params).pipe(
+      map((r: StrictHttpResponse<WeatherTodayResponseDto>) => r.body as WeatherTodayResponseDto)
     );
   }
 

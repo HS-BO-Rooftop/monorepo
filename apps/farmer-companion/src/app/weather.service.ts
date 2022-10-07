@@ -1,13 +1,19 @@
 import { Injectable } from '@angular/core';
 import { startOfDay } from 'date-fns';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, timer } from 'rxjs';
 import { environment } from '../environments/environment';
-import { DwdWeatherDto, WeatherForcastDto } from './api/models';
+import {
+  DwdWeatherDto,
+  LocalWeatherStationRow,
+  WeatherForcastDto,
+  WeatherTodayResponseDto,
+} from './api/models';
+import { WeatherService } from './api/services';
 
 @Injectable({
   providedIn: 'root',
 })
-export class WeatherService {
+export class WeatherDataService {
   private _currentWeather = new BehaviorSubject<DwdWeatherDto | null>(null);
 
   get $currentWeather() {
@@ -72,15 +78,14 @@ export class WeatherService {
                 const date = new Date(item.timestamp);
                 return date.getHours() === 3;
               });
-              if (!morning) {
-                return null;
-              }
+              // Get the start of the day
+              const date = new Date(items[0].timestamp);
               return {
-                date: startOfDay(new Date(morning.timestamp)),
+                date: startOfDay(date),
+                night,
                 morning,
                 day,
                 evening,
-                night,
               } as WeatherForecastForDay;
             })
             .sort((a, b) => {
@@ -94,9 +99,26 @@ export class WeatherService {
     );
   }
 
-  constructor() {
+  private _currentLocalWeather =
+    new BehaviorSubject<LocalWeatherStationRow | null>(null);
+
+  get $currentLocalWeather() {
+    return this._currentLocalWeather.asObservable();
+  }
+
+  private _todayWeather = new BehaviorSubject<WeatherTodayResponseDto | null>(
+    null
+  );
+
+  get $todayWeather(): Observable<WeatherTodayResponseDto | null> {
+    return this._todayWeather.asObservable();
+  }
+
+  constructor(private readonly weatherApi: WeatherService) {
     this.listenToCurrentWeatherStream();
     this.listenToForecastWeatherStream();
+    this.listenToCurrentLocalWeatherStream();
+    this.longPollTodayWeather();
   }
 
   private listenToCurrentWeatherStream(): void {
@@ -126,12 +148,39 @@ export class WeatherService {
       this._weatherForecast.next(parsedData);
     }
   }
+
+  private listenToCurrentLocalWeatherStream(): void {
+    const source = new EventSource(
+      `${environment.apiUrl}/weather/current/local/sse`
+    );
+    source.addEventListener(
+      'message',
+      this.onNewCurrentLocalWeather.bind(this)
+    );
+  }
+
+  private onNewCurrentLocalWeather({
+    data,
+  }: MessageEvent<string | null>): void {
+    if (data !== null) {
+      const parsedData = JSON.parse(data) as LocalWeatherStationRow;
+      this._currentLocalWeather.next(parsedData);
+    }
+  }
+
+  private longPollTodayWeather(): void {
+    timer(0, 1000 * 60 * 60).subscribe(() => {
+      this.weatherApi.weatherControllerGetToday().subscribe((data) => {
+        this._todayWeather.next(data);
+      });
+    });
+  }
 }
 
 export type WeatherForecastForDay = {
   date: Date;
-  morning: WeatherForcastDto;
+  night?: WeatherForcastDto;
+  morning?: WeatherForcastDto;
   day?: WeatherForcastDto;
   evening?: WeatherForcastDto;
-  night?: WeatherForcastDto;
 };

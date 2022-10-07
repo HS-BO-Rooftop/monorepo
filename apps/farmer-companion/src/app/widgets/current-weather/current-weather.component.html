@@ -1,0 +1,28 @@
+<div class="flex border-b-2 font-bold pb-2 items-center gap-4">
+  <span class="text-2xl text-black dark:text-white"
+    >{{ (data | async)?.currentTemperature | number: '1.0-1' }}°C</span
+  >
+  <rooftop-weather-icon [icon]="(data | async)?.icon"></rooftop-weather-icon>
+  <div class="grid high-low gap-x-1 font-medium">
+    <span>{{ 'Low' | translate }}:</span>
+    <span>{{ (data | async)?.todayLow | number: '1.0-1' }}°C</span>
+    <span>{{ 'High' | translate }}:</span>
+    <span>{{ (data | async)?.todayHigh | number: '1.0-1' }}°C</span>
+  </div>
+</div>
+<div
+  class="grid grid-flow-col grid-rows-2 justify-items-center items-center gap-1 mt-2 font-bold"
+>
+  <ion-icon name="umbrella" class="text-2xl"></ion-icon>
+  <span class="text-black dark:text-white"
+    >{{ (data | async)?.rain | number: '1.0-2' }} mm
+  </span>
+  <ion-icon name="water" class="text-2xl"></ion-icon>
+  <span class="text-black dark:text-white"
+    >{{ (data | async)?.humidity | number: '1.0-0' }} %
+  </span>
+  <img src="assets/icons/weather/wind.svg" alt="Wind" class="h-6" />
+  <span class="text-black dark:text-white"
+    >{{ (data | async)?.windSpeed | number: '1.0-1' }} km/h
+  </span>
+</div>
