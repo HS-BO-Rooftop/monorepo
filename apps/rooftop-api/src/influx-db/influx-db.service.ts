@@ -92,7 +92,13 @@ export class InfluxDbService {
 
   public write(org: string, bucket: string, ...data: Point[]) {
     const writeApi = this._influx.getWriteApi(org, bucket);
-    writeApi.writePoints(data);
-    writeApi.close();
+    try {
+      writeApi.writePoints(data);
+      writeApi.close();
+    } catch (error) {
+      this.logger.error('Error writing to influx', error);
+      console.error(error);
+      throw error;
+    }
   }
 }

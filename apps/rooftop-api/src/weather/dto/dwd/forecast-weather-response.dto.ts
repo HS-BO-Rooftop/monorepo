@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 import { WeatherCondition } from './weather-condition.type';
-import { WeatherIcon } from './weather-icon.type';
+import { WeatherIcon, WeatherIconValues } from './weather-icon.type';
 
 export class WeatherForecastResponseDto {
   weather: WeatherForcastDto[];
@@ -26,20 +26,7 @@ export class WeatherForcastDto {
 
   @ApiProperty({
     nullable: true,
-    enum: [
-      'clear-day',
-      'clear-night',
-      'partly-cloudy-day',
-      'partly-cloudy-night',
-      'cloudy',
-      'fog',
-      'wind',
-      'rain',
-      'sleet',
-      'snow',
-      'hail',
-      'thunderstorm',
-    ],
+    enum: WeatherIconValues,
   })
   icon: WeatherIcon | null;
 

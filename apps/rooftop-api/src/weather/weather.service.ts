@@ -1,10 +1,17 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
+import { endOfDay, startOfDay } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 import { BehaviorSubject } from 'rxjs';
-import { InfluxDbService, QueryRow } from '../influx-db/influx-db.service';
+import {
+  InfluxDbService,
+  QueryData,
+  QueryRow,
+} from '../influx-db/influx-db.service';
 import { CurrentWeatherResponseDto } from './dto/dwd/current-weather-response.dto';
 import { WeatherForecastResponseDto } from './dto/dwd/forecast-weather-response.dto';
 import { LocalWeatherStationRow } from './dto/local/weather-station-data.type';
+import { WeatherTodayResponseDto } from './dto/weather-today-response.dto';
 import { WeatherServiceWorker } from './weather.service-worker';
 
 const LOCAL_WEATHER_DEBOUNCE_TIME = 5 * 60 * 1000;
@@ -119,5 +126,170 @@ export class WeatherService {
     );
 
     return this._currentLocalWeather.getValue();
+  }
+
+  /**
+   * Gets the weather for today in 1h intervals
+   * Prefers the local weather station data
+   * If the local weather station data is not available, it uses the DWD data
+   * Also adds the forecast data for today
+   */
+  async getTodayWeather() {
+    // Get the local weather station data
+    const today = new Date();
+    const start = utcToZonedTime(startOfDay(today), 'Europe/Berlin');
+    const end = utcToZonedTime(endOfDay(today), 'Europe/Berlin');
+    const returnData: WeatherTodayResponseDto = {
+      weather: [],
+    };
+
+    const map = await this.getTodayLocalWeather(start, end);
+    // Add the data to the return data
+    map.forEach((value, key) => {
+      returnData.weather.push({
+        timestamp: new Date(key),
+        humidity: value.humidity,
+        temperature: value.temp,
+        windSpeed: value.windspeed,
+        rain: value.rain,
+        icon: null,
+        solarDuration: null,
+      });
+    });
+
+    const groupedDwdWeather = await this.getTodayDwdWeather(start, end);
+    groupedDwdWeather.forEach((value, key) => {
+      const existing = returnData.weather.find(
+        (weather) => weather.timestamp.getHours() === new Date(key).getHours()
+      );
+      if (existing) {
+        existing.solarDuration = value.sunshine_60;
+      } else {
+        returnData.weather.push({
+          timestamp: new Date(key),
+          humidity: value.relative_humidity,
+          temperature: value.temperature,
+          windSpeed: value.wind_speed_60,
+          rain: value.precipitation_60,
+          icon: value.icon,
+          solarDuration: value.sunshine_60,
+        });
+      }
+    });
+
+    // Query the icons
+    const groupedIcons = await this.getTodayIcons(start, end);
+    groupedIcons.forEach((value, key) => {
+      const existing = returnData.weather.find(
+        (weather) => weather.timestamp.getHours() === new Date(key).getHours()
+      );
+      if (existing) {
+        existing.icon = value.icon;
+      }
+    });
+
+    // Add the forecast data
+    const forecast = this.dwdForecast;
+    if (forecast) {
+      forecast.forEach((value) => {
+        // Check if the forecast is for today
+        const timestamp = new Date(value.timestamp);
+        if (timestamp < start || timestamp > end) {
+          return;
+        }
+
+        const existing = returnData.weather.find(
+          (weather) => weather.timestamp.getHours() === timestamp.getHours()
+        );
+        if (existing && existing.temperature === null) {
+          existing.temperature = value.temperature;
+          existing.humidity = null;
+          existing.windSpeed = value.wind_speed;
+          existing.rain = value.precipitation;
+          existing.icon = value.icon;
+          existing.solarDuration = value.sunshine;
+        }
+      });
+    }
+
+    // Remove all elements that have no temperature
+    returnData.weather = returnData.weather.filter(
+      (weather) => weather.temperature !== null
+    );
+
+    return returnData;
+  }
+
+  private async getTodayIcons(start: Date, end: Date) {
+    type responseType = CurrentWeatherResponseDto['weather'];
+    const icons = await this.influx.query<responseType>(
+      'ontop.hs-bochum.de',
+      `
+      from(bucket: "initial")
+        |> range(start: ${start.toISOString()}, stop: ${end.toISOString()})
+        |> filter(fn: (r) => r["_measurement"] == "dwd_current_weather")
+        |> filter(fn: (r) => r["source"] == "dwd")
+        |> filter(fn: (r) => r["_field"] == "icon")
+        |> aggregateWindow(every: 1h, fn: last)
+        |> yield(name: "last")
+      `
+    );
+
+    const groupedIcons = this.groupByTimestamp<responseType>(icons);
+    return groupedIcons;
+  }
+
+  private async getTodayDwdWeather(start: Date, end: Date) {
+    const dwdWeather = await this.influx.query<
+      CurrentWeatherResponseDto['weather']
+    >(
+      'ontop.hs-bochum.de',
+      `
+      from(bucket: "initial")
+        |> range(start: ${start.toISOString()}, stop: ${end.toISOString()})
+        |> filter(fn: (r) => r["_measurement"] == "dwd_current_weather")
+        |> filter(fn: (r) => r["source"] == "dwd")
+        |> filter(fn: (r) => r["_field"] == "sunshine_60" or r["_field"] == "temperature" or r["_field"] == "wind_speed_60" or r["_field"] == "precipitation_60")
+        |> aggregateWindow(every: 1h, fn: mean)
+        |> yield(name: "mean")
+      `
+    );
+
+    const groupedDwdWeather =
+      this.groupByTimestamp<CurrentWeatherResponseDto['weather']>(dwdWeather);
+    return groupedDwdWeather;
+  }
+
+  private async getTodayLocalWeather(start: Date, end: Date) {
+    const localWeather = await this.influx.query<LocalWeatherStationRow>(
+      'ontop.hs-bochum.de',
+      `
+      from(bucket: "initial")
+        |> range(start: ${start.toISOString()}, stop: ${end.toISOString()})
+        |> filter(fn: (r) => r._measurement == "Wetterstationen")
+        |> filter(fn: (r) => r["Station"] == "1")
+        |> aggregateWindow(every: 1h, fn: mean)
+        |> yield(name: "mean")
+      `
+    );
+    // Group the data by hour
+    const map = this.groupByTimestamp<LocalWeatherStationRow>(localWeather);
+    return map;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private groupByTimestamp<T>(localWeather: QueryData<any>) {
+    const map = new Map<string, T>();
+    Object.entries(localWeather).forEach(([key, value]) => {
+      value.forEach((row) => {
+        const date = new Date(row._time).toISOString();
+        if (!map.has(date)) {
+          map.set(date, {} as T);
+        }
+        map.get(date)[key] = row._value;
+      });
+    });
+
+    return map;
   }
 }
