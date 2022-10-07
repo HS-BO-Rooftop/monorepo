@@ -73,3 +73,12 @@ span.error {
     background-color: var(--ion-color-primary) !important;
   }
 }
+
+ion-content {
+  --offset-bottom: auto!important;
+  --overflow: hidden;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
