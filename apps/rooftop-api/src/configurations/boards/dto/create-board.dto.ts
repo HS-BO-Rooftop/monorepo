@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, MaxLength } from 'class-validator';
+import { IsString, IsUUID, MaxLength } from 'class-validator';
 
 export class CreateBoardDto {
   @ApiProperty({
@@ -9,4 +9,12 @@ export class CreateBoardDto {
   @IsString()
   @MaxLength(255)
   name: string;
+
+  @ApiProperty({
+    format: 'uuid',
+    description: 'The plant associated with the board',
+    maxLength: 255,
+  })
+  @IsUUID()
+  plantId: string;
 }

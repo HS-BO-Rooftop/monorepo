@@ -26,6 +26,7 @@ export class RegisterController {
       // Create a new board
       const board = await this.boardService.create({
         name: 'New board',
+        plantId: null,
       });
       return {
         id: board.id,

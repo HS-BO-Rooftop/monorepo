@@ -15,6 +15,7 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { filter, Observable, Subject } from 'rxjs';
@@ -31,7 +32,7 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { UpdateBoardDto } from './dto/update-board.dto';
 
 @Controller('boards')
-@ApiTags('Boards', 'Configuration')
+@ApiTags('Boards')
 @RInternalServerErrorResponse()
 @RBadRequestResponse()
 export class BoardsController {
@@ -58,6 +59,9 @@ export class BoardsController {
     type: BoardDto,
     isArray: true,
   })
+  @ApiOperation({
+    operationId: 'findAllBoards',
+  })
   findAll() {
     return this.boardsService.findAll();
   }
@@ -65,6 +69,9 @@ export class BoardsController {
   @Get(':id')
   @ApiOkResponse({ type: BoardDto })
   @RNotFoundResponse()
+  @ApiOperation({
+    operationId: 'findOneBoard',
+  })
   findOne(@Param() params: FindByUUIDDto) {
     return this.boardsService.findOne(params.id);
   }

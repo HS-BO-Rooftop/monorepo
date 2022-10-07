@@ -42,6 +42,7 @@ export class BoardsService {
     const res = await this.repo.save({
       id: existing.id,
       name: updateBoardDto.name,
+      plant_id: updateBoardDto.plantId,
     });
 
     this.eventEmitter.emit(
@@ -49,7 +50,7 @@ export class BoardsService {
       new BoardConfigurationUpdatedEvent(res.id)
     );
 
-    return res;
+    return this.findOne(id);
   }
 
   async remove(id: string) {
