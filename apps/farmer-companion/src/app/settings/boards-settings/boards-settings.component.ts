@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+import { BoardDto } from '../../api/models';
+import { BoardsService } from '../../api/services';
 
 @Component({
   selector: 'rooftop-boards-settings',
@@ -6,20 +9,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./boards-settings.component.scss'],
 })
 export class BoardsSettingsPage implements OnInit {
-  boards: Board[];
+  boards = new BehaviorSubject<BoardDto[]>([]);
 
-  constructor() {
-    // Create 20 mock boards
-    this.boards = Array.from({ length: 20 }, (_, k) => ({
-      id: `${k + 1}`,
-      name: `Board ${k + 1}`,
-    }));
+  constructor(private readonly boardsService: BoardsService) {}
+
+  ngOnInit(): void {
+    this.boardsService.findAllBoards().subscribe((boards) => {
+      this.boards.next(boards);
+    });
   }
-
-  ngOnInit(): void {}
 }
-
-type Board = {
-  id: string;
-  name: string;
-};

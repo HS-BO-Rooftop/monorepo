@@ -41,8 +41,7 @@ export class BoardsService {
 
     const res = await this.repo.save({
       id: existing.id,
-      name: updateBoardDto.name,
-      plant_id: updateBoardDto.plantId,
+      ...updateBoardDto,
     });
 
     this.eventEmitter.emit(

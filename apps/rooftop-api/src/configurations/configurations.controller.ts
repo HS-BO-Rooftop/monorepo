@@ -25,7 +25,7 @@ import { CreateBoardSensorDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
 
 @Controller('configurations')
-@ApiTags('Configurations', 'Boards')
+@ApiTags('Configurations')
 @RInternalServerErrorResponse()
 @RBadRequestResponse()
 export class ConfigurationsController {

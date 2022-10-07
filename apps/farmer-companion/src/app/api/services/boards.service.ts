@@ -38,22 +38,22 @@ export class BoardsService extends BaseService {
   }
 
   /**
-   * Path part for operation boardsControllerFindAll
+   * Path part for operation findAllBoards
    */
-  static readonly BoardsControllerFindAllPath = '/api/boards';
+  static readonly FindAllBoardsPath = '/api/boards';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `boardsControllerFindAll()` instead.
+   * To access only the response body, use `findAllBoards()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardsControllerFindAll$Response(params?: {
+  findAllBoards$Response(params?: {
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<BoardDto>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, BoardsService.BoardsControllerFindAllPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, BoardsService.FindAllBoardsPath, 'get');
     if (params) {
     }
 
@@ -71,16 +71,16 @@ export class BoardsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `boardsControllerFindAll$Response()` instead.
+   * To access the full response (for headers, for example), `findAllBoards$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardsControllerFindAll(params?: {
+  findAllBoards(params?: {
     context?: HttpContext
   }
 ): Observable<Array<BoardDto>> {
 
-    return this.boardsControllerFindAll$Response(params).pipe(
+    return this.findAllBoards$Response(params).pipe(
       map((r: StrictHttpResponse<Array<BoardDto>>) => r.body as Array<BoardDto>)
     );
   }
@@ -137,17 +137,17 @@ export class BoardsService extends BaseService {
   }
 
   /**
-   * Path part for operation boardsControllerFindOne
+   * Path part for operation findOneBoard
    */
-  static readonly BoardsControllerFindOnePath = '/api/boards/{id}';
+  static readonly FindOneBoardPath = '/api/boards/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `boardsControllerFindOne()` instead.
+   * To access only the response body, use `findOneBoard()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardsControllerFindOne$Response(params: {
+  findOneBoard$Response(params: {
 
     /**
      * The UUID of the requested resource
@@ -157,7 +157,7 @@ export class BoardsService extends BaseService {
   }
 ): Observable<StrictHttpResponse<BoardDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, BoardsService.BoardsControllerFindOnePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, BoardsService.FindOneBoardPath, 'get');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -176,11 +176,11 @@ export class BoardsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `boardsControllerFindOne$Response()` instead.
+   * To access the full response (for headers, for example), `findOneBoard$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardsControllerFindOne(params: {
+  findOneBoard(params: {
 
     /**
      * The UUID of the requested resource
@@ -190,7 +190,7 @@ export class BoardsService extends BaseService {
   }
 ): Observable<BoardDto> {
 
-    return this.boardsControllerFindOne$Response(params).pipe(
+    return this.findOneBoard$Response(params).pipe(
       map((r: StrictHttpResponse<BoardDto>) => r.body as BoardDto)
     );
   }
@@ -255,17 +255,17 @@ export class BoardsService extends BaseService {
   }
 
   /**
-   * Path part for operation boardsControllerUpdate
+   * Path part for operation updateBoard
    */
-  static readonly BoardsControllerUpdatePath = '/api/boards/{id}';
+  static readonly UpdateBoardPath = '/api/boards/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `boardsControllerUpdate()` instead.
+   * To access only the response body, use `updateBoard()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  boardsControllerUpdate$Response(params: {
+  updateBoard$Response(params: {
 
     /**
      * The UUID of the requested resource
@@ -276,7 +276,7 @@ export class BoardsService extends BaseService {
   }
 ): Observable<StrictHttpResponse<BoardDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, BoardsService.BoardsControllerUpdatePath, 'patch');
+    const rb = new RequestBuilder(this.rootUrl, BoardsService.UpdateBoardPath, 'patch');
     if (params) {
       rb.path('id', params.id, {});
       rb.body(params.body, 'application/json');
@@ -296,11 +296,11 @@ export class BoardsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `boardsControllerUpdate$Response()` instead.
+   * To access the full response (for headers, for example), `updateBoard$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  boardsControllerUpdate(params: {
+  updateBoard(params: {
 
     /**
      * The UUID of the requested resource
@@ -311,23 +311,23 @@ export class BoardsService extends BaseService {
   }
 ): Observable<BoardDto> {
 
-    return this.boardsControllerUpdate$Response(params).pipe(
+    return this.updateBoard$Response(params).pipe(
       map((r: StrictHttpResponse<BoardDto>) => r.body as BoardDto)
     );
   }
 
   /**
-   * Path part for operation boardsControllerFindAllConfigurations
+   * Path part for operation getConfigurationsForBoard
    */
-  static readonly BoardsControllerFindAllConfigurationsPath = '/api/boards/{id}/configurations';
+  static readonly GetConfigurationsForBoardPath = '/api/boards/{id}/configurations';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `boardsControllerFindAllConfigurations()` instead.
+   * To access only the response body, use `getConfigurationsForBoard()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardsControllerFindAllConfigurations$Response(params: {
+  getConfigurationsForBoard$Response(params: {
 
     /**
      * The UUID of the requested resource
@@ -337,7 +337,7 @@ export class BoardsService extends BaseService {
   }
 ): Observable<StrictHttpResponse<Array<BoardConfigurationDto>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, BoardsService.BoardsControllerFindAllConfigurationsPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, BoardsService.GetConfigurationsForBoardPath, 'get');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -356,11 +356,11 @@ export class BoardsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `boardsControllerFindAllConfigurations$Response()` instead.
+   * To access the full response (for headers, for example), `getConfigurationsForBoard$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardsControllerFindAllConfigurations(params: {
+  getConfigurationsForBoard(params: {
 
     /**
      * The UUID of the requested resource
@@ -370,7 +370,7 @@ export class BoardsService extends BaseService {
   }
 ): Observable<Array<BoardConfigurationDto>> {
 
-    return this.boardsControllerFindAllConfigurations$Response(params).pipe(
+    return this.getConfigurationsForBoard$Response(params).pipe(
       map((r: StrictHttpResponse<Array<BoardConfigurationDto>>) => r.body as Array<BoardConfigurationDto>)
     );
   }

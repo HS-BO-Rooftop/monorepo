@@ -5,6 +5,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { BedEntity } from '../../../beds/entities/bed.entity';
 import { PlantEntity } from '../../plants/entities/plant.entity';
 
 @Entity({ name: 'boards' })
@@ -27,4 +28,14 @@ export class BoardEntity {
   })
   @JoinColumn({ name: 'plant_id' })
   plant: PlantEntity;
+
+  @Column('uuid', { nullable: true })
+  bed_id: string;
+
+  @ManyToOne(() => BedEntity, (bed) => bed.boards, {
+    eager: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'bed_id' })
+  bed: BedEntity;
 }

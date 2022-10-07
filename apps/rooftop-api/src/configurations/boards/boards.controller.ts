@@ -79,6 +79,9 @@ export class BoardsController {
   @Patch(':id')
   @ApiOkResponse({ type: BoardDto })
   @RNotFoundResponse()
+  @ApiOperation({
+    operationId: 'updateBoard',
+  })
   update(
     @Param() params: FindByUUIDDto,
     @Body() updateBoardDto: UpdateBoardDto
@@ -100,6 +103,9 @@ export class BoardsController {
     isArray: true,
   })
   @RNotFoundResponse()
+  @ApiOperation({
+    operationId: 'getConfigurationsForBoard',
+  })
   async findAllConfigurations(@Param() params: FindByUUIDDto) {
     await this.boardsService.findOne(params.id);
     return this.configurationsService.findAllByBoard(params.id);

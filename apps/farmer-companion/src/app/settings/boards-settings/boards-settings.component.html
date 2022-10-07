@@ -12,7 +12,7 @@
 
 <ion-content>
   <ion-list *ngIf="boards">
-    <ion-item *ngFor="let board of boards" [routerLink]="[board.id]">
+    <ion-item *ngFor="let board of boards | async" [routerLink]="[board.id]">
       <ion-label>
         {{ board.name }}
       </ion-label>

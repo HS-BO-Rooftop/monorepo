@@ -25,7 +25,7 @@ import { UpdateSensorDto } from './dto/update-sensor.dto';
 import { SensorsService } from './sensors.service';
 
 @Controller('sensors')
-@ApiTags('Sensors', 'Boards', 'Configurations')
+@ApiTags('Sensors')
 @RInternalServerErrorResponse()
 @RBadRequestResponse()
 export class SensorsController {

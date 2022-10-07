@@ -8,15 +8,17 @@ import { VersionService } from './services/version.service';
 import { AuthService } from './services/auth.service';
 import { UserService } from './services/user.service';
 import { BoardsService } from './services/boards.service';
-import { ConfigurationService } from './services/configuration.service';
 import { RegisterService } from './services/register.service';
 import { BoardPinsService } from './services/board-pins.service';
+import { ConfigurationService } from './services/configuration.service';
 import { ConfigurationsService } from './services/configurations.service';
 import { SensorsService } from './services/sensors.service';
 import { SensorTypesService } from './services/sensor-types.service';
 import { SensorInterfacesService } from './services/sensor-interfaces.service';
+import { PlantsService } from './services/plants.service';
 import { WeatherService } from './services/weather.service';
 import { HeartbeatService } from './services/heartbeat.service';
+import { BedsService } from './services/beds.service';
 
 /**
  * Module that provides all services and configuration.
@@ -30,15 +32,17 @@ import { HeartbeatService } from './services/heartbeat.service';
     AuthService,
     UserService,
     BoardsService,
-    ConfigurationService,
     RegisterService,
     BoardPinsService,
+    ConfigurationService,
     ConfigurationsService,
     SensorsService,
     SensorTypesService,
     SensorInterfacesService,
+    PlantsService,
     WeatherService,
     HeartbeatService,
+    BedsService,
     ApiConfiguration
   ],
 })

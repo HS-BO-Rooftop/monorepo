@@ -8,12 +8,14 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <h1 class="text-3xl text-center">UUID</h1>
+  <h1 class="text-3xl text-center text-ellipsis">
+    {{ (boardData | async)?.id | truncate: 8 }}
+  </h1>
 
-  <form class="ion-padding-vertical">
+  <form class="ion-padding-vertical" [formGroup]="form">
     <ion-item>
       <ion-label position="floating" translate>Board name</ion-label>
-      <ion-input type="text"></ion-input>
+      <ion-input type="text" formControlName="name"></ion-input>
     </ion-item>
 
     <!-- Beet selection -->
@@ -25,25 +27,33 @@
         [interfaceOptions]="alertOptions"
         [okText]="'OK' | translate"
         [cancelText]="'Cancel' | translate"
+        formControlName="bedId"
       >
-        <ion-select-option value="1">Beet 1</ion-select-option>
-        <ion-select-option value="2">Beet 2</ion-select-option>
-        <ion-select-option value="3">Beet 3</ion-select-option>
+        <ion-select-option
+          [value]="bed.id"
+          *ngFor="let bed of bedData | async"
+          >{{ bed.name }}</ion-select-option
+        >
       </ion-select>
     </ion-item>
   </form>
 
   <!-- Sensor configurations -->
   <ion-list>
-    <ion-list-header class="text-2xl" translate>Sensors</ion-list-header>
-    <ion-item-sliding *ngFor="let boardSensor of sensors">
+    <ion-list-header class="text-2xl" translate>
+      <ion-label> Sensors </ion-label>
+      <ion-button>
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-list-header>
+    <ion-item-sliding *ngFor="let boardSensor of configurationData | async">
       <ion-item-options side="end">
         <ion-item-option color="danger">
           <ion-icon name="trash" class="px-4"></ion-icon>
         </ion-item-option>
       </ion-item-options>
       <ion-item [routerLink]="['sensors', boardSensor.id]">
-        <ion-label> {{ boardSensor.name }} </ion-label>
+        <ion-label> {{ boardSensor.sensor.name }} </ion-label>
       </ion-item>
     </ion-item-sliding>
   </ion-list>
@@ -55,6 +65,7 @@
     slot="fixed"
     style="bottom: 1rem; left: 1rem; right: 1rem"
     translate
+    (click)="save()"
     >Save</ion-button
   >
 </ion-content>
