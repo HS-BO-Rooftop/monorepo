@@ -2,52 +2,55 @@
 
 AsyncWebServer server(80);
 
-IPAddress localIP;
-IPAddress localGateway;
-IPAddress subnet(255, 255, 0, 0);
+WifiManager *WifiManager::instance = nullptr;
 
-const char *ssid_buffer;
-const char *password;
-const char *ip;
-const char *gateway;
-
+char const *CONFIG_PATH = NETWORK_CONFIG;
 unsigned long previousMillis = 0;
 const long interval = TIMEOUT_MS;
 
-const char *SSID_PATH = "/ssid.txt";
-const char *PASSWORD_PATH = "/password.txt";
-const char *IP_PATH = "/ip.txt";
-const char *GATEWAY_PATH = "/gateway.txt";
-
-const char *WEB_INPUT_SSID = "ssid";
-const char *WEB_INPUT_PASSWORD = "password";
-const char *WEB_INPUT_GATEWAY = "gateway";
-const char *WEB_INPUT_STATIC_IP = "static-ip";
-const char *WEB_CHECKBOX_STATIC_IP = "cb-static-ip";
+WifiManager *WifiManager::getInstance()
+{
+    if (instance == nullptr)
+    {
+        instance = new WifiManager();
+    }
+    return instance;
+}
 
 WifiManager::WifiManager()
 {
+    this->fh = FileHandler::getInstance();
+    setup();
 }
 
 int WifiManager::initWifi()
 {
-    if (ssid_buffer == "" || ip == "")
+    if (networkConfig.ssid == "" || networkConfig.password)
     {
-        Serial.println("Undefined SSID or IP address.");
+        Serial.println("Undefined SSID or password.");
         return 1;
     }
+
+    IPAddress localIP;
+    IPAddress localGateway;
+    IPAddress subnet;
 
     WiFi.mode(WIFI_STA);
-    localIP.fromString(ip);
-    localGateway.fromString(gateway);
 
-    if (!WiFi.config(localIP, localGateway, subnet))
+    subnet.fromString(networkConfig.subnet);
+    localGateway.fromString(networkConfig.gateway);
+
+    if (networkConfig.isDynamicAddress)
     {
-        Serial.println("STA Failed to configure");
-        return 1;
+        localIP.fromString(networkConfig.staticAddress);
+        if (!WiFi.config(localIP, localGateway, subnet))
+        {
+            Serial.println("STA Failed to configure");
+            return 1;
+        }
     }
 
-    WiFi.begin("231313", "123");
+    WiFi.begin(networkConfig.ssid, networkConfig.password);
     Serial.println("Connecting to WiFi...");
 
     unsigned long currentMillis = millis();
@@ -64,6 +67,7 @@ int WifiManager::initWifi()
     }
 
     Serial.println(WiFi.localIP());
+    removeNetworkConfig();
     return 0;
 }
 
@@ -80,53 +84,58 @@ void WifiManager::httpListener()
 {
     server.onNotFound([](AsyncWebServerRequest *request)
                       { request->send(404); });
-    server.on("/test", HTTP_GET, [](AsyncWebServerRequest *request)
+
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(SPIFFS, "/index.html", "text/html"); });
 
     server.serveStatic("/", SPIFFS, "/");
-    Serial.println(SPIFFS.exists("/index.html"));
 
     server.on("/", HTTP_POST, [](AsyncWebServerRequest *request)
               {
+        NetworkConfig sessionConfig = {"", "", "", "", false, ""};
+        int i;
         int params = request->params();
-        Serial.println(params);
-        for(int i=0;i<params;i++){
-            Serial.println(i);
-            AsyncWebParameter* p = request->getParam(i);
-            if(p->isPost()){
-            // HTTP POST ssid value
-            if (p->name() == WEB_INPUT_SSID) {
-                ssid_buffer = p->value().c_str();
+        for (i = 0; i < params; i++)
+        {
+            AsyncWebParameter *p = request->getParam(i);
+            if (p->isPost())
+            {
+            if (p->name() == WEB_INPUT_SSID)
+            {
                 Serial.print("SSID set to: ");
-                Serial.println(ssid_buffer);
-                // Write file to save value
-                //writeFile(SPIFFS, ssidPath, ssid.c_str());
+                Serial.println(p->value().c_str());
+                strcpy(sessionConfig.ssid, p->value().c_str());
             }
-            // HTTP POST pass value
-            if (p->name() == WEB_INPUT_PASSWORD) {
-                password = p->value().c_str();
+            if (p->name() == WEB_INPUT_PASSWORD)
+            {
                 Serial.print("Password set to: ");
-                Serial.println(password);
-                // Write file to save value
-                //writeFile(SPIFFS, passPath, pass.c_str());
+                Serial.println(p->value());
+                strcpy(sessionConfig.password, p->value().c_str());
             }
-            // HTTP POST ip value
-            if (p->name() == WEB_INPUT_IP) {
-                ip = p->value().c_str();
+            if (p->name() == WEB_INPUT_STATIC_IP)
+            {
                 Serial.print("IP Address set to: ");
-                Serial.println(ip);
-                // Write file to save value
-                //writeFile(SPIFFS, ipPath, ip.c_str());
+                Serial.println(p->value());
+                sessionConfig.isDynamicAddress = true;
+                strcpy(sessionConfig.staticAddress, p->value().c_str());
             }
-            // HTTP POST gateway value
-            if (p->name() == WEB_INPUT_GATEWAY) {
-                gateway = p->value().c_str();
+            if (p->name() == WEB_INPUT_GATEWAY)
+            {
                 Serial.print("Gateway set to: ");
-                Serial.println(gateway);
-                // Write file to save value
-                //writeFile(SPIFFS, gatewayPath, gateway.c_str());
+                Serial.println(p->value().c_str());
+                strcpy(sessionConfig.gateway, p->value().c_str());
             }
-          //Serial.printf("POST[%s]: %s\n", p->name().c_str(), p->value().c_str());
+            if (p->name() == WEB_INPUT_SUBNET)
+            {
+                Serial.print("subnet set to: ");
+                Serial.println(p->value().c_str());
+                strcpy(sessionConfig.subnet, p->value().c_str());
+            }
+        }
+        Serial.println("Writing Data...");
+        if(i == params-1){
+            WifiManager * instance = WifiManager::getInstance();
+            instance->writeNetworkConfig(sessionConfig);
         }
     } 
     request->send(200, "text/plain", "Done. ESP will restart, connect to your router and go to IP address: ");
@@ -136,33 +145,44 @@ void WifiManager::httpListener()
 
 void WifiManager::setup()
 {
-    Serial.begin(115200);
-
     initSPIFFS();
 
-    IPAddress localIP;
-    IPAddress localGateway;
-    IPAddress subnet(255, 255, 0, 0);
-
-    // Load values saved in SPIFFS
-
-    if (true) //! initWifi()
+    if (!(checkNetworkConfig()))
     {
-        // Connect to Wi-Fi network with SSID and password
-        Serial.println("Setting AP (Access Point)");
+        Serial.println("Opening access point...");
+        WiFi.softAP(WIFI_HOSTNAME, WIFI_PASSWORD);
 
-        WiFi.softAP("ESP-WIFI-MANAGER", "12345");
         IPAddress IP = WiFi.softAPIP();
-        Serial.print("AP IP address: ");
         Serial.println(IP);
-
-        // Web Server Root URL
-
-        server.on("/hello", HTTP_GET, [](AsyncWebServerRequest *request)
-                  { request->send(200, "text/plain", "Hello World"); });
 
         httpListener();
         server.begin();
     }
-    Serial.println("DONE");
+    else
+    {
+        readNetworkConfig();
+        Serial.println("Network Config Found");
+        initWifi();
+    }
+}
+
+int WifiManager::writeNetworkConfig(NetworkConfig configPtr)
+{
+    int status = fh->write((char *)CONFIG_PATH, (byte *)&configPtr, sizeof(networkConfig));
+    return status;
+}
+
+int WifiManager::readNetworkConfig()
+{
+    return fh->read((char *)CONFIG_PATH, (byte *)&networkConfig, sizeof(networkConfig));
+}
+
+int WifiManager::removeNetworkConfig()
+{
+    return fh->remove((char *)CONFIG_PATH);
+}
+
+int WifiManager::checkNetworkConfig()
+{
+    return fh->exists((char *)CONFIG_PATH);
 }

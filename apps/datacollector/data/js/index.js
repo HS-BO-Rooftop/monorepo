@@ -1,4 +1,4 @@
-let sessionValid = {ssid: false, password: false, gateway: false, "static-ip": true};
+let sessionValid = {ssid: false, password: false, gateway: false, subnet: false, "static-ip": true};
 const isStaticIPEnabled = document.getElementById("cb-static-ip");
 
 function getUID() {
@@ -32,6 +32,9 @@ function validate(e){
             rgx = /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/;
             break;
         case "static-ip":
+            rgx = /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/;
+            break;
+        case "subnet":
             rgx = /^((25[0-5]|(2[0-4]|1\d|[1-9]|)\d)(\.(?!$)|$)){4}$/;
             break;
         case "ssid":

@@ -1,12 +1,13 @@
 #include <input_controller.h>
 
 #define LED_BUILTIN GPIO_NUM_25
-#define PIN_35 GPIO_NUM_35
+#define BTN_CONFIRM GPIO_NUM_35
 
 InputController *InputController::instance = nullptr;
 
 InputController::InputController()
 {
+    init();
 }
 
 InputController *InputController::getInstance()
@@ -19,27 +20,70 @@ InputController *InputController::getInstance()
     return instance;
 }
 
-int InputController::setup()
+void InputController::task(void *parameters)
 {
-    btnConfirm = digitalRead(PIN_35);
+    for(;;){
+        btnConfirm = digitalRead(BTN_CONFIRM);
 
-    if (btnConfirm == HIGH && isBtnConfirmPressed == 0)
-    {
-        btnPressStartTime = millis();
-        isBtnConfirmPressed = 1;
-        digitalWrite(LED_BUILTIN, HIGH);
-    }
-    if (btnConfirm == LOW && isBtnConfirmPressed == 1)
-    {
-        btnPressTime = millis() - btnPressStartTime;
-        isBtnConfirmPressed = 0;
-        digitalWrite(LED_BUILTIN, LOW);
-    }
+        if (btnConfirm == HIGH && btnConfirmIsPressed == 0)
+        {
+            btnConfirmPressStartTime = millis();
+            btnConfirmIsPressed = 1;
+            digitalWrite(LED_BUILTIN, HIGH);
+        }
+        if (btnConfirm == LOW && btnConfirmIsPressed == 1)
+        {
+            btnConfirmPressTime = millis() - btnConfirmPressStartTime;
+            btnConfirmIsPressed = 0;
+            digitalWrite(LED_BUILTIN, LOW);
+            instance->notifyObservers();
+        }
+        vTaskDelay(100 / portTICK_PERIOD_MS);
+    };
+}
 
-    if (btnPressTime > 0)
-    {
-        //  viewController();
-    }
+int InputController::init()
+{
+    Serial.println("[Info]:Initilizing input_controller...");
+    pinMode(BTN_CONFIRM, INPUT);
+    pinMode(LED_BUILTIN, OUTPUT);
+
+    xTaskCreate(
+        this->task,
+        "INPUT_CONTROLLER_TASK",
+        2000,
+        NULL,
+        1,
+        NULL
+    );
 
     return 0;
+}
+
+void InputController::notifyObservers()
+{
+    for(Observer *observer : observerList)
+    {
+        observer->update();
+    }
+}
+
+void InputController::registerObserver(Observer *observer)
+{
+    observerList.push_back(observer);
+}
+
+void InputController::removeObserver(Observer *observer)
+{
+    auto iterator = std::find(observerList.begin(), observerList.end(), observer);
+
+    if (iterator != observerList.end())
+    {
+        observerList.erase(iterator);
+    }
+}
+
+int InputController::getBtnConfirmPressTime()
+{
+    return btnConfirmPressTime;
 }
