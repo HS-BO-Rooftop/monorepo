@@ -13,6 +13,7 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { FindByUUIDDto } from '../common/dto/find-by-uuid.dto';
@@ -35,6 +36,9 @@ export class ConfigurationsController {
   @ApiCreatedResponse({
     type: BoardConfigurationDto,
   })
+  @ApiOperation({
+    operationId: 'createSensorConfiguration',
+  })
   create(@Body() createConfigurationDto: CreateBoardSensorDto) {
     return this.configurationsService.create(createConfigurationDto);
   }
@@ -53,6 +57,9 @@ export class ConfigurationsController {
     type: BoardConfigurationDto,
   })
   @RNotFoundResponse()
+  @ApiOperation({
+    operationId: 'findOneSensorConfiguration',
+  })
   findOne(@Param() params: FindByUUIDDto) {
     return this.configurationsService.findOne(params.id);
   }
@@ -62,6 +69,9 @@ export class ConfigurationsController {
     type: BoardConfigurationDto,
   })
   @RNotFoundResponse()
+  @ApiOperation({
+    operationId: 'updateSensorConfiguration',
+  })
   update(
     @Param() params: FindByUUIDDto,
     @Body() updateConfigurationDto: UpdateConfigurationDto

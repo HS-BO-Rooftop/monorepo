@@ -38,7 +38,7 @@ export class WeatherServiceWorker {
     private readonly eventEmitter: EventEmitter2,
     private readonly influx: InfluxDbService
   ) {
-    this._currentDwDWeather.subscribe((weather) => {
+    this._currentDwDWeather.subscribe(async (weather) => {
       if (!weather) return;
 
       this.logger.verbose(
@@ -61,7 +61,12 @@ export class WeatherServiceWorker {
           }
         }
       }
-      this.influx.write('ontop.hs-bochum.de', 'initial', point);
+      point.stringField('cloud_cover', 'Test');
+      try {
+        await this.influx.write('ontop.hs-bochum.de', 'initial', point);
+      } catch (error) {
+        console.log(error);
+      }
       this.eventEmitter.emit('dwd.current_weather.updated', weather);
     });
   }
