@@ -7,11 +7,12 @@
       - [Libs](#libs)
       - [Docs](#docs)
   - [Aktueller Fortschritt](#aktueller-fortschritt)
-    - [1. rooftop-api (Im gesamten von mir geschrieben)](#1-rooftop-api-im-gesamten-von-mir-geschrieben)
-    - [2. farmer-companion (Im gesamten von mir geschrieben)](#2-farmer-companion-im-gesamten-von-mir-geschrieben)
-    - [3. datacollector](#3-datacollector)
+    - [1. Rooftop-api (Im gesamten von mir geschrieben)](#1-rooftop-api-im-gesamten-von-mir-geschrieben)
+    - [2. Farmer-companion (Im gesamten von mir geschrieben)](#2-farmer-companion-im-gesamten-von-mir-geschrieben)
+    - [3. Datacollector](#3-datacollector)
     - [4. Infrastruktur](#4-infrastruktur)
     - [5. Sonstiges](#5-sonstiges)
+  - [Ausblick](#ausblick)
 
 ## Vorwort
 
@@ -51,7 +52,7 @@ Der Apps Ordner enthält alle Anwendungen.
   - Geschrieben in Typescript
   - Verwendet NestJS, TypeORM
   - Kommunikation über REST-API
-  - Dokumentation gehostet unter /api mit OpenAPI 3
+  - Dokumentation gehostet unter ``/api`` mit OpenAPI 3
 
 #### Libs
 Hier werden Bibliotheken die in der Gesammten Monorepo verwendet werden können erstellt. Aktuell gibt es keine Bibliotheken.
@@ -62,7 +63,7 @@ Das Design ist im Tool Figma [hier](https://www.figma.com/file/s5RJWAktcPl78Z7fF
 
 ## Aktueller Fortschritt
 
-### 1. rooftop-api (Im gesamten von mir geschrieben)
+### 1. Rooftop-api (Im gesamten von mir geschrieben)
 
 - Authentifizierung über JWT nach dem OAuth2 implicit Grant
   - OAuth Consumer applications Entität
@@ -105,7 +106,7 @@ Das Design ist im Tool Figma [hier](https://www.figma.com/file/s5RJWAktcPl78Z7fF
   - Anlegen Plants Entität
   - CRUD Routen 
 
-### 2. farmer-companion (Im gesamten von mir geschrieben)
+### 2. Farmer-companion (Im gesamten von mir geschrieben)
 Der gesamte Sourcecode ist im ``src/app`` unterordner zu finden
 
 - Templating verschiedensten Seiten
@@ -133,12 +134,15 @@ Der gesamte Sourcecode ist im ``src/app`` unterordner zu finden
   - Einbindung auf allen Seiten
   - Übersetzung aller Seiten auf Englisch und Deutsch
 
-### 3. datacollector
+### 3. Datacollector
 
 - Planung der Kommunikation zwischen API und Datacollector
   - Initiale Konfiguration
   - Heartbeat
   - Sensor Konfiguration
+- Design eines Gehäuses für die Platine in Fusion 360
+  - Gedrucktes Gehäuse ![Image](https://cdn.discordapp.com/attachments/945858055923445790/1009785687085690900/5EF5AC87-DDB5-4E31-8BFA-F1F087646F0B.jpg)
+  - [Link](https://a360.co/3psetXT) zum 3D Modell
 
 ### 4. Infrastruktur
 
@@ -164,3 +168,7 @@ Der gesamte Sourcecode ist im ``src/app`` unterordner zu finden
 - Einrichtung GitHub
 
 Für Rückfragen stehe ich gerne zur Verfügung.
+
+## Ausblick
+Im weiteren Verlauf des Projekts werde ich mich Fullstack mit der Rooftop-Api und dem Farmer-Companion beschäftigen. Aktuell arbeite ich an der Funktionalität aller Einstellungsseiten. Sobald die Datacollectoren soweit sind ihre gemessenen Daten zu senden, werde ich dies Priorisieren und die Darstellung der Daten in die App ermöglichen. Anschließend werde ich die manuelle Bewässerung ermöglichen. Zuletzt werde ich das Automatisierungsframework implementieren, sodass Automatisierungsregeln ähnlich wie in [Home Assistant](https://www.home-assistant.io/docs/automation/editor/) eingestellt werden können.<br><br>
+Schwierigkeiten sehe ich aktuell nur bei dem Design der Automatisierungen, wie diese effizient in die Datenbank gespeichert werden und über einen Service Worker ausgeführt werden können.
