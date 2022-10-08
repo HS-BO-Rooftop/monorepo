@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { closestIndexTo } from 'date-fns';
 import { BehaviorSubject, filter } from 'rxjs';
 import { DwdWeatherDto, WeatherTodayResponseDto } from '../../api/models';
+import { loadingHelper } from '../../loading.service';
 import { WeatherDataService } from '../../weather.service';
 
 type WeatherData = {
@@ -23,7 +24,13 @@ type WeatherData = {
 export class CurrentWeatherComponent implements OnInit {
   readonly data = new BehaviorSubject<WeatherData | null>(null);
 
-  constructor(public readonly weatherService: WeatherDataService) {}
+  isLoading = new BehaviorSubject<boolean>(true);
+
+  constructor(public readonly weatherService: WeatherDataService) {
+    loadingHelper([this.data]).subscribe((loading) => {
+      this.isLoading.next(loading);
+    });
+  }
 
   ngOnInit(): void {
     // Combine local and dwd weather data
