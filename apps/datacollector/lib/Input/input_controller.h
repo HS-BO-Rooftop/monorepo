@@ -1,19 +1,30 @@
 #pragma once
 #include <Arduino.h>
+#include <vector>
+#include "../Utils/Observer/subject.h"
+#include "../Utils/Observer/observer.h"
 
-class InputController
+class InputController : public Subject
 {
-public:
-    static InputController *getInstance();
+    std::vector<Observer *> observerList;
 
-protected:
-    int btnConfirm = 0;
-    int isBtnConfirmPressed = 0;
-    int btnPressStartTime;
-    int btnPressTime = 0;
+    public:
+        static InputController *getInstance();
+        void registerObserver(Observer *observer) override;
+        void removeObserver(Observer *observer) override;
+        void notifyObservers() override;
+        int getBtnConfirmPressTime();
 
-private:
-    static InputController *instance;
-    InputController();
-    int setup();
+    protected:
+        inline static int btnConfirm = 0;
+        inline static int btnConfirmIsPressed = 0;
+        inline static int btnConfirmPressTime = 0 ;
+        inline static int btnConfirmPressStartTime = 0;
+
+    private:
+        static InputController *instance;
+        InputController();
+
+        int init();
+        static void task(void * parameters);
 };
