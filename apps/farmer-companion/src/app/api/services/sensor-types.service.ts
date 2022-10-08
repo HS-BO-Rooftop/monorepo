@@ -25,22 +25,22 @@ export class SensorTypesService extends BaseService {
   }
 
   /**
-   * Path part for operation sensorTypesControllerFindAll
+   * Path part for operation findAllSensorTypes
    */
-  static readonly SensorTypesControllerFindAllPath = '/api/sensor-types';
+  static readonly FindAllSensorTypesPath = '/api/sensor-types';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `sensorTypesControllerFindAll()` instead.
+   * To access only the response body, use `findAllSensorTypes()` instead.
    *
    * This method doesn't expect any request body.
    */
-  sensorTypesControllerFindAll$Response(params?: {
+  findAllSensorTypes$Response(params?: {
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<SensorTypeDto>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, SensorTypesService.SensorTypesControllerFindAllPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, SensorTypesService.FindAllSensorTypesPath, 'get');
     if (params) {
     }
 
@@ -58,16 +58,16 @@ export class SensorTypesService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `sensorTypesControllerFindAll$Response()` instead.
+   * To access the full response (for headers, for example), `findAllSensorTypes$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  sensorTypesControllerFindAll(params?: {
+  findAllSensorTypes(params?: {
     context?: HttpContext
   }
 ): Observable<Array<SensorTypeDto>> {
 
-    return this.sensorTypesControllerFindAll$Response(params).pipe(
+    return this.findAllSensorTypes$Response(params).pipe(
       map((r: StrictHttpResponse<Array<SensorTypeDto>>) => r.body as Array<SensorTypeDto>)
     );
   }

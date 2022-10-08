@@ -16,7 +16,7 @@
       <ion-label position="floating" translate>Sensor type</ion-label>
       <ion-select>
         <ion-select-option
-          *ngFor="let sensorType of sensorTypes"
+          *ngFor="let sensorType of sensorConfigurations | async"
           [value]="sensorType.id"
           >{{ sensorType.name }}</ion-select-option
         >
@@ -28,9 +28,9 @@
       <ion-label position="floating" translate>Sensor pin</ion-label>
       <ion-select>
         <ion-select-option
-          *ngFor="let sensorPin of sensorPins"
+          *ngFor="let sensorPin of boardPins | async"
           [value]="sensorPin.id"
-          >{{ sensorPin.name }}</ion-select-option
+          >{{ sensorPin.pin }}</ion-select-option
         >
       </ion-select>
     </ion-item>

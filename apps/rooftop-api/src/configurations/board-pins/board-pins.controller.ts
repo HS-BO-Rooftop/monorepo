@@ -13,6 +13,7 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { FindByUUIDDto } from '../../common/dto/find-by-uuid.dto';
@@ -41,6 +42,9 @@ export class BoardPinsController {
   @ApiOkResponse({
     type: BoardPinDto,
     isArray: true,
+  })
+  @ApiOperation({
+    operationId: 'findAllBoardPins',
   })
   findAll() {
     return this.boardPinsService.findAll();

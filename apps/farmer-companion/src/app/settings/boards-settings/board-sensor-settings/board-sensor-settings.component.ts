@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { BehaviorSubject } from 'rxjs';
+import { BoardPinDto, SensorConfigurationDto } from '../../../api/models';
+import { BoardPinsService, SensorsService } from '../../../api/services';
+import { loadingHelper, LoadingService } from '../../../loading.service';
 
 @Component({
   selector: 'rooftop-board-sensor-settings',
@@ -20,52 +24,37 @@ export class BoardSensorSettingsPage implements OnInit {
     translucent: true,
   };
 
-  readonly sensorTypes: SensorType[] = [
-    {
-      id: '1',
-      name: 'DS1820',
-    },
-    {
-      id: '2',
-      name: 'DS18B20',
-    },
-    {
-      id: '3',
-      name: 'Capacitive Moisture Sensor',
-    },
-  ];
-
-  readonly sensorPins: SensorPin[] = [
-    {
-      id: '1',
-      name: 'A0',
-    },
-    {
-      id: '2',
-      name: 'A1',
-    },
-    {
-      id: '3',
-      name: 'A2',
-    },
-  ];
+  readonly sensorConfigurations = new BehaviorSubject<
+    SensorConfigurationDto[] | null
+  >(null);
+  readonly boardPins = new BehaviorSubject<BoardPinDto[] | null>(null);
 
   constructor(
     private route: ActivatedRoute,
-    private translation: TranslateService
+    private translation: TranslateService,
+    private readonly sensorsService: SensorsService,
+    private readonly boardPinsService: BoardPinsService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
     this.boardId = this.route.snapshot.paramMap.get('boardId') as string;
+    loadingHelper([this.sensorConfigurations, this.boardPins]).subscribe(
+      (loading) => (this.loadingService.loading = loading)
+    );
+    this.getSensorTypes();
+    this.getBoardPins();
+  }
+
+  private getSensorTypes(): void {
+    this.sensorsService.findAllSensors().subscribe((sensorTypes) => {
+      this.sensorConfigurations.next(sensorTypes);
+    });
+  }
+
+  private getBoardPins(): void {
+    this.boardPinsService.findAllBoardPins().subscribe((boardPins) => {
+      this.boardPins.next(boardPins);
+    });
   }
 }
-
-type SensorType = {
-  name: string;
-  id: string;
-};
-
-type SensorPin = {
-  name: string;
-  id: string;
-};

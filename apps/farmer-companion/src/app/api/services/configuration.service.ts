@@ -28,22 +28,22 @@ export class ConfigurationService extends BaseService {
   }
 
   /**
-   * Path part for operation boardPinsControllerFindAll
+   * Path part for operation findAllBoardPins
    */
-  static readonly BoardPinsControllerFindAllPath = '/api/board-pins';
+  static readonly FindAllBoardPinsPath = '/api/board-pins';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `boardPinsControllerFindAll()` instead.
+   * To access only the response body, use `findAllBoardPins()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardPinsControllerFindAll$Response(params?: {
+  findAllBoardPins$Response(params?: {
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<BoardPinDto>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ConfigurationService.BoardPinsControllerFindAllPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ConfigurationService.FindAllBoardPinsPath, 'get');
     if (params) {
     }
 
@@ -61,16 +61,16 @@ export class ConfigurationService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `boardPinsControllerFindAll$Response()` instead.
+   * To access the full response (for headers, for example), `findAllBoardPins$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  boardPinsControllerFindAll(params?: {
+  findAllBoardPins(params?: {
     context?: HttpContext
   }
 ): Observable<Array<BoardPinDto>> {
 
-    return this.boardPinsControllerFindAll$Response(params).pipe(
+    return this.findAllBoardPins$Response(params).pipe(
       map((r: StrictHttpResponse<Array<BoardPinDto>>) => r.body as Array<BoardPinDto>)
     );
   }

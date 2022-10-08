@@ -13,6 +13,7 @@ import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
+  ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
 import { FindByUUIDDto } from '../common/dto/find-by-uuid.dto';
@@ -39,6 +40,9 @@ export class SensorsController {
 
   @Get()
   @ApiOkResponse({ type: SensorConfigurationDto, isArray: true })
+  @ApiOperation({
+    operationId: 'findAllSensors',
+  })
   findAll() {
     return this.sensorsService.findAll();
   }
