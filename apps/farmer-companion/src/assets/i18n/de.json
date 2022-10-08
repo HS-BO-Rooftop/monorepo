@@ -50,5 +50,15 @@
   "Wind": "Wind",
   "Current weather": "Aktuelles Wetter",
   "Low": "Tief",
-  "High": "Hoch"
+  "High": "Hoch",
+  "There was an error loading the sensor types.": "Fehler beim Laden der Sensoren - Typen.",
+  "There was an error loading the pins.": "Fehler beim Laden der Pins.",
+  "There was an error loading the existing configuration.": "Fehler beim Laden der vorhandenen Konfiguration.",
+  "There was an error while saving.": "Fehler beim Speichern",
+  "Confirm deletion": "Löschen bestätigen",
+  "Delete": "Löschen",
+  "Abort": "Abbrechen",
+  "Changes saved successfully": "Änderungen erfolgreich gespeichert",
+  "Successfully deleted": "Löschen erfolgreich",
+  "Sensor configuration does not exist anymore.": "Sensor Konfiguration existiert nicht mehr."
 }

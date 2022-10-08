@@ -31,6 +31,10 @@ const routes: Routes = [
     path: 'boards/:boardId/sensors/:sensorId',
     component: BoardSensorSettingsPage,
   },
+  {
+    path: 'boards/:boardId/sensors',
+    component: BoardSensorSettingsPage,
+  },
   { path: 'plants', component: PlantsSettingsPage },
   { path: 'sensors', component: SensorsSettingsPage },
   { path: 'battery', component: BatterySettingsPage },

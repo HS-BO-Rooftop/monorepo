@@ -3,18 +3,26 @@
     <ion-buttons slot="start">
       <ion-back-button
         [defaultHref]="'settings/boards/' + boardId"
-      ></ion-back-button>
+        [text]="'Back' | translate"
+      >
+        ></ion-back-button
+      >
     </ion-buttons>
     <ion-title translate>Sensor settings</ion-title>
+    <ion-buttons slot="end" *ngIf="(sensorId | async) !== ''">
+      <ion-button (click)="onDelete()">
+        <ion-icon name="trash" color="danger"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form>
+  <form [formGroup]="form">
     <!-- Sensor Type -->
     <ion-item>
       <ion-label position="floating" translate>Sensor type</ion-label>
-      <ion-select>
+      <ion-select formControlName="sensorId">
         <ion-select-option
           *ngFor="let sensorType of sensorConfigurations | async"
           [value]="sensorType.id"
@@ -26,7 +34,7 @@
     <!-- Sensor Pin -->
     <ion-item>
       <ion-label position="floating" translate>Sensor pin</ion-label>
-      <ion-select>
+      <ion-select formControlName="pinId">
         <ion-select-option
           *ngFor="let sensorPin of boardPins | async"
           [value]="sensorPin.id"
@@ -36,9 +44,9 @@
     </ion-item>
 
     <!-- Sensor is connected -->
-    <ion-item class="ion-padding-vertical">
+    <ion-item class="ion-padding-vertical" lines="none">
       <ion-label translate>Connected to board</ion-label>
-      <ion-checkbox slot="start"></ion-checkbox>
+      <ion-checkbox slot="start" formControlName="isConnected"></ion-checkbox>
     </ion-item>
   </form>
   <ion-button
@@ -47,6 +55,7 @@
     slot="fixed"
     style="bottom: 1rem; left: 1rem; right: 1rem"
     translate
+    (click)="save()"
   >
     Save
   </ion-button>

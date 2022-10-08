@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="settings"></ion-back-button>
+      <ion-back-button
+        defaultHref="settings"
+        [text]="'Back' | translate"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title translate> Boards settings </ion-title>
   </ion-toolbar>

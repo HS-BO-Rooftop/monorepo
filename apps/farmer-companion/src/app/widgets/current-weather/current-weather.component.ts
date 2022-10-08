@@ -66,7 +66,6 @@ export class CurrentWeatherComponent implements OnInit {
             solarDuration: weatherData.solarDuration,
           });
         }
-        console.log(this.data.getValue());
       });
   }
 }

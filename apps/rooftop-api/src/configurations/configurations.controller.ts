@@ -85,6 +85,9 @@ export class ConfigurationsController {
   @ApiNoContentResponse({
     description: 'Board sensor deleted',
   })
+  @ApiOperation({
+    operationId: 'deleteSensorConfiguration',
+  })
   remove(@Param() params: FindByUUIDDto) {
     return this.configurationsService.remove(params.id);
   }

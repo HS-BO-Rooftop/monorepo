@@ -73,23 +73,23 @@ export class ConfigurationsService extends BaseService {
   }
 
   /**
-   * Path part for operation configurationsControllerCreate
+   * Path part for operation createSensorConfiguration
    */
-  static readonly ConfigurationsControllerCreatePath = '/api/configurations';
+  static readonly CreateSensorConfigurationPath = '/api/configurations';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `configurationsControllerCreate()` instead.
+   * To access only the response body, use `createSensorConfiguration()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  configurationsControllerCreate$Response(params: {
+  createSensorConfiguration$Response(params: {
     context?: HttpContext
     body: CreateBoardSensorDto
   }
 ): Observable<StrictHttpResponse<BoardConfigurationDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.ConfigurationsControllerCreatePath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.CreateSensorConfigurationPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -108,33 +108,33 @@ export class ConfigurationsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `configurationsControllerCreate$Response()` instead.
+   * To access the full response (for headers, for example), `createSensorConfiguration$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  configurationsControllerCreate(params: {
+  createSensorConfiguration(params: {
     context?: HttpContext
     body: CreateBoardSensorDto
   }
 ): Observable<BoardConfigurationDto> {
 
-    return this.configurationsControllerCreate$Response(params).pipe(
+    return this.createSensorConfiguration$Response(params).pipe(
       map((r: StrictHttpResponse<BoardConfigurationDto>) => r.body as BoardConfigurationDto)
     );
   }
 
   /**
-   * Path part for operation configurationsControllerFindOne
+   * Path part for operation findOneSensorConfiguration
    */
-  static readonly ConfigurationsControllerFindOnePath = '/api/configurations/{id}';
+  static readonly FindOneSensorConfigurationPath = '/api/configurations/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `configurationsControllerFindOne()` instead.
+   * To access only the response body, use `findOneSensorConfiguration()` instead.
    *
    * This method doesn't expect any request body.
    */
-  configurationsControllerFindOne$Response(params: {
+  findOneSensorConfiguration$Response(params: {
 
     /**
      * The UUID of the requested resource
@@ -144,7 +144,7 @@ export class ConfigurationsService extends BaseService {
   }
 ): Observable<StrictHttpResponse<BoardConfigurationDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.ConfigurationsControllerFindOnePath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.FindOneSensorConfigurationPath, 'get');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -163,11 +163,11 @@ export class ConfigurationsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `configurationsControllerFindOne$Response()` instead.
+   * To access the full response (for headers, for example), `findOneSensorConfiguration$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  configurationsControllerFindOne(params: {
+  findOneSensorConfiguration(params: {
 
     /**
      * The UUID of the requested resource
@@ -177,23 +177,23 @@ export class ConfigurationsService extends BaseService {
   }
 ): Observable<BoardConfigurationDto> {
 
-    return this.configurationsControllerFindOne$Response(params).pipe(
+    return this.findOneSensorConfiguration$Response(params).pipe(
       map((r: StrictHttpResponse<BoardConfigurationDto>) => r.body as BoardConfigurationDto)
     );
   }
 
   /**
-   * Path part for operation configurationsControllerRemove
+   * Path part for operation deleteSensorConfiguration
    */
-  static readonly ConfigurationsControllerRemovePath = '/api/configurations/{id}';
+  static readonly DeleteSensorConfigurationPath = '/api/configurations/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `configurationsControllerRemove()` instead.
+   * To access only the response body, use `deleteSensorConfiguration()` instead.
    *
    * This method doesn't expect any request body.
    */
-  configurationsControllerRemove$Response(params: {
+  deleteSensorConfiguration$Response(params: {
 
     /**
      * The UUID of the requested resource
@@ -203,7 +203,7 @@ export class ConfigurationsService extends BaseService {
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.ConfigurationsControllerRemovePath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.DeleteSensorConfigurationPath, 'delete');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -222,11 +222,11 @@ export class ConfigurationsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `configurationsControllerRemove$Response()` instead.
+   * To access the full response (for headers, for example), `deleteSensorConfiguration$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  configurationsControllerRemove(params: {
+  deleteSensorConfiguration(params: {
 
     /**
      * The UUID of the requested resource
@@ -236,23 +236,23 @@ export class ConfigurationsService extends BaseService {
   }
 ): Observable<void> {
 
-    return this.configurationsControllerRemove$Response(params).pipe(
+    return this.deleteSensorConfiguration$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation configurationsControllerUpdate
+   * Path part for operation updateSensorConfiguration
    */
-  static readonly ConfigurationsControllerUpdatePath = '/api/configurations/{id}';
+  static readonly UpdateSensorConfigurationPath = '/api/configurations/{id}';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `configurationsControllerUpdate()` instead.
+   * To access only the response body, use `updateSensorConfiguration()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  configurationsControllerUpdate$Response(params: {
+  updateSensorConfiguration$Response(params: {
 
     /**
      * The UUID of the requested resource
@@ -263,7 +263,7 @@ export class ConfigurationsService extends BaseService {
   }
 ): Observable<StrictHttpResponse<BoardConfigurationDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.ConfigurationsControllerUpdatePath, 'patch');
+    const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.UpdateSensorConfigurationPath, 'patch');
     if (params) {
       rb.path('id', params.id, {});
       rb.body(params.body, 'application/json');
@@ -283,11 +283,11 @@ export class ConfigurationsService extends BaseService {
 
   /**
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `configurationsControllerUpdate$Response()` instead.
+   * To access the full response (for headers, for example), `updateSensorConfiguration$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  configurationsControllerUpdate(params: {
+  updateSensorConfiguration(params: {
 
     /**
      * The UUID of the requested resource
@@ -298,7 +298,7 @@ export class ConfigurationsService extends BaseService {
   }
 ): Observable<BoardConfigurationDto> {
 
-    return this.configurationsControllerUpdate$Response(params).pipe(
+    return this.updateSensorConfiguration$Response(params).pipe(
       map((r: StrictHttpResponse<BoardConfigurationDto>) => r.body as BoardConfigurationDto)
     );
   }

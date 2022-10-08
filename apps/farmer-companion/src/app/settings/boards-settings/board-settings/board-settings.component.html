@@ -1,7 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="settings/boards"></ion-back-button>
+      <ion-back-button
+        defaultHref="settings/boards"
+        [text]="'Back' | translate"
+      ></ion-back-button>
     </ion-buttons>
     <ion-title translate>Boards settings </ion-title>
   </ion-toolbar>
@@ -42,7 +45,7 @@
   <ion-list>
     <ion-list-header class="text-2xl" translate>
       <ion-label> Sensors </ion-label>
-      <ion-button>
+      <ion-button [routerLink]="['sensors']">
         <ion-icon name="add"></ion-icon>
       </ion-button>
     </ion-list-header>
