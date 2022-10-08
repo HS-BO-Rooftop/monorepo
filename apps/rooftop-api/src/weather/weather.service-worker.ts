@@ -61,7 +61,6 @@ export class WeatherServiceWorker {
           }
         }
       }
-      point.stringField('cloud_cover', 'Test');
       try {
         await this.influx.write('ontop.hs-bochum.de', 'initial', point);
       } catch (error) {
