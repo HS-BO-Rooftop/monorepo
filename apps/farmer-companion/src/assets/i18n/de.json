@@ -66,5 +66,6 @@
   "Please select a bed": "Bitte wählen Sie ein Beet aus",
   "Please enter a board name": "Bitte geben Sie einen Platinenname ein",
   "Error loading data": "Fehler beim Laden der Daten.",
-  "Beds settings": "Beet Einstellungen"
+  "Beds settings": "Beet Einstellungen",
+  "Search": "Suchen"
 }

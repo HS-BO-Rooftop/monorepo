@@ -9,7 +9,10 @@
     <ion-title translate> Beds settings </ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar [formControl]="searchControl"></ion-searchbar>
+    <ion-searchbar
+      [formControl]="searchControl"
+      [placeholder]="'Search' | translate"
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
