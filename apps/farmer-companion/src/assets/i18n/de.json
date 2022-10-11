@@ -60,6 +60,7 @@
   "Abort": "Abbrechen",
   "Changes saved successfully": "Änderungen erfolgreich gespeichert",
   "Successfully deleted": "Löschen erfolgreich",
+  "Successfully created": "Erfolgreich erstellt",
   "Sensor configuration does not exist anymore.": "Sensor Konfiguration existiert nicht mehr.",
   "Please select a sensor type": "Bitte wählen Sie einen Sensor Typ aus",
   "Please select a pin": "Bitte wählen Sie einen Pin aus",
@@ -67,5 +68,9 @@
   "Please enter a board name": "Bitte geben Sie einen Platinenname ein",
   "Error loading data": "Fehler beim Laden der Daten.",
   "Beds settings": "Beet Einstellungen",
-  "Search": "Suchen"
+  "Search": "Suchen",
+  "Please fill in a name": "Bitte einen Namen eingeben.",
+  "Bed settings": "Beet Einstellungen",
+  "Bed name": "Beet Name",
+  "There was an error while deleting.": "Fehler beim Löschen."
 }

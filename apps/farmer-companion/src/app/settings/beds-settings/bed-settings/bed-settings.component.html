@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [defaultHref]="'settings/beds/'"
+        [text]="'Back' | translate"
+      >
+        ></ion-back-button
+      >
+    </ion-buttons>
+    <ion-title translate>Bed settings</ion-title>
+    <ion-buttons slot="end" *ngIf="(bedId | async) !== null">
+      <ion-button (click)="onDelete()">
+        <ion-icon name="trash" color="danger"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <!-- Sensor Type -->
+    <ion-item>
+      <ion-label position="floating" translate class="required"
+        >Bed name</ion-label
+      >
+      <ion-input type="text" formControlName="name"></ion-input>
+    </ion-item>
+    <span
+      class="error ion-margin"
+      *ngIf="
+        form.get('name')?.hasError('required') && form.get('name')?.touched
+      "
+      translate
+    >
+      Please fill in a name
+    </span>
+  </form>
+  <ion-button
+    expand="block"
+    type="submit"
+    slot="fixed"
+    style="bottom: 1rem; left: 1rem; right: 1rem"
+    translate
+    [disabled]="!form.valid"
+    (click)="save()"
+  >
+    Save
+  </ion-button>
+</ion-content>

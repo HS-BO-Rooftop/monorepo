@@ -42,6 +42,10 @@ export class BedsSettingsPage implements OnInit {
     });
   }
 
+  ionViewWillEnter() {
+    this.loadBeds();
+  }
+
   private loadBeds() {
     this.bedsService.findBeds().subscribe({
       next: (beds) => this.beds.next(beds),
