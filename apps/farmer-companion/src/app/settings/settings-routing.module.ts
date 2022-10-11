@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BatterySettingsPage } from './battery-settings/battery-settings.component';
+import { BedSettingsPage } from './beds-settings/bed-settings/bed-settings.component';
 import { BedsSettingsPage } from './beds-settings/beds-settings.component';
 import { BoardSensorSettingsPage } from './boards-settings/board-sensor-settings/board-sensor-settings.component';
 import { BoardSettingsPage } from './boards-settings/board-settings/board-settings.component';
@@ -19,6 +20,8 @@ const routes: Routes = [
   { path: 'profile', component: ProfileSettingsPage },
   { path: 'users', component: UsersSettingsPage },
   { path: 'beds', component: BedsSettingsPage },
+  { path: 'beds/create', component: BedSettingsPage },
+  { path: 'beds/:bedId', component: BedSettingsPage },
   {
     path: 'boards',
     component: BoardsSettingsPage,
