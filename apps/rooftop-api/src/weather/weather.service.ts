@@ -282,11 +282,15 @@ export class WeatherService {
     const map = new Map<string, T>();
     Object.entries(localWeather).forEach(([key, value]) => {
       value.forEach((row) => {
-        const date = new Date(row._time).toISOString();
-        if (!map.has(date)) {
-          map.set(date, {} as T);
+        try {
+          const date = new Date(row._time).toISOString();
+          if (!map.has(date)) {
+            map.set(date, {} as T);
+          }
+          map.get(date)[key] = row._value;
+        } catch (error) {
+          return;
         }
-        map.get(date)[key] = row._value;
       });
     });
 

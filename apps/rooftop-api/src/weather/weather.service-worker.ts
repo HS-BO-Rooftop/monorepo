@@ -7,7 +7,10 @@ import { plainToInstance } from 'class-transformer';
 import { addDays, endOfDay } from 'date-fns';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { InfluxDbService } from '../influx-db/influx-db.service';
-import { CurrentWeatherResponseDto } from './dto/dwd/current-weather-response.dto';
+import {
+  CurrentWeatherResponseDto,
+  DwdWeatherDto,
+} from './dto/dwd/current-weather-response.dto';
 import { WeatherForecastResponseDto } from './dto/dwd/forecast-weather-response.dto';
 
 const LAT = 51.48;
@@ -44,27 +47,32 @@ export class WeatherServiceWorker {
       this.logger.verbose(
         `Got new weather at ${weather?.timestamp.toLocaleString()}`
       );
-      // Write datapoint in influx
-      const point = new Point('dwd_current_weather')
-        .tag('source', 'dwd')
-        .timestamp(weather.timestamp);
 
-      for (const key in weather) {
-        if (Object.prototype.hasOwnProperty.call(weather, key)) {
-          const value = weather[key];
-          if (typeof value === 'number') {
-            point.floatField(key, value);
-          } else if (typeof value === 'string') {
-            point.stringField(key, value);
-          } else {
-            point.stringField(key, JSON.stringify(value));
+      let parsedWeather;
+      try {
+        // Write datapoint in influx
+        const point = new Point('dwd_current_weather')
+          .tag('source', 'dwd')
+          .timestamp(weather.timestamp);
+        parsedWeather = plainToInstance(DwdWeatherDto, weather);
+        for (const key in parsedWeather) {
+          if (Object.prototype.hasOwnProperty.call(weather, key)) {
+            const value = weather[key];
+            if (typeof value === 'number') {
+              point.floatField(key, value);
+            } else if (value === null) {
+              continue;
+            } else if (typeof value === 'string') {
+              point.stringField(key, value);
+            } else {
+              point.stringField(key, JSON.stringify(value));
+            }
           }
         }
-      }
-      try {
         await this.influx.write('ontop.hs-bochum.de', 'initial', point);
       } catch (error) {
         console.log(error);
+        return;
       }
       this.eventEmitter.emit('dwd.current_weather.updated', weather);
     });

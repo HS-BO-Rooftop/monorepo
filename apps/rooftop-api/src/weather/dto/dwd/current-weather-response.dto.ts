@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform, Type } from 'class-transformer';
+import { IsNumber, ValidateIf } from 'class-validator';
 import { WeatherCondition } from './weather-condition.type';
 import { WeatherIcon, WeatherIconValues } from './weather-icon.type';
 
@@ -11,12 +12,18 @@ export class DwdWeatherDto {
   timestamp: Date;
 
   @ApiProperty({ nullable: true })
+  @IsNumber()
+  @ValidateIf(({ value }) => value !== null)
   cloud_cover: number | null;
 
   @ApiProperty({ enum: WeatherCondition, nullable: true })
+  @IsNumber()
+  @ValidateIf(({ value }) => value !== null)
   condition: WeatherCondition | null;
 
   @ApiProperty({ nullable: true })
+  @IsNumber()
+  @ValidateIf(({ value }) => value !== null)
   dew_point: number | null;
 
   @ApiProperty({
