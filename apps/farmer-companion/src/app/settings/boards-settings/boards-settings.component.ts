@@ -31,15 +31,6 @@ export class BoardsSettingsPage implements OnInit {
       },
     });
 
-    this.boardsService.findAllBoards().subscribe({
-      next: (boards) => this.boards.next(boards),
-      error: (error) => {
-        console.log(error);
-        this.loading.loading = false;
-        this.toast.present('Error loading data', 'danger');
-      },
-    });
-
     combineLatest([
       this.boards,
       this.searchControl.valueChanges.pipe(
@@ -53,5 +44,20 @@ export class BoardsSettingsPage implements OnInit {
         ) ?? null;
       this.filteredBoards.next(filteredBoards);
     });
+  }
+
+  private loadBoards() {
+    this.boardsService.findAllBoards().subscribe({
+      next: (boards) => this.boards.next(boards),
+      error: (error) => {
+        console.log(error);
+        this.loading.loading = false;
+        this.toast.present('Error loading data', 'danger');
+      },
+    });
+  }
+
+  ionViewWillEnter() {
+    this.loadBoards();
   }
 }

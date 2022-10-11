@@ -6,6 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RooftopCommonModule } from '../common/common.module';
 
 import { BatterySettingsPage } from './battery-settings/battery-settings.component';
+import { BedSettingsPage } from './beds-settings/bed-settings/bed-settings.component';
 import { BedsSettingsPage } from './beds-settings/beds-settings.component';
 import { BoardSensorSettingsPage } from './boards-settings/board-sensor-settings/board-sensor-settings.component';
 import { BoardSettingsPage } from './boards-settings/board-settings/board-settings.component';
@@ -29,6 +30,7 @@ import { UsersSettingsPage } from './users-settings/users-settings.component';
     BatterySettingsPage,
     BoardSettingsPage,
     BoardSensorSettingsPage,
+    BedSettingsPage,
   ],
   imports: [
     CommonModule,

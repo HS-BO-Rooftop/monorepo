@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, filter, lastValueFrom } from 'rxjs';
 import { BedDto, BoardConfigurationDto, BoardDto } from '../../../api/models';
@@ -40,7 +41,8 @@ export class BoardSettingsPage implements OnInit {
     private readonly bedsService: BedsService,
     private readonly fb: FormBuilder,
     private readonly loading: LoadingService,
-    private readonly toastCtrl: ToastService
+    private readonly toastCtrl: ToastService,
+    private readonly navCtrl: NavController
   ) {}
 
   ngOnInit(): void {
@@ -134,9 +136,14 @@ export class BoardSettingsPage implements OnInit {
         })
       );
       this.toastCtrl.present('Changes saved successfully', 'success');
+      this.navigateBack();
     } catch (error) {
       console.error(error);
       this.toastCtrl.present('There was an error while saving.', 'danger');
     }
+  }
+
+  private navigateBack() {
+    this.navCtrl.navigateBack('settings/boards');
   }
 }

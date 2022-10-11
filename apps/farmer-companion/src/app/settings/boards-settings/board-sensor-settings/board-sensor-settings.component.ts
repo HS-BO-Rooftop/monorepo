@@ -1,8 +1,8 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { ActivatedRoute } from '@angular/router';
+import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { BoardPinDto, SensorConfigurationDto } from '../../../api/models';
@@ -55,7 +55,7 @@ export class BoardSensorSettingsPage implements OnInit {
     private readonly fb: FormBuilder,
     private readonly toast: ToastService,
     private readonly alert: AlertController,
-    private readonly router: Router
+    private readonly navCtrl: NavController
   ) {}
 
   ngOnInit(): void {
@@ -227,13 +227,13 @@ export class BoardSensorSettingsPage implements OnInit {
       this.navigateBack();
     } catch (error) {
       console.error(error);
-      this.toast.present('There was an error deleting the sensor.', 'danger');
+      this.toast.present('There was an error while deleting.', 'danger');
       this.loadingService.loading = false;
     }
   }
 
   // Navigate back to the board
   private navigateBack() {
-    this.router.navigate(['/settings', 'boards', this.boardId]);
+    this.navCtrl.navigateBack(['/settings', 'boards', this.boardId]);
   }
 }
