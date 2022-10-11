@@ -82,3 +82,10 @@ ion-content {
     display: none;
   }
 }
+
+ion-label.required{
+  &::after {
+    content: " *";
+    color: var(--ion-color-danger);
+  }
+}

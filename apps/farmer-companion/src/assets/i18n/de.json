@@ -60,5 +60,7 @@
   "Abort": "Abbrechen",
   "Changes saved successfully": "Änderungen erfolgreich gespeichert",
   "Successfully deleted": "Löschen erfolgreich",
-  "Sensor configuration does not exist anymore.": "Sensor Konfiguration existiert nicht mehr."
+  "Sensor configuration does not exist anymore.": "Sensor Konfiguration existiert nicht mehr.",
+  "Please select a sensor type": "Bitte wählen Sie einen Sensor Typ aus",
+  "Please select a pin": "Bitte wählen Sie einen Pin aus"
 }
