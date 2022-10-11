@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { FormControl } from '@angular/forms';
+import { BehaviorSubject, combineLatest, map, startWith } from 'rxjs';
 import { BoardDto } from '../../api/models';
 import { BoardsService } from '../../api/services';
 import { loadingHelper, LoadingService } from '../../loading.service';
@@ -11,7 +12,9 @@ import { ToastService } from '../../toast.service';
   styleUrls: ['./boards-settings.component.scss'],
 })
 export class BoardsSettingsPage implements OnInit {
-  boards = new BehaviorSubject<BoardDto[] | null>(null);
+  private boards = new BehaviorSubject<BoardDto[] | null>(null);
+  searchControl = new FormControl<string>('');
+  filteredBoards = new BehaviorSubject<BoardDto[] | null>(null);
 
   constructor(
     private readonly boardsService: BoardsService,
@@ -35,6 +38,20 @@ export class BoardsSettingsPage implements OnInit {
         this.loading.loading = false;
         this.toast.present('Error loading data', 'danger');
       },
+    });
+
+    combineLatest([
+      this.boards,
+      this.searchControl.valueChanges.pipe(
+        startWith(''),
+        map((value) => value?.toLowerCase())
+      ),
+    ]).subscribe(([boards, search]) => {
+      const filteredBoards =
+        boards?.filter((board) =>
+          board.name.toLowerCase().includes(search || '')
+        ) ?? null;
+      this.filteredBoards.next(filteredBoards);
     });
   }
 }

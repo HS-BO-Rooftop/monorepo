@@ -9,13 +9,16 @@
     <ion-title translate> Boards settings </ion-title>
   </ion-toolbar>
   <ion-toolbar>
-    <ion-searchbar></ion-searchbar>
+    <ion-searchbar [formControl]="searchControl"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-list *ngIf="boards">
-    <ion-item *ngFor="let board of boards | async" [routerLink]="[board.id]">
+  <ion-list *ngIf="filteredBoards">
+    <ion-item
+      *ngFor="let board of filteredBoards | async"
+      [routerLink]="[board.id]"
+    >
       <ion-label>
         {{ board.name }}
       </ion-label>
