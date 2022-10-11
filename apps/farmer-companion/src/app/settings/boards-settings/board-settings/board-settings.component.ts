@@ -5,6 +5,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, combineLatest, filter, lastValueFrom } from 'rxjs';
 import { BedDto, BoardConfigurationDto, BoardDto } from '../../../api/models';
 import { BedsService, BoardsService } from '../../../api/services';
+import { loadingHelper, LoadingService } from '../../../loading.service';
+import { ToastService } from '../../../toast.service';
 
 @Component({
   selector: 'rooftop-board-settings',
@@ -36,7 +38,9 @@ export class BoardSettingsPage implements OnInit {
     private readonly boardService: BoardsService,
     private readonly route: ActivatedRoute,
     private readonly bedsService: BedsService,
-    private readonly fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly loading: LoadingService,
+    private readonly toastCtrl: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +52,12 @@ export class BoardSettingsPage implements OnInit {
         this.getConfiguration(params['boardId']);
       }
     });
+
+    loadingHelper([
+      this.boardData,
+      this.bedData,
+      this.configurationData,
+    ]).subscribe((loading) => (this.loading.loading = loading));
 
     combineLatest([this.boardData, this.bedData])
       .pipe(filter((arr) => arr.every(Boolean)))
@@ -63,14 +73,28 @@ export class BoardSettingsPage implements OnInit {
   }
 
   private async getBoard(id: string) {
-    this.boardService.findOneBoard({ id }).subscribe((board) => {
-      this.boardData.next(board);
+    this.boardService.findOneBoard({ id }).subscribe({
+      next: (board) => {
+        this.boardData.next(board);
+      },
+      error: (error) => {
+        this.loading.loading = false;
+        console.error(error);
+        this.toastCtrl.present('Error loading data', 'danger');
+      },
     });
   }
 
   private async getBeds() {
-    this.bedsService.findBeds().subscribe((beds) => {
-      this.bedData.next(beds);
+    this.bedsService.findBeds().subscribe({
+      next: (beds) => {
+        this.bedData.next(beds);
+      },
+      error: (error) => {
+        this.loading.loading = false;
+        console.error(error);
+        this.toastCtrl.present('Error loading data', 'danger');
+      },
     });
   }
 
@@ -79,8 +103,15 @@ export class BoardSettingsPage implements OnInit {
       .getConfigurationsForBoard({
         id,
       })
-      .subscribe((config) => {
-        this.configurationData.next(config);
+      .subscribe({
+        next: (configurations) => {
+          this.configurationData.next(configurations);
+        },
+        error: (error) => {
+          this.loading.loading = false;
+          console.error(error);
+          this.toastCtrl.present('Error loading data', 'danger');
+        },
       });
   }
 
@@ -92,15 +123,20 @@ export class BoardSettingsPage implements OnInit {
     if (!board) {
       return;
     }
-
-    await lastValueFrom(
-      this.boardService.updateBoard({
-        id: board.id,
-        body: {
-          bed_id: this.form.value.bedId,
-          name: this.form.value.name,
-        },
-      })
-    );
+    try {
+      await lastValueFrom(
+        this.boardService.updateBoard({
+          id: board.id,
+          body: {
+            bed_id: this.form.value.bedId,
+            name: this.form.value.name,
+          },
+        })
+      );
+      this.toastCtrl.present('Changes saved successfully', 'success');
+    } catch (error) {
+      console.error(error);
+      this.toastCtrl.present('There was an error while saving.', 'danger');
+    }
   }
 }

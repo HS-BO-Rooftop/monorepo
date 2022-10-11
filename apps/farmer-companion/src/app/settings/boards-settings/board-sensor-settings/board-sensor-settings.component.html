@@ -45,7 +45,9 @@
 
     <!-- Sensor Pin -->
     <ion-item>
-      <ion-label position="floating" translate>Sensor pin</ion-label>
+      <ion-label position="floating" translate class="required"
+        >Sensor pin</ion-label
+      >
       <ion-select formControlName="pinId">
         <ion-select-option
           *ngFor="let sensorPin of boardPins | async"
@@ -66,7 +68,7 @@
 
     <!-- Sensor is connected -->
     <ion-item class="ion-padding-vertical" lines="none">
-      <ion-label translate>Connected to board</ion-label>
+      <ion-label translate class="required">Connected to board</ion-label>
       <ion-checkbox slot="start" formControlName="isConnected"></ion-checkbox>
     </ion-item>
   </form>

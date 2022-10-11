@@ -62,5 +62,8 @@
   "Successfully deleted": "Löschen erfolgreich",
   "Sensor configuration does not exist anymore.": "Sensor Konfiguration existiert nicht mehr.",
   "Please select a sensor type": "Bitte wählen Sie einen Sensor Typ aus",
-  "Please select a pin": "Bitte wählen Sie einen Pin aus"
+  "Please select a pin": "Bitte wählen Sie einen Pin aus",
+  "Please select a bed": "Bitte wählen Sie ein Beet aus",
+  "Please enter a board name": "Bitte geben Sie einen Platinenname ein",
+  "Error loading data": "Fehler beim Laden der Daten."
 }
