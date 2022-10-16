@@ -1,10 +1,11 @@
-import { Controller, Get, Sse } from '@nestjs/common';
+import { Controller, Get, Query, Sse } from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { map } from 'rxjs';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
 import { DwdWeatherDto } from './dto/dwd/current-weather-response.dto';
 import { WeatherForcastDto } from './dto/dwd/forecast-weather-response.dto';
 import { LocalWeatherStationRow } from './dto/local/weather-station-data.type';
+import { TimeRangeRequestDto } from './dto/time-range-request.dto';
 import { WeatherTodayResponseDto } from './dto/weather-today-response.dto';
 import { WeatherService } from './weather.service';
 
@@ -67,5 +68,14 @@ export class WeatherController {
   @RInternalServerErrorResponse()
   async getToday() {
     return this.weatherService.getTodayWeather();
+  }
+
+  @Get('historic')
+  @ApiOkResponse({
+    type: WeatherTodayResponseDto,
+  })
+  @RInternalServerErrorResponse()
+  async getHistoric(@Query() query: TimeRangeRequestDto) {
+    return this.weatherService.getHistoricWeather(query.from, query.to);
   }
 }

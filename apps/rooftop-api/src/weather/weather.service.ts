@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { endOfDay, startOfDay } from 'date-fns';
+import { endOfDay, isSameDay, startOfDay, subDays } from 'date-fns';
 import { utcToZonedTime } from 'date-fns-tz';
 import { BehaviorSubject } from 'rxjs';
 import {
@@ -10,6 +10,7 @@ import {
 } from '../influx-db/influx-db.service';
 import { CurrentWeatherResponseDto } from './dto/dwd/current-weather-response.dto';
 import { WeatherForecastResponseDto } from './dto/dwd/forecast-weather-response.dto';
+import { DwdHistoricWeatherRow } from './dto/dwd/historic-weather.dto';
 import { LocalWeatherStationRow } from './dto/local/weather-station-data.type';
 import { WeatherTodayResponseDto } from './dto/weather-today-response.dto';
 import { WeatherServiceWorker } from './weather.service-worker';
@@ -295,5 +296,129 @@ export class WeatherService {
     });
 
     return map;
+  }
+
+  async getHistoricWeather(from = subDays(new Date(), 365), to = new Date()) {
+    const localWeather = await this.influx.query<LocalWeatherStationRow>(
+      'ontop.hs-bochum.de',
+      `
+      from(bucket: "initial")
+        |> range(start: ${from.toISOString()}, stop: ${to.toISOString()})
+        |> filter(fn: (r) => r._measurement == "Wetterstationen")
+        |> filter(fn: (r) => r["Station"] == "1")
+        |> aggregateWindow(every: 1d, fn: mean)
+        |> yield(name: "mean")
+      `
+    );
+
+    const dwdWeather = await this.influx.query<
+      CurrentWeatherResponseDto['weather']
+    >(
+      'ontop.hs-bochum.de',
+      `
+      from(bucket: "initial")
+        |> range(start: ${from.toISOString()}, stop: ${to.toISOString()})
+        |> filter(fn: (r) => r["_measurement"] == "dwd_current_weather")
+        |> filter(fn: (r) => r["source"] == "dwd")
+        |> filter(fn: (r) => r["_field"] == "sunshine_60" or r["_field"] == "temperature" or r["_field"] == "wind_speed_60" or r["_field"] == "precipitation_60")
+        |> aggregateWindow(every: 1d, fn: mean)
+        |> yield(name: "mean")
+      `
+    );
+
+    const groupedLocalWeather =
+      this.groupByTimestamp<LocalWeatherStationRow>(localWeather);
+    const groupedDwdWeather =
+      this.groupByTimestamp<CurrentWeatherResponseDto['weather']>(dwdWeather);
+
+    const returnData: WeatherTodayResponseDto = {
+      weather: [],
+    };
+
+    groupedLocalWeather.forEach((value, key) => {
+      const date = new Date(key);
+      const existing = returnData.weather.find((weather) =>
+        isSameDay(weather.timestamp, date)
+      );
+      if (!existing) {
+        returnData.weather.push({
+          timestamp: date,
+          temperature: value.temp,
+          windSpeed: value.windspeed,
+          rain: value.rain,
+          icon: null,
+          solarDuration: null,
+          humidity: value.humidity,
+        });
+      }
+    });
+
+    groupedDwdWeather.forEach((value, key) => {
+      const date = new Date(key);
+      const existing = returnData.weather.find((weather) =>
+        isSameDay(weather.timestamp, date)
+      );
+      if (!existing) {
+        returnData.weather.push({
+          timestamp: date,
+          temperature: value.temperature,
+          windSpeed: value.wind_speed_60,
+          rain: value.precipitation_60,
+          icon: value.icon,
+          solarDuration: value.sunshine_60,
+          humidity: value.relative_humidity,
+        });
+      } else {
+        existing.icon = value.icon;
+        existing.solarDuration = value.sunshine_60;
+        existing.temperature = existing.temperature ?? value.temperature;
+        existing.windSpeed = existing.windSpeed ?? value.wind_speed_60;
+        existing.rain = existing.rain ?? value.precipitation_60;
+        existing.humidity = existing.humidity ?? value.relative_humidity;
+      }
+    });
+
+    const historicData = await this.influx.query<DwdHistoricWeatherRow>(
+      'ontop.hs-bochum.de',
+      `
+      from(bucket: "initial")
+        |> range(start: ${from.toISOString()}, stop: ${to.toISOString()})
+        |> filter(fn: (r) => r["_measurement"] == "dwd_current_weather")
+        |> filter(fn: (r) => r["source"] == "dwd")
+        |> filter(fn: (r) => r["_field"] == "temperature" or r["_field"] == "wind_speed" or r["_field"] == "precipitation " or r["_field"] == "wind_direction" or r["_field"] == "precipitation")
+        |> aggregateWindow(every: 1d, fn: mean)
+        |> yield(name: "mean")
+      `
+    );
+
+    const groupedHistoricData =
+      this.groupByTimestamp<DwdHistoricWeatherRow>(historicData);
+
+    groupedHistoricData.forEach((value, key) => {
+      const date = new Date(key);
+      const existing = returnData.weather.find((weather) =>
+        isSameDay(weather.timestamp, date)
+      );
+      if (!existing) {
+        returnData.weather.push({
+          timestamp: date,
+          temperature: value.temperature,
+          windSpeed: value.wind_speed,
+          rain: value.precipitation,
+          icon: null,
+          solarDuration: null,
+          humidity: null,
+        });
+      } else {
+        existing.temperature = existing.temperature ?? value.temperature;
+        existing.windSpeed = existing.windSpeed ?? value.wind_speed;
+        existing.rain = existing.rain ?? value.precipitation;
+      }
+    });
+
+    returnData.weather.sort(
+      (a, b) => a.timestamp.getTime() - b.timestamp.getTime()
+    );
+    return returnData;
   }
 }
