@@ -11,6 +11,7 @@ import { AuthModule } from '../auth/auth.module';
 import { BedsModule } from '../beds/beds.module';
 import { BoardsModule } from '../configurations/boards/boards.module';
 import { HeartbeatModule } from '../heartbeat/heartbeat.module';
+import { SensorDataModule } from '../sensors/sensor-data/sensor-data.module';
 import { ShutdownModule } from '../shutdown/shutdown.module';
 import { WeatherModule } from '../weather/weather.module';
 import { VersionController } from './version.controller';
@@ -57,6 +58,7 @@ import { VersionController } from './version.controller';
     WeatherModule,
     HeartbeatModule,
     BedsModule,
+    SensorDataModule,
   ],
   controllers: [VersionController],
   providers: [

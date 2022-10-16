@@ -1,7 +1,11 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOptionsRelations, Repository } from 'typeorm';
+import { FindOptionsRelations, In, Repository } from 'typeorm';
 import { BoardConfigurationUpdatedEvent } from '../common/events/board-configuration-updated.event';
 import { BoardConfigurationDto } from './boards/dto/board-configuration.dto';
 import { CreateBoardSensorDto } from './dto/create-configuration.dto';
@@ -95,5 +99,39 @@ export class ConfigurationsService {
     return configurations.map(
       (configuration) => new BoardConfigurationDto(configuration)
     );
+  }
+
+  /**
+   * Finds all sensors by their ids, requires that all sensors exist
+   * @param ids Sensor IDs to check
+   * @returns Array of valid sensor IDs
+   * @throws BadRequestException if any of the sensors are not found
+   */
+  async findAllSensors(
+    ids: string[]
+  ): Promise<BoardSensorEntity[] | undefined> {
+    const sensors = await this.repo.find({
+      where: {
+        id: In(ids),
+      },
+      relations: {
+        sensor: {
+          sensorType: true,
+        },
+        board: {
+          bed: true,
+        },
+      },
+    });
+
+    if (sensors.length !== ids.length) {
+      // Return the sensors that are not valid
+      const invalidIds = ids.filter((id) => !sensors.some((s) => s.id === id));
+      throw new BadRequestException(
+        `Invalid sensor ids: ${invalidIds.join(', ')}`
+      );
+    } else {
+      return sensors;
+    }
   }
 }
