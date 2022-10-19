@@ -5,7 +5,7 @@ import {
   HttpStatus,
   Logger,
 } from '@nestjs/common';
-import { Response, Request } from 'express';
+import { Request, Response } from 'express';
 import {
   CannotCreateEntityIdMapError,
   EntityNotFoundError,
@@ -32,6 +32,10 @@ export class TypeOrmExceptionFilter {
 
     if (exception instanceof HttpException) {
       status = (exception as HttpException).getStatus();
+      if (status === HttpStatus.BAD_REQUEST) {
+        // We have a class validator error
+        message = (exception as any).response.message;
+      }
     } else if (exception instanceof QueryFailedError) {
       status = HttpStatus.UNPROCESSABLE_ENTITY;
       message = (exception as QueryFailedError).message;

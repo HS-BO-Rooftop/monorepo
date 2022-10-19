@@ -361,4 +361,58 @@ export class WeatherService extends BaseService {
     );
   }
 
+  /**
+   * Path part for operation weatherControllerGetHistoric
+   */
+  static readonly WeatherControllerGetHistoricPath = '/api/weather/historic';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `weatherControllerGetHistoric()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  weatherControllerGetHistoric$Response(params?: {
+    from?: string;
+    to?: string;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<WeatherTodayResponseDto>> {
+
+    const rb = new RequestBuilder(this.rootUrl, WeatherService.WeatherControllerGetHistoricPath, 'get');
+    if (params) {
+      rb.query('from', params.from, {});
+      rb.query('to', params.to, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<WeatherTodayResponseDto>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `weatherControllerGetHistoric$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  weatherControllerGetHistoric(params?: {
+    from?: string;
+    to?: string;
+    context?: HttpContext
+  }
+): Observable<WeatherTodayResponseDto> {
+
+    return this.weatherControllerGetHistoric$Response(params).pipe(
+      map((r: StrictHttpResponse<WeatherTodayResponseDto>) => r.body as WeatherTodayResponseDto)
+    );
+  }
+
 }

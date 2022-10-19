@@ -13,3 +13,4 @@ export { PlantsService } from './services/plants.service';
 export { WeatherService } from './services/weather.service';
 export { HeartbeatService } from './services/heartbeat.service';
 export { BedsService } from './services/beds.service';
+export { DataService } from './services/data.service';

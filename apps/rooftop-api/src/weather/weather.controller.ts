@@ -1,4 +1,10 @@
-import { Controller, Get, Query, Sse } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Query,
+  Sse,
+} from '@nestjs/common';
 import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { map } from 'rxjs';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
@@ -76,6 +82,10 @@ export class WeatherController {
   })
   @RInternalServerErrorResponse()
   async getHistoric(@Query() query: TimeRangeRequestDto) {
+    // Check, that the time range is valid
+    if (query.from >= query.to) {
+      throw new BadRequestException('From must be before to');
+    }
     return this.weatherService.getHistoricWeather(query.from, query.to);
   }
 }

@@ -19,6 +19,7 @@ import { PlantsService } from './services/plants.service';
 import { WeatherService } from './services/weather.service';
 import { HeartbeatService } from './services/heartbeat.service';
 import { BedsService } from './services/beds.service';
+import { DataService } from './services/data.service';
 
 /**
  * Module that provides all services and configuration.
@@ -43,6 +44,7 @@ import { BedsService } from './services/beds.service';
     WeatherService,
     HeartbeatService,
     BedsService,
+    DataService,
     ApiConfiguration
   ],
 })
