@@ -7,7 +7,7 @@
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMono9pt7b.h>
 #include "./View/Home/home_view.h"
-#include "../Utils/Observer/observer.h"
+#include "../Utils/observer.h"
 #include "../Input/input_controller.h"
 #include <map>
 

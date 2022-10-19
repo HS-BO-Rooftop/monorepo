@@ -13,6 +13,7 @@ class FileHandler
 
     private:
         static FileHandler *instance;
+        FileHandler *fh;
         FileHandler();
         void initSPIFFS();
 
