@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/home"
+        [text]="'Back' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ 'Weather' | translate }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title translate>Weather forecast</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <rooftop-weather-forecast></rooftop-weather-forecast>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title translate>Historic weather data</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <rooftop-data-graph
+        style="height: 250px"
+        [data]="weatherData"
+        [options]="chartOptions"
+        [defaultZoom]="1.8"
+      ></rooftop-data-graph>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

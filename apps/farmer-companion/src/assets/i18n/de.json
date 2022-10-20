@@ -72,5 +72,9 @@
   "Please fill in a name": "Bitte einen Namen eingeben.",
   "Bed settings": "Beet Einstellungen",
   "Bed name": "Beet Name",
-  "There was an error while deleting.": "Fehler beim Löschen."
+  "There was an error while deleting.": "Fehler beim Löschen.",
+  "Weather": "Wetter",
+  "Historic weather data": "Historische Wetterdaten",
+  "Humidity / Rain": "Luftfeuchtigkeit / Niederschlag",
+  "Rain": "Niederschlag"
 }
