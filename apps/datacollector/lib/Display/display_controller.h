@@ -6,10 +6,11 @@
 #include <Adafruit_SSD1306.h>
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMono9pt7b.h>
-#include "./View/Home/home_view.h"
-#include "../Utils/observer.h"
-#include "../Input/input_controller.h"
 #include <map>
+#include "display_interface.h"
+#include "./View/Home/home_view.h"
+#include "../utils/observer.h"
+#include "../input/input_controller.h"
 
 class DisplayController : public Observer
 {

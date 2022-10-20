@@ -2,7 +2,6 @@
 
 SensorController *SensorController::instance = nullptr;
 
-
 SensorController::SensorController(){
     head = NULL;
     tail = NULL;

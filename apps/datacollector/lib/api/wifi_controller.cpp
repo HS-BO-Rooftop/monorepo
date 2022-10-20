@@ -160,12 +160,12 @@ int WifiController::debugSetNetworkConfig()
 {
     NetworkConfig sessionConfig = {"", "", "", "", false, ""};
 
-    strcpy(sessionConfig.ssid, "");
-    strcpy(sessionConfig.password, "");
-    strcpy(sessionConfig.gateway, "192.168.0.1");
-    strcpy(sessionConfig.subnet, "255.255.255.0");
-    sessionConfig.isDynamicAddress = false;
-    strcpy(sessionConfig.staticAddress, "");
+    strcpy(sessionConfig.ssid, DEBUG_GATEWAY);
+    strcpy(sessionConfig.password, DEBUG_PASSWORD);
+    strcpy(sessionConfig.gateway, DEBUG_GATEWAY);
+    strcpy(sessionConfig.subnet, DEBUG_SUBNET);
+    sessionConfig.isDynamicAddress = DEBUG_IS_DYNAMIC_ADDRESS;
+    strcpy(sessionConfig.staticAddress, DEBUG_STATIC_ADDRESS);
 
     writeNetworkConfig(sessionConfig);
     return 0;

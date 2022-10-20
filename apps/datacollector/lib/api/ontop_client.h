@@ -1,19 +1,10 @@
 #pragma once
-#include "wifi_controller.h"
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <string>
-#include "../Utils/file_handler.h"
-
-#define DATACOLLECTOR_CONFIG_PATH "/config/datacollector.txt"
-
-struct DatacollectorConfig
-{
-        uint16_t initialized;
-        char deviceId[37];
-        char deviceName[51];
-        uint32_t registrationDate;
-};
+#include "api_interface.h"
+#include "wifi_controller.h"
+#include "../utils/file_handler.h"
 
 class OnTopClient
 {
@@ -22,6 +13,7 @@ class OnTopClient
         static OnTopClient *getInstance();
         WifiController * wifiController;
         int initDevice();
+        int syncDevice();
 
 
         OnTopClient();

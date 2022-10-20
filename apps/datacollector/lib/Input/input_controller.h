@@ -1,8 +1,9 @@
 #pragma once
 #include <Arduino.h>
 #include <vector>
-#include "../Utils/subject.h"
-#include "../Utils/observer.h"
+#include "input_interface.h"
+#include "../utils/subject.h"
+#include "../utils/observer.h"
 
 class InputController : public Subject
 {

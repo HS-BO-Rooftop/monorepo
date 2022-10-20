@@ -6,30 +6,9 @@
 #include <string>
 #include <HTTPClient.h>
 #include <map>
+#include "api_interface.h"
 #include "SPIFFS.h"
-#include "../Utils/file_handler.h"
-
-#define WIFI_HOSTNAME "Datacollector"
-#define WIFI_PASSWORD "123454321"
-
-#define WEB_INPUT_SSID "ssid"
-#define WEB_INPUT_PASSWORD "password"
-#define WEB_INPUT_GATEWAY "gateway"
-#define WEB_INPUT_SUBNET "subnet"
-#define WEB_INPUT_STATIC_IP "static-ip"
-
-#define NETWORK_CONFIG "/config/network.txt"
-#define TIMEOUT_MS 10000
-
-struct NetworkConfig
-{
-    char ssid[33];
-    char password[33];
-    char gateway[16];
-    char subnet[16];
-    bool isDynamicAddress;
-    char staticAddress[16];
-};
+#include "../utils/file_handler.h"
 
 class WifiController
 {

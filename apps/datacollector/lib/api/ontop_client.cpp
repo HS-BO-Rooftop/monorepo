@@ -65,3 +65,8 @@ int OnTopClient::initDevice(){
 
     return statusCode;
 }
+
+int OnTopClient::syncDevice()
+{
+
+}
