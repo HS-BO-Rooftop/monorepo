@@ -7,7 +7,7 @@ export class RegisterResponseDto extends PartialType(BoardDto) {
     description: 'Server timestamp when the response was send to the client',
     format: 'date-time',
   })
-  timestamp: string;
+  timestamp: number;
 
   @ApiProperty({ description: 'ID of the board' })
   id: string;

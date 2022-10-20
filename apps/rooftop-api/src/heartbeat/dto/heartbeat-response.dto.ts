@@ -5,5 +5,5 @@ export class HeartbeatResponseDto {
     description: 'Server timestampt when the response was send to the client',
     format: 'date-time',
   })
-  timestamp: string;
+  timestamp: number;
 }

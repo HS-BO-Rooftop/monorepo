@@ -20,7 +20,7 @@ export class HeartbeatController {
   async heartbeat(@Body() body: HeartbeatRequestDto) {
     await this.service.updateLastSeenAt(body.id);
     return {
-      timestamp: new Date().toISOString(),
+      timestamp: new Date().getTime(),
     };
   }
 }

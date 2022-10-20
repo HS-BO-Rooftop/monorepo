@@ -29,7 +29,7 @@ export class RegisterController {
       });
       return {
         id: board.id,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().getTime(),
       };
     } else {
       // Try to get the board
@@ -43,7 +43,7 @@ export class RegisterController {
         return {
           ...board,
           configuration: configurations,
-          timestamp: new Date().toISOString(),
+          timestamp: new Date().getTime(),
         };
       }
     }

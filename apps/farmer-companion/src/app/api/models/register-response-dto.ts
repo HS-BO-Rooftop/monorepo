@@ -30,5 +30,5 @@ export interface RegisterResponseDto {
   /**
    * Server timestamp when the response was send to the client
    */
-  timestamp: string;
+  timestamp: number;
 }
