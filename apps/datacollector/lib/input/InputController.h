@@ -24,7 +24,6 @@ class InputController : public Subject
         inline static int _s_btn_confirm_press_start_time;
 
         InputController();
-        int init();
         static void task(void * parameters);
 
     protected:

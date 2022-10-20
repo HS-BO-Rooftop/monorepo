@@ -4,7 +4,21 @@ Adafruit_SSD1306 _display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 DisplayController *DisplayController::_instance = nullptr;
 
 DisplayController::DisplayController(){
-    init();
+    Serial.println("[Info]:Initilizing display_controller...");
+
+    if(!_display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
+        Serial.println(F("SSD1306 allocation failed"));
+        for(;;);
+    }
+
+    xTaskCreate(
+        task,
+        "DISPLAY_CONTROLLER_TASK",
+        5000,
+        NULL,
+        1,
+        NULL
+    );
 }
 
 DisplayController::~DisplayController(){
@@ -28,27 +42,6 @@ void DisplayController::task(void *parameters){
     for(;;){
         vTaskDelay(500 / portTICK_PERIOD_MS);
     };
-}
-
-
-int DisplayController::init(){
-    Serial.println("[Info]:Initilizing display_controller...");
-
-    if(!_display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-        Serial.println(F("SSD1306 allocation failed"));
-        for(;;);
-    }
-
-    xTaskCreate(
-        task,
-        "DISPLAY_CONTROLLER_TASK",
-        5000,
-        NULL,
-        1,
-        NULL
-    );
-
-    return 0;
 }
 
 int DisplayController::drawMenu(){

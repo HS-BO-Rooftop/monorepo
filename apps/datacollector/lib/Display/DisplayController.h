@@ -25,9 +25,9 @@ class DisplayController : public Observer
     private:
         Adafruit_SSD1306 _display;
         static DisplayController *_instance;
+        View *_current_view_ptr;
 
         DisplayController();
-        int init();
         static void task(void * parameters);
 
     protected:
