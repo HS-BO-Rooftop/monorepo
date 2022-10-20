@@ -17,11 +17,14 @@
 #define WEB_INPUT_SUBNET "subnet"
 #define WEB_INPUT_STATIC_IP "static-ip"
 
-#define NETWORK_CONFIG "/config/network.txt"
+#define NETWORK_CONFIG_PATH "/config/network.txt"
 #define TIMEOUT_MS 10000
 
 // ** ONTOP__CLIENT **
 #define DATACOLLECTOR_CONFIG_PATH "/config/datacollector.txt"
+#define API_SERVER "http://192.168.0.158:3000"
+#define API_REGISTER "/api/register"
+#define API_HEARTBEAT "/api/heartbeat"
 
 struct NetworkConfig
 {
@@ -29,14 +32,14 @@ struct NetworkConfig
     char password[33];
     char gateway[16];
     char subnet[16];
-    bool isDynamicAddress;
-    char staticAddress[16];
+    bool is_dynamic_address;
+    char static_address[16];
 };
 
 struct DatacollectorConfig
 {
         uint16_t initialized;
-        char deviceId[37];
-        char deviceName[51];
-        uint32_t registrationDate;
+        char device_id[37];
+        char device_name[51];
+        uint32_t registration_date;
 };

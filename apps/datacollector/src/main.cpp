@@ -1,11 +1,11 @@
 #include <Arduino.h>
 #include <map>
 #include <string>
-#include "display_controller.h"
-#include "input_controller.h"
-#include "sensor_controller.h"
-#include "wifi_controller.h"
-#include "ontop_client.h"
+#include "DisplayController.h"
+#include "InputController.h"
+#include "SensorController.h"
+#include "WifiController.h"
+#include "OnTopClient.h"
 
 int incomingByte = 0;
 std::string userInput = "";

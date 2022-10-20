@@ -7,27 +7,28 @@
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMono9pt7b.h>
 #include <map>
-#include "display_interface.h"
-#include "./View/Home/home_view.h"
-#include "../utils/observer.h"
-#include "../input/input_controller.h"
+#include "Interface.h"
+#include "./View/Home/HomeView.h"
+#include "../utils/Observer.h"
+#include "../input/InputController.h"
 
 class DisplayController : public Observer
 {
     public:
+        ~DisplayController();
         static DisplayController *getInstance();
         void update() override;
         Adafruit_SSD1306 getDisplay();
         int drawMenu();
         int drawHome();
 
-    protected:
-
     private:
-        std::map<char, char> my_map;
+        Adafruit_SSD1306 _display;
+        static DisplayController *_instance;
+
         DisplayController();
-        Adafruit_SSD1306 display;
-        static DisplayController *instance;
         int init();
         static void task(void * parameters);
+
+    protected:
 };

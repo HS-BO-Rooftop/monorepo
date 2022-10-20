@@ -1,4 +1,4 @@
-#include "home_view.h"
+#include "HomeView.h"
 
 HomeView::HomeView(){}
 

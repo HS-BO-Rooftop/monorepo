@@ -6,45 +6,44 @@
 #include <string>
 #include <HTTPClient.h>
 #include <map>
-#include "api_interface.h"
+#include "Interface.h"
 #include "SPIFFS.h"
-#include "../utils/file_handler.h"
+#include "../utils/FileHandler.h"
 
 class WifiController
 {
     public:
+        NetworkConfig g_network_config;
+
+        ~WifiController();
         static WifiController *getInstance();
-        NetworkConfig networkConfig;
-
         int debugSetNetworkConfig();
-
         wl_status_t status();
         bool isNetworkConfigAvailable();
         int connect();
         int disconnect();
         int openAccessPoint();
-
         void printNetworkConfig();
-        String getMacAddress();
+        const char * getMacAddress();
         int readNetworkConfig();
         int removeNetworkConfig();
-        int writeNetworkConfig(NetworkConfig configPtr);
-        int postRequest(char *endpoint, String requestBody, char *& resultPtr);
-        int getRequest(char *endpoint, String requestBody);
+        int writeNetworkConfig(NetworkConfig config_ptr);
+        int postRequest(const char *url, String request_body, char *& response_ptr);
+        int getRequest(const char *url, String request_body);
 
     private:
-        static WifiController *instance;
-        FileHandler *fh;
+        static WifiController *_instance;
+        FileHandler *_file_handler;
+        unsigned long _previous_millis;
+        HTTPClient _http;
+        WiFiClient _client;
 
         WifiController();
         void setup();
-        unsigned long previousMillis;
         void initSPIFFS();
         void httpListener();
         int initializeTask();
         static void task(void * parameters);
-        HTTPClient _http;
-        WiFiClient _client;
 
     protected:
 };

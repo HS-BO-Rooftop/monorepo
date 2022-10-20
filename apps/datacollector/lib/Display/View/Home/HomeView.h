@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
-#include "../view.h"
-#include "../Display/display_controller.h"
+#include "../View.h"
+#include "../Display/DisplayController.h"
 
 class HomeView : public View
 {
