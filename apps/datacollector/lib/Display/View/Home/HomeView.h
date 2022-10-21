@@ -1,14 +1,15 @@
 #pragma once
 #include <Arduino.h>
-#include "../View.h"
-#include "../Display/DisplayController.h"
+#include "../ViewInterface.h"
 
-class HomeView : public View
+class HomeView : virtual public ViewInterface
 {
     public:
-        int render() override;
         HomeView();
+        ~HomeView();
+        int render() override;
+        void onClick(uint8_t) override;
 
-    protected:
     private:
+    protected:
 };
