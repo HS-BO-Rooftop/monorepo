@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <Arduino.h>
-#include "Interface.h"
+#include "Definiton.h"
 
 class SensorController
 {
