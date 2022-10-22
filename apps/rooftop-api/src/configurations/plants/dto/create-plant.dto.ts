@@ -4,12 +4,12 @@ import { IsString, IsUrl, MaxLength } from 'class-validator';
 export class CreatePlantDto {
   @ApiProperty()
   @IsString()
-  @MaxLength(255)
+  @MaxLength(100)
   name_de: string;
 
   @ApiProperty()
   @IsString()
-  @MaxLength(255)
+  @MaxLength(100)
   name_en: string;
 
   @ApiProperty()

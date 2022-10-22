@@ -13,7 +13,7 @@ export class BoardEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, length: 100 })
   name: string;
 
   @Column({ nullable: true })

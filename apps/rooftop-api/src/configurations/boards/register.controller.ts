@@ -28,8 +28,9 @@ export class RegisterController {
         name: 'New board',
       });
       return {
-        id: board.id,
-        timestamp: new Date().getTime(),
+        ...board,
+        configuration: [],
+        timestamp: Math.floor(new Date().getTime() / 1000),
       };
     } else {
       // Try to get the board
@@ -38,12 +39,13 @@ export class RegisterController {
         throw new NotFoundException('No board with the provided id was found');
       } else {
         const configurations = await this.configService.findAllByBoard(
-          board.id
+          board.id,
+          true
         );
         return {
           ...board,
           configuration: configurations,
-          timestamp: new Date().getTime(),
+          timestamp: Math.floor(new Date().getTime() / 1000),
         };
       }
     }

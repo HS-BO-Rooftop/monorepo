@@ -4,16 +4,15 @@ import { IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
 export class CreateBoardDto {
   @ApiProperty({
     description: 'The name of the board',
-    maxLength: 255,
+    maxLength: 100,
   })
   @IsString()
-  @MaxLength(255)
+  @MaxLength(100)
   name: string;
 
   @ApiPropertyOptional({
     format: 'uuid',
     description: 'The plant associated with the board',
-    maxLength: 255,
     nullable: true,
   })
   @IsUUID()

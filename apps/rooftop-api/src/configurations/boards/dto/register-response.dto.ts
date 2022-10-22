@@ -1,20 +1,17 @@
-import { ApiProperty, ApiPropertyOptional, PartialType } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { BoardConfigurationDto } from './board-configuration.dto';
 import { BoardDto } from './board.dto';
 
-export class RegisterResponseDto extends PartialType(BoardDto) {
+export class RegisterResponseDto extends BoardDto {
   @ApiProperty({
     description: 'Server timestamp when the response was send to the client',
-    format: 'date-time',
+    format: 'unix timestamp in milliseconds',
   })
   timestamp: number;
 
-  @ApiProperty({ description: 'ID of the board' })
-  id: string;
-
   @ApiPropertyOptional({
     description:
-      'Existing configuration of the board. Will be set if the provided id was valid',
+      'Existing configuration of the board. Returns only active configurations',
   })
   configurations: BoardConfigurationDto[];
 }

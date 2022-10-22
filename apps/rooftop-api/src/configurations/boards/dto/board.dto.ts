@@ -10,12 +10,14 @@ export class BoardDto {
 
   @ApiProperty({
     description: 'The name of the board',
+    maxLength: 100,
   })
   name: string;
 
   @ApiProperty({
     description: 'The last time the board was seen',
     nullable: true,
+    format: 'date-time',
   })
   last_seen_at: Date;
 

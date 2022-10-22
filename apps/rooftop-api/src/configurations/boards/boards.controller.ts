@@ -8,6 +8,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Sse,
 } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
@@ -25,6 +26,7 @@ import { RBadRequestResponse } from '../../common/responses/BadRequestResponse.d
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../../common/responses/NotFoundResponse.dto';
 import { ConfigurationsService } from '../configurations.service';
+import { QueryConfigurationsDto } from '../dto/query-configurations.dto';
 import { BoardsService } from './boards.service';
 import { BoardConfigurationDto } from './dto/board-configuration.dto';
 import { BoardDto } from './dto/board.dto';
@@ -106,9 +108,15 @@ export class BoardsController {
   @ApiOperation({
     operationId: 'getConfigurationsForBoard',
   })
-  async findAllConfigurations(@Param() params: FindByUUIDDto) {
+  async findAllConfigurations(
+    @Param() params: FindByUUIDDto,
+    @Query() query: QueryConfigurationsDto
+  ) {
     await this.boardsService.findOne(params.id);
-    return this.configurationsService.findAllByBoard(params.id);
+    return this.configurationsService.findAllByBoard(
+      params.id,
+      query.connectedOnly
+    );
   }
 
   @Sse(':id/configurations/updated')

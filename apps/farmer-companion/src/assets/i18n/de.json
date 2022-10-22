@@ -76,5 +76,6 @@
   "Weather": "Wetter",
   "Historic weather data": "Historische Wetterdaten",
   "Humidity / Rain": "Luftfeuchtigkeit / Niederschlag",
-  "Rain": "Niederschlag"
+  "Rain": "Niederschlag",
+  "Board has reached the limit of active configurations": "Das Board hat das Limit der aktiven Konfigurationen erreicht."
 }

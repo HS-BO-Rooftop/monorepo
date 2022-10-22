@@ -6,7 +6,7 @@ export class BoardPinEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false, unique: true })
+  @Column({ nullable: false, unique: true, length: 10 })
   pin: string;
 
   @OneToMany(() => BoardSensorEntity, (sensor) => sensor.boardPin)

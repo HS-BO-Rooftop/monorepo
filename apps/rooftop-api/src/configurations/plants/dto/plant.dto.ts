@@ -5,10 +5,10 @@ export class PlantDto {
   @ApiProperty({ format: 'uuid' })
   id: string;
 
-  @ApiProperty({ maxLength: 255 })
+  @ApiProperty({ maxLength: 100 })
   name_de: string;
 
-  @ApiProperty({ maxLength: 255 })
+  @ApiProperty({ maxLength: 100 })
   name_en: string;
 
   @ApiProperty({ maxLength: 1024 })

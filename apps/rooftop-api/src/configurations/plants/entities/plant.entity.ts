@@ -6,10 +6,10 @@ export class PlantEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, length: 100 })
   name_de: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, length: 100 })
   name_en: string;
 
   @Column({ nullable: false, length: 1024 })

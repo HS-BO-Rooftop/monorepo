@@ -6,7 +6,7 @@ export class SensorTypeEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: false, unique: true })
+  @Column({ nullable: false, unique: true, length: 100 })
   name: string;
 
   @OneToMany(() => SensorConfigurationEntity, (sensor) => sensor.sensorType)

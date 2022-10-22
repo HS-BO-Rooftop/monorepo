@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -11,6 +12,8 @@ import { BoardConfigurationDto } from './boards/dto/board-configuration.dto';
 import { CreateBoardSensorDto } from './dto/create-configuration.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
 import { BoardSensorEntity } from './entities/configuration.entity';
+
+const ACTIVE_CONFIGURATION_LIMIT = 10;
 
 @Injectable()
 export class ConfigurationsService {
@@ -27,6 +30,18 @@ export class ConfigurationsService {
   ) {}
 
   async create(createConfigurationDto: CreateBoardSensorDto) {
+    // If the configuration is active, verify that the board has less than the limit of active configurations
+    if (createConfigurationDto.isConnected === true) {
+      const activeConfigs = await this.getActiveCount(
+        createConfigurationDto.deviceId
+      );
+      if (activeConfigs >= ACTIVE_CONFIGURATION_LIMIT) {
+        throw new ForbiddenException(
+          `Board has reached the limit of active configurations`
+        );
+      }
+    }
+
     const created = await this.repo.save(createConfigurationDto);
 
     this.eventEmitter.emit(
@@ -37,10 +52,13 @@ export class ConfigurationsService {
     return this.findOne(created.id);
   }
 
-  findAll() {
+  findAll(activeOnly = false) {
     return this.repo
       .find({
         relations: this.relations,
+        where: {
+          ...(activeOnly && { isConnected: true }),
+        },
       })
       .then((configs) =>
         configs.map((config) => new BoardConfigurationDto(config))
@@ -63,6 +81,18 @@ export class ConfigurationsService {
 
   async update(id: string, updateConfigurationDto: UpdateConfigurationDto) {
     const existing = await this.findOne(id);
+    if (
+      existing.isConnected === false &&
+      updateConfigurationDto.isConnected === true
+    ) {
+      // Verify that the board has less than the limit of active configurations
+      const activeConfigs = await this.getActiveCount(existing.deviceId);
+      if (activeConfigs >= ACTIVE_CONFIGURATION_LIMIT) {
+        throw new ForbiddenException(
+          `Board has reached the limit of active configurations`
+        );
+      }
+    }
     const updated = await this.repo.save({
       id: existing.id,
       ...updateConfigurationDto,
@@ -88,10 +118,11 @@ export class ConfigurationsService {
     );
   }
 
-  async findAllByBoard(deviceId: string) {
+  async findAllByBoard(deviceId: string, activeOnly = false) {
     const configurations = await this.repo.find({
       where: {
         deviceId,
+        ...(activeOnly && { isConnected: true }),
       },
       relations: this.relations,
     });
@@ -133,5 +164,14 @@ export class ConfigurationsService {
     } else {
       return sensors;
     }
+  }
+
+  private async getActiveCount(boardId: string): Promise<number> {
+    return this.repo.count({
+      where: {
+        deviceId: boardId,
+        isConnected: true,
+      },
+    });
   }
 }

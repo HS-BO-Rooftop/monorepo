@@ -2,6 +2,8 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
+import { ConfigService } from '@nestjs/config';
+import { Transport } from '@nestjs/microservices';
 import {
   initializeTransactionalContext,
   patchTypeORMRepositoryWithBaseRepository,
@@ -15,6 +17,12 @@ async function bootstrap() {
   patchTypeORMRepositoryWithBaseRepository();
 
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
+
+  if (!configService) {
+    throw new Error('Config service not found');
+  }
+
   app.useGlobalPipes(
     new ValidationPipe({
       // whitelist: true,
@@ -57,6 +65,32 @@ async function bootstrap() {
   const config = documentBuilder.build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  // Add mqtt client
+  const mqttUrl = configService.get('MQTT_URL');
+  const mqttUsername = configService.get('MQTT_USERNAME');
+  const mqttPassword = configService.get('MQTT_PASSWORD');
+  if (!mqttUrl) {
+    throw new Error('MQTT_URL not set');
+  }
+  if (!mqttUsername) {
+    throw new Error('MQTT_USERNAME not set');
+  }
+  if (!mqttPassword) {
+    throw new Error('MQTT_PASSWORD not set');
+  }
+  app.connectMicroservice({
+    transport: Transport.MQTT,
+    options: {
+      url: mqttUrl,
+      username: mqttUsername,
+      password: mqttPassword,
+    },
+  });
+
+  Logger.log(`Connecting to MQTT at ${mqttUrl}...`);
+  await app.startAllMicroservices();
+  Logger.log(`Connected to MQTT`);
 
   await app.listen(port);
   Logger.log(

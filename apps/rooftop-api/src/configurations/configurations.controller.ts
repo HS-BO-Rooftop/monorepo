@@ -8,9 +8,11 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
+  ApiForbiddenResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
@@ -23,6 +25,7 @@ import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
 import { BoardConfigurationDto } from './boards/dto/board-configuration.dto';
 import { ConfigurationsService } from './configurations.service';
 import { CreateBoardSensorDto } from './dto/create-configuration.dto';
+import { QueryConfigurationsDto } from './dto/query-configurations.dto';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto';
 
 @Controller('configurations')
@@ -39,6 +42,9 @@ export class ConfigurationsController {
   @ApiOperation({
     operationId: 'createSensorConfiguration',
   })
+  @ApiForbiddenResponse({
+    description: 'Board has reached the limit of active configurations',
+  })
   create(@Body() createConfigurationDto: CreateBoardSensorDto) {
     return this.configurationsService.create(createConfigurationDto);
   }
@@ -48,8 +54,8 @@ export class ConfigurationsController {
     type: BoardConfigurationDto,
     isArray: true,
   })
-  findAll() {
-    return this.configurationsService.findAll();
+  findAll(@Query() query: QueryConfigurationsDto) {
+    return this.configurationsService.findAll(query.connectedOnly);
   }
 
   @Get(':id')
@@ -71,6 +77,9 @@ export class ConfigurationsController {
   @RNotFoundResponse()
   @ApiOperation({
     operationId: 'updateSensorConfiguration',
+  })
+  @ApiForbiddenResponse({
+    description: 'Board has reached the limit of active configurations',
   })
   update(
     @Param() params: FindByUUIDDto,

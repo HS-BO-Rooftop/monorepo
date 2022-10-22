@@ -7,7 +7,7 @@ export class BoardPinDto {
   @ApiProperty({
     description: 'The name of the pin',
     uniqueItems: true,
-    maxLength: 255,
+    maxLength: 10,
   })
   pin: string;
 }
