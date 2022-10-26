@@ -4,7 +4,7 @@ Adafruit_SSD1306 _display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 DisplayController *DisplayController::_instance = nullptr;
 
 DisplayController::DisplayController(){
-    Serial.println("[Info]:Initilizing display_controller...");
+    Serial.println("[Info]: Initializing display_controller...");
     _current_view_ptr = new HomeView();
 
     if(!_display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {

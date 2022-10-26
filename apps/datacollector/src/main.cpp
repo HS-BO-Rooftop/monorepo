@@ -32,8 +32,6 @@ void setup() {
 
     jsnsr04t *sensor = jsnsr04t::getInstance();
     
-    displayController->drawHome();
-
     WifiController *wifiController = WifiController::getInstance();
 
     if(OtaController->getUpdateAvailable()) {
@@ -91,7 +89,7 @@ void loop()
                         Serial.println(otc->initDevice());
                         break;
                     default:
-                        Serial.println("Command nout found.");
+                        Serial.println("Command not found.");
                         break;
                 }
 

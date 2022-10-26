@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include "../../utils/Observer.h"
-#include "../Definiton.h"
+#include "../Definition.h"
 //#include "../DisplayController.h"
 
 class ViewInterface{
