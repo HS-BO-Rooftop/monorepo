@@ -1,3 +1,5 @@
+#pragma once
+
 // ** INPUT_CONTROLLER **
 #define LED_BUILTIN GPIO_NUM_25
 #define BTN_CONFIRM GPIO_NUM_35

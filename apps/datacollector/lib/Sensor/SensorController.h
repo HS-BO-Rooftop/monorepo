@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <Arduino.h>
-#include "Interface.h"
+#include "Definiton.h"
 
 class SensorController
 {
@@ -19,7 +19,6 @@ class SensorController
         SensorData * _tail;
 
         SensorController();
-        int init();
         static void task(void * parameters);
 
     protected:

@@ -7,12 +7,13 @@
 #include <Fonts/FreeMonoBold12pt7b.h>
 #include <Fonts/FreeMono9pt7b.h>
 #include <map>
-#include "Interface.h"
-#include "./View/Home/HomeView.h"
+#include "Definiton.h"
+#include "./view/home/HomeView.h"
 #include "../utils/Observer.h"
 #include "../input/InputController.h"
+#include "./view/ViewInterface.h"
 
-class DisplayController : public Observer
+class DisplayController : virtual public Observer
 {
     public:
         ~DisplayController();
@@ -21,14 +22,18 @@ class DisplayController : public Observer
         Adafruit_SSD1306 getDisplay();
         int drawMenu();
         int drawHome();
+        void setCurrentViewPtr(ViewInterface *&view_ptr);
+        ViewInterface * getCurrentViewPtr();
 
     private:
         Adafruit_SSD1306 _display;
         static DisplayController *_instance;
+        ViewInterface *_current_view_ptr;
 
         DisplayController();
-        int init();
-        static void task(void * parameters);
+        void task();
+        static void startTaskImpl(void *caller);
+        void startTask();
 
     protected:
 };
