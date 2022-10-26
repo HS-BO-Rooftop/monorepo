@@ -5,7 +5,9 @@
 #include "InputController.h"
 #include "SensorController.h"
 #include "WifiController.h"
+#include "OtaController.h"
 #include "OnTopClient.h"
+#include "JSN-SR04T/jsnsr04t.h"
 
 int incomingByte = 0;
 std::string userInput = "";
@@ -13,22 +15,31 @@ InputController *inputController;
 DisplayController *displayController;
 SensorController *sensorController;
 WifiController *wifiController;
+OtaController *OtaController;
 OnTopClient *otc;
 
 
-void setup()
-{
+void setup() {
     Serial.begin(115200);
     inputController = InputController::getInstance();
     displayController = DisplayController::getInstance();
     sensorController = SensorController::getInstance();
     wifiController = WifiController::getInstance();
+    OtaController = OtaController::getInstance();
+
     inputController->registerObserver(displayController);
     otc = new OnTopClient();
 
-    //display->test();
-    //ViewController *viewController = ViewController::getInstance();
-    //WifiManager *WifiManager = WifiManager::getInstance();
+    jsnsr04t *sensor = jsnsr04t::getInstance();
+    
+    displayController->drawHome();
+
+    WifiController *wifiController = WifiController::getInstance();
+
+    if(OtaController->getUpdateAvailable()) {
+        Serial.print("There is an update available.");
+        OtaController->doOta();
+    }
 }
 
 void loop()
