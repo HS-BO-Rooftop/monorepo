@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include <vector>
-#include "Definiton.h"
+#include "Definition.h"
 #include "../utils/Subject.h"
 #include "../utils/Observer.h"
 
