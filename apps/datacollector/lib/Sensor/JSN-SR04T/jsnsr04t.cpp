@@ -6,7 +6,7 @@
 jsnsr04t *jsnsr04t::instance = nullptr;
 
 jsnsr04t::jsnsr04t() {
-  Serial.print("Setting up JSN-SR04T Sensor.");
+  Serial.println("Setting up JSN-SR04T Sensor.");
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 }

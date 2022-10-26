@@ -18,7 +18,6 @@ WifiController *wifiController;
 OtaController *OtaController;
 OnTopClient *otc;
 
-
 void setup() {
     Serial.begin(115200);
     inputController = InputController::getInstance();
@@ -35,7 +34,7 @@ void setup() {
     WifiController *wifiController = WifiController::getInstance();
 
     if(OtaController->getUpdateAvailable()) {
-        Serial.print("There is an update available.");
+        Serial.println("There is an update available.");
         OtaController->doOta();
     }
 }
@@ -83,6 +82,7 @@ void loop()
                         Serial.println(wifiController->disconnect());
                         break;
                     case 8:
+                        Serial.println("Mac-Address: ");
                         Serial.println(wifiController->getMacAddress());
                         break;
                     case 9:
