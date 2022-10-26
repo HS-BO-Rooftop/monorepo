@@ -3,7 +3,7 @@
 SensorController *SensorController::_instance = nullptr;
 
 SensorController::SensorController(){
-    Serial.println("[Info]:Initilizing sensor_controller...");
+    Serial.println("[Info]: Initializing sensor_controller...");
 
     _head = NULL;
     _tail = NULL;

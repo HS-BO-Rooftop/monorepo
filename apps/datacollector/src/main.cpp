@@ -91,7 +91,7 @@ void loop()
                         Serial.println(otc->initDevice());
                         break;
                     default:
-                        Serial.println("Command nout found.");
+                        Serial.println("Command not found.");
                         break;
                 }
 

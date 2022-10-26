@@ -238,7 +238,7 @@ int WifiController::openAccessPoint(){
 }
 
 int WifiController::initializeTask(){
-    Serial.println("[Info]:Initilizing wifi_controller...");
+    Serial.println("[Info]: Initializing wifi_controller...");
 
     xTaskCreate(
         task,

@@ -3,7 +3,7 @@
 InputController *InputController::_instance = nullptr;
 
 InputController::InputController(){
-    Serial.println("[Info]:Initilizing input_controller...");
+    Serial.println("[Info]: Initializing input_controller...");
 
     _s_btn_confirm = 0;
     _s_btn_confirm_is_pressed = 0;
