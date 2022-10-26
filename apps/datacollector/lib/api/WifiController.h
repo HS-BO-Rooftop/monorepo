@@ -44,6 +44,7 @@ class WifiController
         void httpListener();
         int initializeTask();
         static void task(void * parameters);
+        static void synchronizeTime();
 
     protected:
 };

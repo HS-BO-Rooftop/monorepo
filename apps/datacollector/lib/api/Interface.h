@@ -18,6 +18,8 @@
 #define WEB_INPUT_STATIC_IP "static-ip"
 
 #define NETWORK_CONFIG_PATH "/config/network.txt"
+#define NTP_SERVER "de.pool.ntp.org"
+#define TIMEZONE 1 // 1 -> GMT + 1
 #define TIMEOUT_MS 10000
 
 // ** ONTOP__CLIENT **
