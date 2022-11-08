@@ -1,7 +1,15 @@
 #include "jsnsr04t.h"
 
-#define trigPin GPIO_NUM_32
-#define echoPin GPIO_NUM_35
+#if BOARD_TYPE == 0
+  #define trigPin GPIO_NUM_23
+  #define echoPin GPIO_NUM_22
+#elif BOARD_TYPE == 1
+  #define trigPin GPIO_NUM_32
+  #define echoPin GPIO_NUM_35
+#elif BOARD_TYPE == 2
+  #define trigPin GPIO_NUM_32
+  #define echoPin GPIO_NUM_35
+#endif
 
 jsnsr04t *jsnsr04t::instance = nullptr;
 
