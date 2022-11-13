@@ -4,10 +4,10 @@
 #include "OneWire.h"
 #include "DallasTemperature.h"
 
-class ds18b20
+class DS18B20
 {
     public:
-        ds18b20(gpio_num_t pin);
+        DS18B20(gpio_num_t pin);
         int getValue();
     private:
         double value;

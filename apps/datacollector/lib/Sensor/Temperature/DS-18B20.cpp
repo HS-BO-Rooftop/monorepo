@@ -1,7 +1,7 @@
-#include "ds18b20.h"
+#include "DS-18B20.h"
 
-ds18b20::ds18b20(gpio_num_t pin) {
-  Serial.print("Setting up DS18B20 Temperature Sensor on GPIO ");
+DS18B20::DS18B20(gpio_num_t pin) {
+  Serial.print("[DS18B20] Setting up Temperature Sensor on GPIO ");
   Serial.print(pin);
   Serial.print("\n");
   
@@ -24,7 +24,7 @@ ds18b20::ds18b20(gpio_num_t pin) {
   }
 }
 
-bool ds18b20::measure() {
+bool DS18B20::measure() {
   Serial.println("[DS18B20] Measuring");
 
   _ds18b20.requestTemperatures();
@@ -43,7 +43,7 @@ bool ds18b20::measure() {
   }
 }
 
-int ds18b20::getValue() {
+int DS18B20::getValue() {
   if(measure())
     return value;
   else 

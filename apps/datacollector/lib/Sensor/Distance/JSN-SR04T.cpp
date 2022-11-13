@@ -1,4 +1,4 @@
-#include "jsnsr04t.h"
+#include "JSN-SR04T.h"
 
 #if BOARD_TYPE == 0
   #define trigPin GPIO_NUM_22
@@ -11,22 +11,22 @@
   #define echoPin GPIO_NUM_35
 #endif
 
-jsnsr04t *jsnsr04t::instance = nullptr;
+JSNSR04T *JSNSR04T::instance = nullptr;
 
-jsnsr04t::jsnsr04t() {
+JSNSR04T::JSNSR04T() {
   Serial.println("[JSN-SR04T] Setting up JSN-SR04T Sensor.");
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 }
 
-jsnsr04t *jsnsr04t::getInstance() {
+JSNSR04T *JSNSR04T::getInstance() {
     if (instance == nullptr) {
-        instance = new jsnsr04t();
+        instance = new JSNSR04T();
     }
     return instance;
 }
 
-int jsnsr04t::getValue() {
+int JSNSR04T::getValue() {
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);

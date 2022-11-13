@@ -2,14 +2,14 @@
 #include <memory>
 #include <Arduino.h>
 
-class jsnsr04t
+class JSNSR04T
 {
     public:
-        static jsnsr04t *getInstance();
+        static JSNSR04T *getInstance();
         int getValue();
     private:
-        static jsnsr04t *instance;
-        jsnsr04t();
+        static JSNSR04T *instance;
+        JSNSR04T();
 
         long duration;
         int distance;

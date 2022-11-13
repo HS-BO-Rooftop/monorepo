@@ -7,8 +7,8 @@
 #include "WifiController.h"
 #include "OtaController.h"
 #include "OnTopClient.h"
-#include "JSN-SR04T/jsnsr04t.h"
-#include "DS18B20/ds18b20.h"
+#include "Distance/JSN-SR04T.h"
+#include "Temperature/DS-18B20.h"
 
 int incomingByte = 0;
 std::string userInput = "";
@@ -18,7 +18,7 @@ SensorController *sensorController;
 WifiController *wifiController;
 OtaController *OtaController;
 OnTopClient *otc;
-ds18b20 *tempsens;
+DS18B20 *tempsens;
 
 void setup() {
     Serial.begin(115200);
@@ -31,10 +31,10 @@ void setup() {
     inputController->registerObserver(displayController);
     otc = new OnTopClient();
 
-    tempsens = new ds18b20(GPIO_NUM_21);
+    tempsens = new DS18B20(GPIO_NUM_21);
     tempsens->getValue();
 
-    jsnsr04t *_jsnsr04t = jsnsr04t::getInstance();
+    JSNSR04T *_jsnsr04t = JSNSR04T::getInstance();
     _jsnsr04t->getValue();
 
     /* if(OtaController->getUpdateAvailable()) {
