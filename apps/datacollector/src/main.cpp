@@ -9,6 +9,7 @@
 #include "OnTopClient.h"
 #include "Distance/JSN-SR04T.h"
 #include "Temperature/DS-18B20.h"
+#include "Moisture/HW-390.h"
 
 int incomingByte = 0;
 std::string userInput = "";
@@ -19,6 +20,7 @@ WifiController *wifiController;
 OtaController *OtaController;
 OnTopClient *otc;
 DS18B20 *tempsens;
+HW390 *moistsens;
 
 void setup() {
     Serial.begin(115200);
@@ -31,6 +33,9 @@ void setup() {
     inputController->registerObserver(displayController);
     otc = new OnTopClient();
 
+    moistsens = new HW390(GPIO_NUM_36);
+    moistsens->getValue();
+    
     tempsens = new DS18B20(GPIO_NUM_21);
     tempsens->getValue();
 
