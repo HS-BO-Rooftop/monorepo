@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
@@ -49,6 +49,10 @@ export class UserService {
     await this.mailService.sendResetPasswordEmail(user);
   }
 
+  async deleteOne(id: string): Promise<void> {
+    await this.repo.delete(id);
+  }
+
   @Transactional()
   async setNewPassword(code: string, password: string): Promise<void> {
     // Verify the code is correct
@@ -59,5 +63,21 @@ export class UserService {
     await this.repo.save(user);
 
     await this.passwordResetService.deleteOne(code);
+  }
+
+  async updateOne(
+    id: string,
+    data: Partial<CreateUserDto>
+  ): Promise<UserEntity> {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException();
+    }
+    await this.repo.update(id, data);
+    return this.findOne(id);
+  }
+
+  async getAll(): Promise<UserEntity[]> {
+    return this.repo.find();
   }
 }
