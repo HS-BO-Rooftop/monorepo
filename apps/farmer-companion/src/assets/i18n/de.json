@@ -77,5 +77,12 @@
   "Historic weather data": "Historische Wetterdaten",
   "Humidity / Rain": "Luftfeuchtigkeit / Niederschlag",
   "Rain": "Niederschlag",
-  "Board has reached the limit of active configurations": "Das Board hat das Limit der aktiven Konfigurationen erreicht."
+  "Board has reached the limit of active configurations": "Das Board hat das Limit der aktiven Konfigurationen erreicht.",
+  "First name": "Vorname",
+  "Last name": "Nachname",
+  "User settings": "Benutzer Einstellungen",
+  "Please fill in a first name": "Bitte geben Sie einen Vornamen ein",
+  "Please fill in a last name": "Bitte geben Sie einen Nachnamen ein",
+  "Please fill in a valid email address": "Bitte geben Sie eine gültige E-Mail Adresse ein",
+  "Please fill in a password": "Bitte geben Sie ein Passwort ein"
 }

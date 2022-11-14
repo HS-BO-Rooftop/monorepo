@@ -1,6 +1,8 @@
 export { LoginRequestDto } from './models/login-request-dto';
+export { UserDto } from './models/user-dto';
 export { CreateUserDto } from './models/create-user-dto';
 export { PasswordResetRequestDto } from './models/password-reset-request-dto';
+export { UpdateUserDto } from './models/update-user-dto';
 export { SetNewPasswordRequestDto } from './models/set-new-password-request-dto';
 export { ValidationFailedResponseDto } from './models/validation-failed-response-dto';
 export { CreateBoardDto } from './models/create-board-dto';

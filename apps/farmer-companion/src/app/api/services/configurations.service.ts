@@ -36,12 +36,14 @@ export class ConfigurationsService extends BaseService {
    * This method doesn't expect any request body.
    */
   configurationsControllerFindAll$Response(params?: {
+    connectedOnly?: boolean;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<BoardConfigurationDto>>> {
 
     const rb = new RequestBuilder(this.rootUrl, ConfigurationsService.ConfigurationsControllerFindAllPath, 'get');
     if (params) {
+      rb.query('connectedOnly', params.connectedOnly, {});
     }
 
     return this.http.request(rb.build({
@@ -63,6 +65,7 @@ export class ConfigurationsService extends BaseService {
    * This method doesn't expect any request body.
    */
   configurationsControllerFindAll(params?: {
+    connectedOnly?: boolean;
     context?: HttpContext
   }
 ): Observable<Array<BoardConfigurationDto>> {

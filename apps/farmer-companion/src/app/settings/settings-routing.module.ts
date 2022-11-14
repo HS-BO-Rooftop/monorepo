@@ -10,6 +10,7 @@ import { PlantsSettingsPage } from './plants-settings/plants-settings.component'
 import { ProfileSettingsPage } from './profile-settings/profile-settings.component';
 import { SensorsSettingsPage } from './sensors-settings/sensors-settings.component';
 import { SettingsComponent } from './settings.component';
+import { UserSettingsPage } from './users-settings/user-settings/user-settings.component';
 import { UsersSettingsPage } from './users-settings/users-settings.component';
 
 const routes: Routes = [
@@ -19,6 +20,8 @@ const routes: Routes = [
   },
   { path: 'profile', component: ProfileSettingsPage },
   { path: 'users', component: UsersSettingsPage },
+  { path: 'users/create', component: UserSettingsPage },
+  { path: 'users/:userId', component: UserSettingsPage },
   { path: 'beds', component: BedsSettingsPage },
   { path: 'beds/create', component: BedSettingsPage },
   { path: 'beds/:bedId', component: BedSettingsPage },

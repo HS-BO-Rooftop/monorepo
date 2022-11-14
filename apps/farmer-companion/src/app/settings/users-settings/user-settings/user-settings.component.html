@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        [defaultHref]="'settings/users/'"
+        [text]="'Back' | translate"
+      >
+        ></ion-back-button
+      >
+    </ion-buttons>
+    <ion-title translate>User settings</ion-title>
+    <ion-buttons slot="end" *ngIf="(userId | async) !== null">
+      <ion-button (click)="onDelete()">
+        <ion-icon name="trash" color="danger"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <!-- First name -->
+    <ion-item>
+      <ion-label position="floating" translate class="required"
+        >First name</ion-label
+      >
+      <ion-input type="text" formControlName="firstName"></ion-input>
+    </ion-item>
+    <span
+      class="error ion-margin"
+      *ngIf="
+        form.get('firstName')?.hasError('required') &&
+        form.get('firstName')?.touched
+      "
+      translate
+    >
+      Please fill in a first name
+    </span>
+
+    <!-- Last name -->
+    <ion-item>
+      <ion-label position="floating" translate class="required"
+        >Last name</ion-label
+      >
+      <ion-input type="text" formControlName="lastName"></ion-input>
+    </ion-item>
+    <span
+      class="error ion-margin"
+      *ngIf="
+        form.get('lastName')?.hasError('required') &&
+        form.get('lastName')?.touched
+      "
+      translate
+    >
+      Please fill in a last name
+    </span>
+
+    <!-- Email  -->
+    <ion-item>
+      <ion-label position="floating" translate class="required"
+        >Email</ion-label
+      >
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+    <span
+      class="error ion-margin"
+      *ngIf="
+        form.get('email')?.hasError('required') && form.get('email')?.touched
+      "
+      translate
+    >
+      Please fill in a valid email address
+    </span>
+
+    <!-- Password -->
+    <ion-item>
+      <ion-label
+        position="floating"
+        translate
+        [class.required]="(userId | async) === null"
+        >Password</ion-label
+      >
+      <ion-input
+        type="password"
+        formControlName="password"
+        autocomplete="off"
+      ></ion-input>
+    </ion-item>
+    <span
+      class="error ion-margin"
+      *ngIf="
+        form.get('password')?.hasError('required') &&
+        form.get('password')?.touched
+      "
+      translate
+    >
+      Please fill in a password
+    </span>
+  </form>
+  <ion-button
+    expand="block"
+    type="submit"
+    slot="fixed"
+    style="bottom: 1rem; left: 1rem; right: 1rem"
+    translate
+    [disabled]="!form.valid"
+    (click)="save()"
+  >
+    Save
+  </ion-button>
+</ion-content>

@@ -37,7 +37,7 @@ export class BedsSettingsPage implements OnInit {
     ]).subscribe(([beds, search]) => {
       const filteredBeds =
         beds?.filter((bed) => bed.name.trim().toLowerCase().includes(search)) ??
-        null;
+        beds;
       this.filteredBeds.next(filteredBeds);
     });
   }

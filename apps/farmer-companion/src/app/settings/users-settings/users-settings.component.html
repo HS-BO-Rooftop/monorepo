@@ -1,1 +1,33 @@
-<p>users-settings works!</p>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="settings"
+        [text]="'Back' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" [routerLink]="['create']">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title translate> Users </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [formControl]="searchControl"
+      [placeholder]="'Search' | translate"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="filteredUsers">
+    <ion-item
+      *ngFor="let user of filteredUsers | async"
+      [routerLink]="[user.id]"
+    >
+      <ion-label> {{ user.firstName }} {{ user.lastName }} </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

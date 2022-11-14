@@ -16,6 +16,7 @@ import { ProfileSettingsPage } from './profile-settings/profile-settings.compone
 import { SensorsSettingsPage } from './sensors-settings/sensors-settings.component';
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
+import { UserSettingsPage } from './users-settings/user-settings/user-settings.component';
 import { UsersSettingsPage } from './users-settings/users-settings.component';
 
 @NgModule({
@@ -31,6 +32,7 @@ import { UsersSettingsPage } from './users-settings/users-settings.component';
     BoardSettingsPage,
     BoardSensorSettingsPage,
     BedSettingsPage,
+    UserSettingsPage,
   ],
   imports: [
     CommonModule,

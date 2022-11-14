@@ -328,6 +328,7 @@ export class BoardsService extends BaseService {
      * The UUID of the requested resource
      */
     id: string;
+    connectedOnly?: boolean;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<Array<BoardConfigurationDto>>> {
@@ -335,6 +336,7 @@ export class BoardsService extends BaseService {
     const rb = new RequestBuilder(this.rootUrl, BoardsService.GetConfigurationsForBoardPath, 'get');
     if (params) {
       rb.path('id', params.id, {});
+      rb.query('connectedOnly', params.connectedOnly, {});
     }
 
     return this.http.request(rb.build({
@@ -361,6 +363,7 @@ export class BoardsService extends BaseService {
      * The UUID of the requested resource
      */
     id: string;
+    connectedOnly?: boolean;
     context?: HttpContext
   }
 ): Observable<Array<BoardConfigurationDto>> {
