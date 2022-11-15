@@ -1,8 +1,8 @@
 #include "JSN-SR04T.h"
 
 #if BOARD_TYPE == 0
-  #define trigPin GPIO_NUM_22
-  #define echoPin GPIO_NUM_23
+  #define trigPin GPIO_NUM_16
+  #define echoPin GPIO_NUM_17
 #elif BOARD_TYPE == 1
   #define trigPin GPIO_NUM_32
   #define echoPin GPIO_NUM_35

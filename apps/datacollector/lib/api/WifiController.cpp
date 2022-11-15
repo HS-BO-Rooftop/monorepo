@@ -19,15 +19,6 @@ WifiController *WifiController::getInstance(){
     return _instance;
 }
 
-void WifiController::initSPIFFS()
-{
-    if (!SPIFFS.begin(true))
-    {
-        Serial.println("An error has occurred while mounting SPIFFS");
-    }
-    Serial.println("SPIFFS mounted successfully");
-}
-
 void WifiController::httpListener(){
     _server.onNotFound([](AsyncWebServerRequest *request)
                       { request->send(404); });
@@ -89,8 +80,6 @@ void WifiController::httpListener(){
 }
 
 void WifiController::setup(){
-    initSPIFFS();
-
     if (!(isNetworkConfigAvailable())){
         openAccessPoint();
     }else{
@@ -314,6 +303,7 @@ int WifiController::getRequest(const char *endpoint, String request_body){
             return 1;
         }
         //Print parsed value on Serial Monitor
+        Serial.println("//Print parsed value on Serial Monitor");
         Serial.println(m_doc["name"].as<char*>());
         //Close connection
         _http.end();

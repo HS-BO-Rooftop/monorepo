@@ -8,23 +8,26 @@
 #include <Fonts/FreeMono9pt7b.h>
 #include <map>
 #include "Definition.h"
-#include "./view/home/HomeView.h"
 #include "../utils/Observer.h"
 #include "../input/InputController.h"
-#include "./view/ViewInterface.h"
+#include "./View/ViewInterface.h"
+#include "./View/home/HomeView.h"
+
+class ViewInterface;
 
 class DisplayController : virtual public Observer
 {
     public:
         ~DisplayController();
         static DisplayController *getInstance();
-        void update() override;
         Adafruit_SSD1306 getDisplay();
-        int drawMenu();
-        int drawHome();
+
         void setCurrentViewPtr(ViewInterface *&view_ptr);
         ViewInterface * getCurrentViewPtr();
+        void update() override;
 
+        int drawMenu();
+        int drawHome();
     private:
         Adafruit_SSD1306 _display;
         static DisplayController *_instance;

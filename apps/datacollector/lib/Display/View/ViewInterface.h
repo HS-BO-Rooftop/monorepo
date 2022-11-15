@@ -1,16 +1,18 @@
 #pragma once
 #include <Arduino.h>
-#include "../../utils/Observer.h"
 #include "../Definition.h"
-//#include "../DisplayController.h"
+#include "../../utils/Observer.h"
+#include "../DisplayController.h"
 
-class ViewInterface{
+class DisplayController;
+
+class ViewInterface {
     public:
         virtual int render() = 0;
         virtual void onClick(uint8_t) = 0;
-
+        
     private:
-        //DisplayController *_display_controller;
-
+        DisplayController *_display_controller;
     protected:
+
 };
