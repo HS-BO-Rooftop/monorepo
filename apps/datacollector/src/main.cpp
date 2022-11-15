@@ -7,6 +7,7 @@
 #include "WifiController.h"
 #include "OtaController.h"
 #include "OnTopClient.h"
+#include "MqttClient.h"
 #include "Distance/JSN-SR04T.h"
 #include "Temperature/DS-18B20.h"
 #include "Moisture/HW-390.h"
