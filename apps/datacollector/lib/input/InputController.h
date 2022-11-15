@@ -1,7 +1,7 @@
 #pragma once
 #include <Arduino.h>
 #include <vector>
-#include "Interface.h"
+#include "Definition.h"
 #include "../utils/Subject.h"
 #include "../utils/Observer.h"
 
@@ -24,7 +24,6 @@ class InputController : public Subject
         inline static int _s_btn_confirm_press_start_time;
 
         InputController();
-        int init();
         static void task(void * parameters);
 
     protected:

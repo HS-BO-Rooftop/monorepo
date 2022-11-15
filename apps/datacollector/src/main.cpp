@@ -5,7 +5,11 @@
 #include "InputController.h"
 #include "SensorController.h"
 #include "WifiController.h"
+#include "OtaController.h"
 #include "OnTopClient.h"
+#include "Distance/JSN-SR04T.h"
+#include "Temperature/DS-18B20.h"
+#include "Moisture/HW-390.h"
 
 int incomingByte = 0;
 std::string userInput = "";
@@ -13,22 +17,35 @@ InputController *inputController;
 DisplayController *displayController;
 SensorController *sensorController;
 WifiController *wifiController;
+OtaController *OtaController;
 OnTopClient *otc;
+DS18B20 *tempsens;
+HW390 *moistsens;
 
-
-void setup()
-{
+void setup() {
     Serial.begin(115200);
     inputController = InputController::getInstance();
     displayController = DisplayController::getInstance();
     sensorController = SensorController::getInstance();
     wifiController = WifiController::getInstance();
+    OtaController = OtaController::getInstance();
+
     inputController->registerObserver(displayController);
     otc = new OnTopClient();
 
-    //display->test();
-    //ViewController *viewController = ViewController::getInstance();
-    //WifiManager *WifiManager = WifiManager::getInstance();
+    moistsens = new HW390(GPIO_NUM_36);
+    moistsens->getValue();
+    
+    tempsens = new DS18B20(GPIO_NUM_21);
+    tempsens->getValue();
+
+    JSNSR04T *_jsnsr04t = JSNSR04T::getInstance();
+    _jsnsr04t->getValue();
+
+    /* if(OtaController->getUpdateAvailable()) {
+        Serial.println("There is an update available.");
+        OtaController->doOta();
+    } */
 }
 
 void loop()
@@ -74,13 +91,14 @@ void loop()
                         Serial.println(wifiController->disconnect());
                         break;
                     case 8:
+                        Serial.println("Mac-Address: ");
                         Serial.println(wifiController->getMacAddress());
                         break;
                     case 9:
                         Serial.println(otc->initDevice());
                         break;
                     default:
-                        Serial.println("Command nout found.");
+                        Serial.println("Command not found.");
                         break;
                 }
 

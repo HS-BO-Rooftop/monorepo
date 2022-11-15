@@ -1,3 +1,5 @@
+#pragma once
+
 // ** DISPLAY_CONTROLLER **
 #define LED_BUILTIN GPIO_NUM_25
 #define PIN_35 GPIO_NUM_35
@@ -20,3 +22,7 @@
 
 #define OLED_RESET -1
 #define SCREEN_ADDRESS 0x3D
+
+#define INPUT_LONG_PRESS_THRESHOLD 500
+#define INPUT_LONG_PRESS 0x01
+#define INPUT_SHORT_PRESS 0x02

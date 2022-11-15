@@ -3,9 +3,19 @@
 SensorController *SensorController::_instance = nullptr;
 
 SensorController::SensorController(){
+    Serial.println("[Info]: Initializing sensor_controller...");
+
     _head = NULL;
     _tail = NULL;
-    init();
+
+    xTaskCreate(
+        task,
+        "SENSOR_CONTROLLER_TASK",
+        2000,
+        NULL,
+        1,
+        NULL
+    );
 }
 
 SensorController::~SensorController(){
@@ -29,21 +39,6 @@ void SensorController::task(void *parameters){
     for(;;){
         vTaskDelay(100 / portTICK_PERIOD_MS);
     };
-}
-
-int SensorController::init(){
-    Serial.println("[Info]:Initilizing sensor_controller...");
-
-    xTaskCreate(
-        task,
-        "SENSOR_CONTROLLER_TASK",
-        2000,
-        NULL,
-        1,
-        NULL
-    );
-
-    return 0;
 }
 
 int SensorController::enqueue(int sensor_Id, float value, long timestamp){

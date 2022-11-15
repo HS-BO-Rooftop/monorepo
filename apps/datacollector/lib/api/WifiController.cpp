@@ -211,7 +211,11 @@ int WifiController::connect(){
             return 1;
         }
     }
+    
+    Serial.print("IP: ");
     Serial.println(WiFi.localIP());
+
+    WifiController::synchronizeTime();
 
     return 0;
 }
@@ -237,8 +241,23 @@ int WifiController::openAccessPoint(){
     return 0;
 }
 
+void WifiController::synchronizeTime() {
+    int gmtOffset_sec = TIMEZONE * 3600;
+    int daylightOffset_sec = 0; // 0 or 3600
+    const char* ntpServer = NTP_SERVER;
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+
+    struct tm timeinfo;
+    if(!getLocalTime(&timeinfo)){
+        Serial.println("Failed to obtain time");
+        return;
+    }
+    
+    Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+}
+
 int WifiController::initializeTask(){
-    Serial.println("[Info]:Initilizing wifi_controller...");
+    Serial.println("[Info]: Initializing wifi_controller...");
 
     xTaskCreate(
         task,

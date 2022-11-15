@@ -3,11 +3,24 @@
 InputController *InputController::_instance = nullptr;
 
 InputController::InputController(){
+    Serial.println("[Info]: Initializing input_controller...");
+
     _s_btn_confirm = 0;
     _s_btn_confirm_is_pressed = 0;
     _s_btn_confirm_press_time = 0;
     _s_btn_confirm_press_start_time = 0;
-    init();
+
+    pinMode(BTN_CONFIRM, INPUT);
+    pinMode(LED_BUILTIN, OUTPUT);
+
+    xTaskCreate(
+        task,
+        "INPUT_CONTROLLER_TASK",
+        2000,
+        NULL,
+        1,
+        NULL
+    );
 }
 
 InputController::~InputController(){
@@ -42,23 +55,6 @@ void InputController::task(void *parameters){
         }
         vTaskDelay(100 / portTICK_PERIOD_MS);
     };
-}
-
-int InputController::init(){
-    Serial.println("[Info]:Initilizing input_controller...");
-    pinMode(BTN_CONFIRM, INPUT);
-    pinMode(LED_BUILTIN, OUTPUT);
-
-    xTaskCreate(
-        task,
-        "INPUT_CONTROLLER_TASK",
-        2000,
-        NULL,
-        1,
-        NULL
-    );
-
-    return 0;
 }
 
 void InputController::notifyObservers(){
