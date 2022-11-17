@@ -2,11 +2,13 @@
 #include <memory>
 #include <Arduino.h>
 #include <pubsubclient.h>
+#include <WiFi.h>
+#include "Interface.h"
 
 class MqttClient {
     private:
         static MqttClient *_instance;
-    
+        static void callback(char* topic, byte* payload, unsigned int length);
     public:
         MqttClient();
         ~MqttClient();

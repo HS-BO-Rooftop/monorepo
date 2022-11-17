@@ -28,6 +28,13 @@
 #define API_REGISTER "/api/register"
 #define API_HEARTBEAT "/api/heartbeat"
 
+// ** MQTT__CLIENT **
+#define MQTT_SERVER_ADDRESS ""
+#define MQTT_SERVER_PORT ""
+#define MQTT_USERNAME ""
+#define MQTT_PASSWORD ""
+
+
 struct NetworkConfig
 {
     char ssid[33];

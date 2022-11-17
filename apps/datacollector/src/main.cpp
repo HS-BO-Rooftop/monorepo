@@ -1,6 +1,13 @@
 #include <Arduino.h>
 #include <map>
 #include <string>
+#include "esp_system.h"
+#include "esp_event.h"
+#include "esp_log.h"
+#include "esp_ota_ops.h"
+#include "esp_http_client.h"
+#include "esp_flash_partitions.h"
+#include "esp_partition.h"
 #include "DisplayController.h"
 #include "InputController.h"
 #include "SensorController.h"
@@ -22,6 +29,9 @@ OtaController *OtaController;
 OnTopClient *otc;
 DS18B20 *tempsens;
 HW390 *moistsens;
+HW390 *moistsens2;
+
+static const char *TAG = "main";
 
 void setup() {
     Serial.begin(115200);
@@ -33,15 +43,24 @@ void setup() {
 
     inputController->registerObserver(displayController);
     otc = new OnTopClient();
+    mqtt = new MqttClient();
 
-    moistsens = new HW390(GPIO_NUM_36);
-    moistsens->getValue();
-    
-    tempsens = new DS18B20(GPIO_NUM_21);
+    mqtt->connectMqtt();
+
+    /* moistsens = new HW390(GPIO_NUM_36);
+    moistsens2 = new HW390(GPIO_NUM_39);
+
+    for(;;) {
+        moistsens->getValue();
+        moistsens2->getValue();
+        delayMicroseconds(1000 * 1000);
+    }
+
+    tempsens = new DS18B20(GPIO_NUM_5);
     tempsens->getValue();
 
     JSNSR04T *_jsnsr04t = JSNSR04T::getInstance();
-    _jsnsr04t->getValue();
+    _jsnsr04t->getValue(); */
 
     /* if(OtaController->getUpdateAvailable()) {
         Serial.println("There is an update available.");
@@ -51,7 +70,9 @@ void setup() {
 
 void loop()
 {
-    if (Serial.available() > 0) {
+    Serial.println("loop reached.");
+    delay(2000);
+    /* if (Serial.available() > 0) {
     // read the incoming byte:
         incomingByte = Serial.read();
         if(incomingByte != 10){
@@ -106,5 +127,5 @@ void loop()
                 userInput = "";
             }
         }
-    }
+    } */
 }
