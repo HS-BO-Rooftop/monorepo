@@ -52,6 +52,21 @@ bool MqttClient::connectMqtt() {
     return true;
 }
 
+void MqttClient::sendMeasurement(const char *sensor, int measurement) {
+    Serial.printf("[MqttClient] Publishing %i to topic \"%s\"\n", measurement, sensor);
+
+    std::string measurement_s = std::to_string(measurement);
+    const char *payload = measurement_s.c_str();
+    mqttClient.publish(sensor, payload);
+}
+
+void MqttClient::loop() {
+    for(;;) {
+        mqttClient.loop();
+        delay(250);
+    }
+}
+
 bool MqttClient::getConnected() {
     return mqttClient.connected();
 }

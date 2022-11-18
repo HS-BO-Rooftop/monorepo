@@ -27,6 +27,7 @@ SensorController *sensorController;
 WifiController *wifiController;
 OtaController *OtaController;
 OnTopClient *otc;
+MqttClient *mqtt;
 DS18B20 *tempsens;
 HW390 *moistsens;
 HW390 *moistsens2;
@@ -46,6 +47,7 @@ void setup() {
     mqtt = new MqttClient();
 
     mqtt->connectMqtt();
+    mqtt->sendMeasurement("testtopic", 123);
 
     /* moistsens = new HW390(GPIO_NUM_36);
     moistsens2 = new HW390(GPIO_NUM_39);

@@ -15,4 +15,6 @@ class MqttClient {
         static MqttClient *getInstance();
         bool connectMqtt();
         bool getConnected();
+        void loop();
+        void sendMeasurement(const char *sensor, int measurement);
 };
