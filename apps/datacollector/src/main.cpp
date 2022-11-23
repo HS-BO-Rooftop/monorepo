@@ -48,6 +48,8 @@ void setup() {
 
     mqtt->connectMqtt();
     mqtt->sendMeasurement("testtopic", 123);
+    mqtt->sendMeasurement("testtopic", 123.1);
+    mqtt->sendMeasurement("testtopic", "123");
 
     /* moistsens = new HW390(GPIO_NUM_36);
     moistsens2 = new HW390(GPIO_NUM_39);
@@ -70,16 +72,22 @@ void setup() {
     } */
 }
 
+bool firstLoop = true;
+
 void loop()
 {
-    Serial.println("loop reached.");
-    delay(2000);
-    /* if (Serial.available() > 0) {
+    if (firstLoop) {
+        firstLoop = false;
+        Serial.println("==================");
+        Serial.println("Serial command-line available.");
+        Serial.print("$ ");
+    }
+    
+    if (Serial.available() > 0) {
     // read the incoming byte:
         incomingByte = Serial.read();
         if(incomingByte != 10){
             userInput = userInput + (char) incomingByte;
-            Serial.print("$ ");
             Serial.println(userInput.c_str());
         }else {
             if(userInput.c_str() != ""){
@@ -129,5 +137,5 @@ void loop()
                 userInput = "";
             }
         }
-    } */
+    }
 }

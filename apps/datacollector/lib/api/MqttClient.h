@@ -4,6 +4,7 @@
 #include <pubsubclient.h>
 #include <WiFi.h>
 #include "Interface.h"
+#include "WifiController.h"
 
 class MqttClient {
     private:
@@ -17,4 +18,6 @@ class MqttClient {
         bool getConnected();
         void loop();
         void sendMeasurement(const char *sensor, int measurement);
+        void sendMeasurement(const char *sensor, double measurement);
+        void sendMeasurement(const char *sensor, String measurement);
 };
