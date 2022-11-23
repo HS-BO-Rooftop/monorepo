@@ -133,7 +133,7 @@ const char * WifiController::getMacAddress(){
 int WifiController::debugSetNetworkConfig(){
     NetworkConfig m_session_config = {"", "", "", "", false, ""};
 
-    strcpy(m_session_config.ssid, DEBUG_GATEWAY);
+    strcpy(m_session_config.ssid, DEBUG_SSID);
     strcpy(m_session_config.password, DEBUG_PASSWORD);
     strcpy(m_session_config.gateway, DEBUG_GATEWAY);
     strcpy(m_session_config.subnet, DEBUG_SUBNET);
@@ -141,6 +141,7 @@ int WifiController::debugSetNetworkConfig(){
     strcpy(m_session_config.static_address, DEBUG_STATIC_ADDRESS);
 
     writeNetworkConfig(m_session_config);
+    readNetworkConfig();
 
     return 0;
 }

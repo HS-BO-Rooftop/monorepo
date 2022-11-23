@@ -101,7 +101,7 @@ void loop()
                         break;
                     case 2:
                         Serial.println("Check if wifi config exists...");
-                        Serial.println(wifiController->isNetworkConfigAvailable());
+                        Serial.println(wifiController->isNetworkConfigAvailable() ? "yes" : "no");
                         break;
                     case 3:
                         wifiController->printNetworkConfig();

@@ -37,8 +37,8 @@
 
 struct NetworkConfig
 {
-    char ssid[33];
-    char password[33];
+    char ssid[128];
+    char password[64];
     char gateway[16];
     char subnet[16];
     bool is_dynamic_address;
