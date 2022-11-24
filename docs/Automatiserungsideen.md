@@ -12,7 +12,7 @@
 - Wasserstand >, <, >=, <=, = bestimmter Wert
 - Zeitdifferenz seit letzer Ausführung: >, <, >=, <=.
 
-# Auslöser:
+# Aktionen:
 - Bewässerung einschalten
 - Bewässerung ausschalten
 - Bewässerung für X-Sekunden einschalten
