@@ -34,7 +34,7 @@ static HttpsOTAStatus_t otastatus;
 
 OtaController::OtaController()
 {
-    Serial.println("[OtaController] Initializing.");
+    log_i("Initializing.");
 }
 
 OtaController *OtaController::getInstance()
@@ -51,13 +51,13 @@ void OtaController::HttpEvent(HttpEvent_t *event)
     switch (event->event_id)
     {
     case HTTP_EVENT_ERROR:
-        Serial.println("[OtaController] Http Event Error");
+        log_i("Http Event Error");
         break;
     case HTTP_EVENT_ON_CONNECTED:
-        Serial.println("[OtaController] Http Event On Connected");
+        log_i("Http Event On Connected");
         break;
     case HTTP_EVENT_HEADER_SENT:
-        Serial.println("[OtaController] Http Event Header Sent");
+        log_i("Http Event Header Sent");
         break;
     case HTTP_EVENT_ON_HEADER:
         Serial.printf("[OtaController] Http Event On Header, key=%s, value=%s\n", event->header_key, event->header_value);
@@ -65,10 +65,10 @@ void OtaController::HttpEvent(HttpEvent_t *event)
     case HTTP_EVENT_ON_DATA:
         break;
     case HTTP_EVENT_ON_FINISH:
-        Serial.println("[OtaController] Http Event On Finish");
+        log_i("Http Event On Finish");
         break;
     case HTTP_EVENT_DISCONNECTED:
-        Serial.println("[OtaController] Http Event Disconnected");
+        log_i("Http Event Disconnected");
         break;
     }
 }
@@ -105,7 +105,7 @@ void OtaController::doOta()
         
         otaStart = millis();
         HttpsOTA.begin(url, server_certificate);
-        Serial.println("[OtaController] Starting OTA");
+        log_i("Starting OTA");
 
         for (;;)
         { // shit code: build thread
@@ -114,18 +114,16 @@ void OtaController::doOta()
             switch (otastatus)
             {
             case HTTPS_OTA_UPDATING:
-                Serial.println("[OtaController] OTA is currently running.");
+                log_i("OTA is currently running.");
                 delay(1000);
                 continue;
             case HTTPS_OTA_FAIL:
-                Serial.println("[OtaController] OTA failed!");
+                log_i("OTA failed!");
                 delay(1000);
                 continue;
             case HTTPS_OTA_SUCCESS:
                 otaTimeElapsed = millis() - otaStart;
-                Serial.print("[OtaController] OTA did complete in ");
-                Serial.print(otaTimeElapsed / 1000);
-                Serial.println(" s. Reboot device to apply.");
+                log_i("OTA did complete in %0.2f seconds. Reboot device to apply.", otaTimeElapsed / 1000);
                 break;
             }
             break;
@@ -133,6 +131,6 @@ void OtaController::doOta()
     }
     else
     {
-        Serial.println("No update available.");
+        log_i("No update available.");
     }
 }

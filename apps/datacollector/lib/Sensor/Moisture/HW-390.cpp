@@ -2,10 +2,10 @@
 
 HW390::HW390(gpio_num_t pin) {
 #if BOARD_TYPE == 0
-  Serial.println("[HW390] Setting up \"Capacitive Soil Moisture Sensor v2.0\"");
+  log_i("setting up \"Capacitive Soil Moisture Sensor v2.0\"");
   _pin = pin;
 #else
-  Serial.println("[HW390] This sensor has been implemented for NodeMCU Devkits only.")
+  log_i("this sensor has been implemented for NodeMCU Devkits only.")
 #endif
 }
 
@@ -14,23 +14,19 @@ bool HW390::measure() {
   int adcraw;
   double adcval;
   
-  Serial.println("[HW390] Measuring");
+  log_i("measuring");
   adcraw = analogRead(_pin);
   adcval = (double) adcraw / ADC_RESOLUTION * 100; // auf 100 normieren (aber nicht Prozent, nur unbewertete Rohdaten)
   
-  Serial.println("[HW390] ADC-Value raw: ");
-  Serial.print(adcraw);
-  Serial.println("");
-  Serial.println("[HW390] ADC-Value: ");
-  Serial.print(adcval);
-  Serial.println("");
+  log_i("ADC-Value raw: %i", adcraw);
+  log_i("ADC-Value: %0.2f", adcval); 
   
   if(adcraw == 0) {
-    Serial.println("[HW390] ADC returns 0, which is very unlikely. Is the sensor connected correctly?");
+    log_i("ADC returns 0, which is very unlikely. Is the sensor connected correctly?");
     return false;
   }
   else if(adcraw > ADC_RESOLUTION - 50) {
-    Serial.println("[HW390] ADC value is almost at maximum, which is very unlikely. Is the sensor connected correctly?");
+    log_i("ADC value is almost at maximum, which is very unlikely. Is the sensor connected correctly?");
     return false;
   }
   else {

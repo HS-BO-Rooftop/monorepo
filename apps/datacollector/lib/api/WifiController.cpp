@@ -19,17 +19,17 @@ WifiController *WifiController::getInstance(){
     return _instance;
 }
 
-void WifiController::httpListener(){
-    _server.onNotFound([](AsyncWebServerRequest *request)
-                      { request->send(404); });
+void WifiController::httpListener()
+{
+    _server.onNotFound([](AsyncWebServerRequest *request) {
+        request->send(404); });
 
-    _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-              { request->send(SPIFFS, "/index.html", "text/html"); });
+    _server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+        request->send(SPIFFS, "/index.html", "text/html"); });
 
     _server.serveStatic("/", SPIFFS, "/");
 
-    _server.on("/", HTTP_POST, [](AsyncWebServerRequest *request)
-              {
+    _server.on("/", HTTP_POST, [](AsyncWebServerRequest *request) {
         NetworkConfig m_session_config = {"", "", "", "", false, ""};
         int i;
         int params = request->params();
@@ -38,44 +38,41 @@ void WifiController::httpListener(){
             AsyncWebParameter *p = request->getParam(i);
             if (p->isPost())
             {
-            if (p->name() == WEB_INPUT_SSID)
-            {
-                Serial.print("SSID set to: ");
-                Serial.println(p->value().c_str());
-                strcpy(m_session_config.ssid, p->value().c_str());
+                if (p->name() == WEB_INPUT_SSID)
+                {
+                    log_i("SSID set to: %s", p->value().c_str());
+                    strcpy(m_session_config.ssid, p->value().c_str());
+                }
+                if (p->name() == WEB_INPUT_PASSWORD)
+                {
+                    log_i("Password set to: %s", p->value());
+                    strcpy(m_session_config.password, p->value().c_str());
+                }
+                if (p->name() == WEB_INPUT_STATIC_IP)
+                {
+                    log_i("IP Address set to: %s", p->value());
+                    m_session_config.is_dynamic_address = true;
+                    strcpy(m_session_config.static_address, p->value().c_str());
+                }
+                if (p->name() == WEB_INPUT_GATEWAY)
+                {
+                    log_i("Gateway set to: %s", p->value().c_str());
+                    strcpy(m_session_config.gateway, p->value().c_str());
+                }
+                if (p->name() == WEB_INPUT_SUBNET)
+                {
+                    log_i("Subnet set to: %s", p->value().c_str());
+                    strcpy(m_session_config.subnet, p->value().c_str());
+                }
             }
-            if (p->name() == WEB_INPUT_PASSWORD)
-            {
-                Serial.print("Password set to: ");
-                Serial.println(p->value());
-                strcpy(m_session_config.password, p->value().c_str());
-            }
-            if (p->name() == WEB_INPUT_STATIC_IP)
-            {
-                Serial.print("IP Address set to: ");
-                Serial.println(p->value());
-                m_session_config.is_dynamic_address = true;
-                strcpy(m_session_config.static_address, p->value().c_str());
-            }
-            if (p->name() == WEB_INPUT_GATEWAY)
-            {
-                Serial.print("Gateway set to: ");
-                Serial.println(p->value().c_str());
-                strcpy(m_session_config.gateway, p->value().c_str());
-            }
-            if (p->name() == WEB_INPUT_SUBNET)
-            {
-                Serial.print("subnet set to: ");
-                Serial.println(p->value().c_str());
-                strcpy(m_session_config.subnet, p->value().c_str());
-            }
+            log_i("Writing Data...");
+            if(i == params-1) WifiController::getInstance()->writeNetworkConfig(m_session_config);
         }
-        Serial.println("Writing Data...");
-        if(i == params-1) WifiController::getInstance()->writeNetworkConfig(m_session_config);
-    }
 
     request->send(200, "text/plain", "Datacollector startet jetzt neu und ist im Netzwerk verfügbar");
-    delay(3000);
+    log_i("restarting");
+
+    delay(1000);
     ESP.restart(); });
 }
 
@@ -108,21 +105,15 @@ bool WifiController::isNetworkConfigAvailable(){
 }
 
 void WifiController::printNetworkConfig(){
-    if(isNetworkConfigAvailable()){
-        Serial.println("=== NETWORK CONFIG ===");
-        Serial.print("ssid: ");
-        Serial.println(g_network_config.ssid);
-        Serial.print("password: ");
-        Serial.println(g_network_config.password);
-        Serial.print("gateway: ");
-        Serial.println(g_network_config.gateway);
-        Serial.print("subnet: ");
-        Serial.println(g_network_config.subnet);
-        Serial.print("isDynamicAddress: ");
-        Serial.println(g_network_config.is_dynamic_address);
-        Serial.print("staticAddress: ");
-        Serial.println(g_network_config.static_address);
-        Serial.println("======================");
+    if(isNetworkConfigAvailable()) {
+        log_i("=== NETWORK CONFIG ===");
+        log_i("ssid: %s", g_network_config.ssid);
+        log_i("password: %s", g_network_config.password);
+        log_i("gateway: %s", g_network_config.gateway);
+        log_i("subnet: %s", g_network_config.subnet);
+        log_i("isDynamicAddress: %s", g_network_config.is_dynamic_address ? "yes" : "no");
+        log_i("staticAddress: %s", g_network_config.static_address);
+        log_i("======================");
     }
 }
 
@@ -165,7 +156,7 @@ int WifiController::connect(){
 
     if (g_network_config.ssid == "" || g_network_config.password == "")
     {
-        Serial.println("No valid SSID and/or password given.");
+        log_w("no valid SSID and/or password given.");
         return 1;
     }
 
@@ -182,7 +173,7 @@ int WifiController::connect(){
         m_local_ip.fromString(g_network_config.static_address);
         if (!WiFi.config(m_local_ip, m_local_gateway, m_subnet))
         {
-            Serial.println("STA Failed to configure");
+            log_e("STA failed to configure");
             return 10;
         }
     }
@@ -197,13 +188,12 @@ int WifiController::connect(){
         m_current_millis = millis();
         if (m_current_millis - _previous_millis >= TIMEOUT_MS)
         {
-            Serial.println("Failed to connect.");
+            log_w("failed to connect.");
             return 1;
         }
     }
     
-    Serial.print("IP: ");
-    Serial.println(WiFi.localIP());
+    log_i("IP: %s", WiFi.localIP().toString().c_str());
 
     WifiController::synchronizeTime();
 
@@ -239,15 +229,14 @@ void WifiController::synchronizeTime() {
 
     struct tm timeinfo;
     if(!getLocalTime(&timeinfo)){
-        Serial.println("Failed to obtain time");
+        log_w("failed to obtain time");
         return;
     }
-    
-    Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+    // wont work: log_i("Time: %A, %B %d %Y %H:%M:%S", &timeinfo);
 }
 
 int WifiController::initializeTask(){
-    Serial.println("[Info]: Initializing wifi_controller...");
+    log_i("initializing");
 
     xTaskCreate(
         task,
@@ -299,13 +288,12 @@ int WifiController::getRequest(const char *endpoint, String request_body){
         //Parse JSON, read error if any
         DeserializationError error = deserializeJson(m_doc, m_response);
         if(error) {
-            Serial.print(F("deserializeJson() failed: "));
-            Serial.println(error.f_str());
+            log_i("deserializeJson() failed: %s", error.f_str());
             return 1;
         }
         //Print parsed value on Serial Monitor
-        Serial.println("//Print parsed value on Serial Monitor");
-        Serial.println(m_doc["name"].as<char*>());
+        log_i("//Print parsed value on Serial Monitor");
+        log_i("%s", m_doc["name"].as<char*>());
         //Close connection
         _http.end();
     }

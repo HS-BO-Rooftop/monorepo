@@ -4,11 +4,11 @@ Adafruit_SSD1306 _display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 DisplayController *DisplayController::_instance = nullptr;
 
 DisplayController::DisplayController(){
-    Serial.println("[Info]: Initializing display_controller...");
+    log_d("initializing");
     _current_view_ptr = new HomeView();
 
     if(!_display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
-        Serial.println("SSD1306 allocation failed, looping");
+        log_i("SSD1306 allocation failed, looping");
         for(;;);
     }
 

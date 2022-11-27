@@ -15,8 +15,7 @@ MqttClient::~MqttClient() {
 }
 
 void MqttClient::callback(char* topic, byte* payload, unsigned int length) {
-  Serial.print("[MqttClient] Callback - ");
-  Serial.print("Message:");
+  log_i("new message:");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
   }
@@ -38,7 +37,7 @@ bool MqttClient::connectMqtt() {
         return false;
     } else {
         while (!mqttClient.connected()) {
-            Serial.println("[MqttClient] connecting to broker");
+            log_i("connecting to broker");
 
             /* String clientId = "Datacollector-";
             String mac = WiFi.macAddress().c_str();
@@ -47,50 +46,50 @@ bool MqttClient::connectMqtt() {
             mqttClient.connect("test", MQTT_USERNAME, MQTT_PASSWORD);
 
             if (mqttClient.connected()) {
-                Serial.println("[MqttClient] connected.");
+                log_i("connected.");
             }
             else {
-                Serial.println("[MqttClient] connect failed, looping");
+                log_i("connect failed, looping");
                 delayMicroseconds(500 * 1000);
             }
         }
-        //Serial.println(uxTaskGetStackHighWaterMark (NULL));
+        //log_i(uxTaskGetStackHighWaterMark (NULL));
         return true;
     }
 }
 
 void MqttClient::sendMeasurement(const char *sensor, int measurement) {
-    Serial.printf("[MqttClient] Publishing %i to topic \"%s\"\n", measurement, sensor);
+    log_i("publishing %i to topic \"%s\"\n", measurement, sensor);
     if(mqttClient.connected()) {
 
         std::string measurement_s = std::to_string(measurement);
         const char *payload = measurement_s.c_str();
         mqttClient.publish(sensor, payload);
     } else {
-        Serial.println("[MqttClient] not connected");
+        log_i("not connected");
     }
 }
 
 void MqttClient::sendMeasurement(const char *sensor, double measurement) {
-    Serial.printf("[MqttClient] Publishing %f to topic \"%s\"\n", measurement, sensor);
+    log_i("publishing %i to topic \"%s\"\n", measurement, sensor);
      if(mqttClient.connected()) {
 
         std::string measurement_s = std::to_string(measurement);
         const char *payload = measurement_s.c_str();
         mqttClient.publish(sensor, payload);
     } else {
-        Serial.println("[MqttClient] not connected");
+        log_i("not connected");
     }
 }
 
 void MqttClient::sendMeasurement(const char *sensor, String measurement) {
-    Serial.printf("[MqttClient] Publishing %s to topic \"%s\"\n", measurement, sensor);
+    log_i("publishing %i to topic \"%s\"\n", measurement, sensor);
     if(mqttClient.connected()) {
 
         const char *payload = measurement.c_str();
         mqttClient.publish(sensor, payload);
     } else {
-        Serial.println("[MqttClient] not connected");
+        log_i("not connected");
     }
 }
 

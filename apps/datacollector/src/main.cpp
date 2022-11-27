@@ -41,16 +41,16 @@ void setup() {
     sensorController = SensorController::getInstance();
     wifiController = WifiController::getInstance();
     OtaController = OtaController::getInstance();
-
+    
     inputController->registerObserver(displayController);
     otc = new OnTopClient();
     mqtt = new MqttClient();
-
+/* 
     mqtt->connectMqtt();
     mqtt->sendMeasurement("testtopic", 123);
     mqtt->sendMeasurement("testtopic", 123.1);
     mqtt->sendMeasurement("testtopic", "123");
-
+ */
     /* moistsens = new HW390(GPIO_NUM_36);
     moistsens2 = new HW390(GPIO_NUM_39);
 
@@ -80,7 +80,6 @@ void loop()
         firstLoop = false;
         Serial.println("==================");
         Serial.println("Serial command-line available.");
-        Serial.print("$ ");
     }
     
     if (Serial.available() > 0) {
@@ -89,8 +88,8 @@ void loop()
         if(incomingByte != 10){
             userInput = userInput + (char) incomingByte;
             Serial.println(userInput.c_str());
-        }else {
-            if(userInput.c_str() != ""){
+        } else {
+            if(userInput.c_str() != "") {
                 Serial.println("==================");
 
                 switch (std::stoi(userInput))

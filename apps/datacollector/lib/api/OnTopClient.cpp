@@ -35,8 +35,8 @@ int OnTopClient::initDevice(){
         _file_handler->read((char *)DATACOLLECTOR_CONFIG_PATH, (byte *)&g_datacollector_config, sizeof(g_datacollector_config));
         m_request_body_doc["id"] = g_datacollector_config.device_id;
 
-        Serial.println("Found Config");
-        Serial.println(g_datacollector_config.device_id);
+        log_i("found Config");
+        log_i("%s", g_datacollector_config.device_id);
     }else{
         m_request_body_doc["id"] = nullptr;
     }
@@ -47,8 +47,8 @@ int OnTopClient::initDevice(){
 
     if (error)
     {
-        Serial.print("deserializeJson() failed: ");
-        Serial.println(error.c_str());
+        log_i("deserializeJson() failed");
+        log_i("%s", error.c_str());
         return 0;
     }
 

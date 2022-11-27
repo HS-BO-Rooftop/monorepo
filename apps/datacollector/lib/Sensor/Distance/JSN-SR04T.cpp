@@ -14,7 +14,7 @@
 JSNSR04T *JSNSR04T::instance = nullptr;
 
 JSNSR04T::JSNSR04T() {
-  Serial.println("[JSN-SR04T] Setting up JSN-SR04T Sensor.");
+  log_i("setting up JSN-SR04T Sensor.");
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 }
@@ -37,9 +37,7 @@ int JSNSR04T::getValue() {
 
   distance = duration*0.034/2;
   
-  Serial.print("[JSN-SR04T] Distance measured: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  log_i("distance: %i cm", distance);
 
   return distance;
 }

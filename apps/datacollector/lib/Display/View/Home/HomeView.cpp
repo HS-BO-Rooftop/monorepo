@@ -5,7 +5,7 @@ HomeView::~HomeView(){}
 
 int HomeView::render()
 {
-    Serial.println("[HomeView] Rendering");
+    log_i("rendering");
     
     Adafruit_SSD1306 m_display = DisplayController::getInstance()->getDisplay();
 
@@ -23,5 +23,5 @@ int HomeView::render()
 }
 
 void HomeView::onClick(uint8_t press_type){
-    Serial.println("[HomeView] Button has been pressed");
+    log_i("button has been pressed");
 }
