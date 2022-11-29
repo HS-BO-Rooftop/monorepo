@@ -21,13 +21,13 @@ FileHandler *FileHandler::getInstance(){
 int FileHandler::read(char *file_path, byte *buffer, size_t size){
     if (exists(file_path)){
         File m_file = SPIFFS.open(file_path, FILE_READ);
-        Serial.println(m_file.size());
+        log_i("filesize: %i Byte", m_file.size());
 
         if (m_file){
             m_file.read(buffer, size);
             m_file.close();
         }else{
-            Serial.println("[FileHandler::read - Failed to open file.");
+            log_i("failed to open file.");
             return 1;
         }
         return 0;
@@ -62,15 +62,15 @@ int FileHandler::write(char *file_path, byte *data, size_t size){
         m_file.close();
         return 0;
     }else{
-        Serial.println("FileHandler::write - Failed to open file.");
+        log_i("failed to open file.");
         return 1;
     }
 }
 
 void FileHandler::initSPIFFS(){
     if (!SPIFFS.begin(true)){
-        Serial.println("An error has occurred while mounting SPIFFS");
+        log_i("an error has occurred while mounting SPIFFS");
     }
 
-    Serial.println("SPIFFS mounted successfully");
+    log_i("SPIFFS mounted successfully");
 }

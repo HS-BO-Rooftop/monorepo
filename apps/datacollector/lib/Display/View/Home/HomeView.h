@@ -11,5 +11,7 @@ class HomeView : virtual public ViewInterface
         void onClick(uint8_t) override;
 
     private:
+
     protected:
+
 };

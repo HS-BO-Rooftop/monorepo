@@ -3,7 +3,7 @@
 SensorController *SensorController::_instance = nullptr;
 
 SensorController::SensorController(){
-    Serial.println("[Info]: Initializing sensor_controller...");
+        log_d("initializing");
 
     _head = NULL;
     _tail = NULL;
@@ -42,7 +42,7 @@ void SensorController::task(void *parameters){
 }
 
 int SensorController::enqueue(int sensor_Id, float value, long timestamp){
-    Serial.println("<== SensorController::enqueue()");
+    log_i("got called");
 
     SensorData * m_node_ptr = new SensorData{sensor_Id, value, timestamp, NULL};
 
@@ -61,7 +61,7 @@ int SensorController::enqueue(int sensor_Id, float value, long timestamp){
 }
 
 int SensorController::dequeue(SensorData *& node_ptr){
-    Serial.println("<== SensorController::dequeue()");
+    log_i("got called");
 
     if(this->_head == NULL) return 1;
     node_ptr = this->_head;
@@ -71,7 +71,7 @@ int SensorController::dequeue(SensorData *& node_ptr){
 }
 
 int SensorController::clear(){
-    Serial.println("<== SensorController::clear()");
+    log_i("got called");
     SensorData * m_current_node_ptr = NULL;
 
     while(this->_head != NULL)
@@ -85,19 +85,18 @@ int SensorController::clear(){
     return 0;
 }
 
-void SensorController::display()
-{
-    Serial.println("<== SensorController::display()");
+void SensorController::display() {
+    log_i("got called");
 
     SensorData * m_current_node_ptr = this->_head;
 
     int index = 0;
     while(m_current_node_ptr != NULL) {
-        Serial.println("--------------------------");
-        Serial.println("Index: " + index++);
-        Serial.println("SensorId: " + m_current_node_ptr->sensorId);
-        //Serial.println("Value: " + currentPtr->value);
-        Serial.println("Timestamp: " + m_current_node_ptr->timestamp);
+        log_i("--------------------------");
+        log_i("Index: %i", index++);
+        log_i("SensorId: %i", m_current_node_ptr->sensorId);
+        //log_i("Value: %p", currentPtr->value);
+        log_i("Timestamp: %l", m_current_node_ptr->timestamp);
         m_current_node_ptr = m_current_node_ptr->next;
     }
 }

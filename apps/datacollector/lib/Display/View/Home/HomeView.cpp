@@ -1,16 +1,12 @@
 #include "HomeView.h"
 
-HomeView::HomeView(){
-
-}
-
+HomeView::HomeView(){}
 HomeView::~HomeView(){}
 
 int HomeView::render()
 {
-    Serial.println("render home");
-    //display = displayController::display();
-    /*
+    log_i("rendering");
+    
     Adafruit_SSD1306 m_display = DisplayController::getInstance()->getDisplay();
 
     m_display.clearDisplay();
@@ -23,10 +19,9 @@ int HomeView::render()
 
     m_display.display();
 
-    */
     return 0;
 }
 
 void HomeView::onClick(uint8_t press_type){
-
+    log_i("button has been pressed");
 }

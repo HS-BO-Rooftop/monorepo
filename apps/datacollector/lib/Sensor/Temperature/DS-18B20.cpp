@@ -1,9 +1,7 @@
 #include "DS-18B20.h"
 
 DS18B20::DS18B20(gpio_num_t pin) {
-  Serial.print("[DS18B20] Setting up Temperature Sensor on GPIO ");
-  Serial.print(pin);
-  Serial.print("\n");
+  log_i("setting up Temperature Sensor on GPIO %i", pin);
   
   oneWireBus = OneWire(pin);
   _ds18b20 = DallasTemperature(&oneWireBus);
@@ -11,34 +9,29 @@ DS18B20::DS18B20(gpio_num_t pin) {
 
   _ds18b20.begin();
   int count = _ds18b20.getDeviceCount();
-  Serial.print("[DS18B20] Sensors count on GPIO: ");
-  Serial.print(pin);
-  Serial.print(" : ");
-  Serial.println(count);
-
-  if (count == 1) {
+  log_i("sensor count on GPIO %i: %i", pin, count);
+  
+    if (count == 1) {
     _ds18b20.getAddress(bus_address, 0);
     _ds18b20.setResolution(bus_address, 12);
   } else {
-    Serial.println("[DS18B20] Not exactly 1 device on bus! Check connections");
+    log_i("not exactly 1 device on bus! Check connections");
   }
 }
 
 bool DS18B20::measure() {
-  Serial.println("[DS18B20] Measuring");
+  log_i("measuring");
 
   _ds18b20.requestTemperatures();
   delayMicroseconds(100);
   value = _ds18b20.getTempCByIndex(0);
 
   if (value == DEVICE_DISCONNECTED_C) {
-    Serial.println("[DS18B20] Error on DS18B20 measurement.");
+    log_i("error on DS18B20 measurement.");
     return false;
   }
   else {
-    Serial.print("[DS18B20] Result:");
-    Serial.print(value);
-    Serial.println(" °C");
+    log_i("result: %0.2f °C", value);
     return true;
   }
 }

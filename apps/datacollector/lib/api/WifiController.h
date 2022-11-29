@@ -40,7 +40,6 @@ class WifiController
 
         WifiController();
         void setup();
-        void initSPIFFS();
         void httpListener();
         int initializeTask();
         static void task(void * parameters);

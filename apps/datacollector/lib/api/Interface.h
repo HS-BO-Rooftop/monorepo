@@ -28,10 +28,17 @@
 #define API_REGISTER "/api/register"
 #define API_HEARTBEAT "/api/heartbeat"
 
+// ** MQTT__CLIENT **
+#define MQTT_SERVER_ADDRESS ""
+#define MQTT_SERVER_PORT ""
+#define MQTT_USERNAME ""
+#define MQTT_PASSWORD ""
+
+
 struct NetworkConfig
 {
-    char ssid[33];
-    char password[33];
+    char ssid[128];
+    char password[64];
     char gateway[16];
     char subnet[16];
     bool is_dynamic_address;

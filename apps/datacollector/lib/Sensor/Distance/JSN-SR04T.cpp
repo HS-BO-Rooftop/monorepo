@@ -1,8 +1,8 @@
 #include "JSN-SR04T.h"
 
 #if BOARD_TYPE == 0
-  #define trigPin GPIO_NUM_22
-  #define echoPin GPIO_NUM_23
+  #define trigPin GPIO_NUM_16
+  #define echoPin GPIO_NUM_17
 #elif BOARD_TYPE == 1
   #define trigPin GPIO_NUM_32
   #define echoPin GPIO_NUM_35
@@ -14,7 +14,7 @@
 JSNSR04T *JSNSR04T::instance = nullptr;
 
 JSNSR04T::JSNSR04T() {
-  Serial.println("[JSN-SR04T] Setting up JSN-SR04T Sensor.");
+  log_i("setting up JSN-SR04T Sensor.");
   pinMode(trigPin, OUTPUT);
   pinMode(echoPin, INPUT);
 }
@@ -37,9 +37,7 @@ int JSNSR04T::getValue() {
 
   distance = duration*0.034/2;
   
-  Serial.print("[JSN-SR04T] Distance measured: ");
-  Serial.print(distance);
-  Serial.println(" cm");
+  log_i("distance: %i cm", distance);
 
   return distance;
 }
