@@ -6,7 +6,7 @@ class HW390
 {
     public:
         HW390(gpio_num_t pin);
-        int getValue();
+        double getValue();
     private:
         gpio_num_t _pin;
         double value;

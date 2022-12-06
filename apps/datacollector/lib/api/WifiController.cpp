@@ -169,7 +169,7 @@ int WifiController::connect(){
     m_subnet.fromString(g_network_config.subnet);
     m_local_gateway.fromString(g_network_config.gateway);
 
-    if (g_network_config.is_dynamic_address){
+    if (!g_network_config.is_dynamic_address){
         m_local_ip.fromString(g_network_config.static_address);
         if (!WiFi.config(m_local_ip, m_local_gateway, m_subnet))
         {

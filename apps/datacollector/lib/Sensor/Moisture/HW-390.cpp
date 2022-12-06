@@ -38,7 +38,7 @@ bool HW390::measure() {
 #endif
 }
 
-int HW390::getValue() {
+double HW390::getValue() {
   if(measure())
     return value;
   else 

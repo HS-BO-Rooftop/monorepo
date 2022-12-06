@@ -31,8 +31,17 @@ MqttClient *mqtt;
 DS18B20 *tempsens;
 HW390 *moistsens;
 HW390 *moistsens2;
+JSNSR04T *_jsnsr04t;
 
 static const char *TAG = "main";
+
+void measure() {
+    log_i("reading and sending");
+    mqtt->sendMeasurement("boards/dfc62898-b14e-4238-a936-09d43cd15c18/sensors/91160541-8d00-458e-9155-56af1220d45c/data", moistsens->getValue());
+    //mqtt->sendMeasurement("boards/dfc62898-b14e-4238-a936-09d43cd15c18/sensors/58fd9a14-a299-4ac1-90fd-d852e623c454/data", moistsens2->getValue());
+    mqtt->sendMeasurement("boards/dfc62898-b14e-4238-a936-09d43cd15c18/sensors/2c5039be-2922-41c0-8a90-59748fffed6c/data", tempsens->getValue());
+    mqtt->sendMeasurement("boards/dfc62898-b14e-4238-a936-09d43cd15c18/sensors/98e1ece0-e262-4c3b-a8b7-25a4d02ccc15/data", _jsnsr04t->getValue());
+}
 
 void setup() {
     Serial.begin(115200);
@@ -45,27 +54,15 @@ void setup() {
     inputController->registerObserver(displayController);
     otc = new OnTopClient();
     mqtt = new MqttClient();
-/* 
+
     mqtt->connectMqtt();
-    mqtt->sendMeasurement("testtopic", 123);
-    mqtt->sendMeasurement("testtopic", 123.1);
-    mqtt->sendMeasurement("testtopic", "123");
- */
-    /* moistsens = new HW390(GPIO_NUM_36);
-    moistsens2 = new HW390(GPIO_NUM_39);
 
-    for(;;) {
-        moistsens->getValue();
-        moistsens2->getValue();
-        delayMicroseconds(1000 * 1000);
-    }
+    moistsens = new HW390(GPIO_NUM_36);
+    //moistsens2 = new HW390(GPIO_NUM_39);
+    tempsens = new DS18B20(GPIO_NUM_21);
+    _jsnsr04t = JSNSR04T::getInstance();
 
-    tempsens = new DS18B20(GPIO_NUM_5);
-    tempsens->getValue();
-
-    JSNSR04T *_jsnsr04t = JSNSR04T::getInstance();
-    _jsnsr04t->getValue(); */
-
+    measure();
     /* if(OtaController->getUpdateAvailable()) {
         Serial.println("There is an update available.");
         OtaController->doOta();
@@ -73,7 +70,7 @@ void setup() {
 }
 
 bool firstLoop = true;
-
+int count = 1;
 void loop()
 {
     if (firstLoop) {
@@ -83,11 +80,14 @@ void loop()
     }
     
     if (Serial.available() > 0) {
-    // read the incoming byte:
+        // read the incoming byte:
         incomingByte = Serial.read();
-        if(incomingByte != 10){
+        Serial.print(incomingByte);
+        Serial.print(" ");
+
+        if(incomingByte != 13){
             userInput = userInput + (char) incomingByte;
-            Serial.println(userInput.c_str());
+            //Serial.println(userInput.c_str());
         } else {
             if(userInput.c_str() != "") {
                 Serial.println("==================");
@@ -134,7 +134,17 @@ void loop()
                 }
 
                 userInput = "";
+            } else {
+                Serial.println("no input");
             }
         }
+    }
+    else {
+        delay(1000);
+        count++;
+        if (count == 10) {
+            count = 1;
+            measure();
+        };
     }
 }

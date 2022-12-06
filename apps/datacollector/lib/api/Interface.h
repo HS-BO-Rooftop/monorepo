@@ -1,12 +1,12 @@
 #pragma once
 
 // ** WIFI_CONTROLLER **
-#define DEBUG_SSID ""
+#define DEBUG_SSID "HSBO_ppsk"
 #define DEBUG_PASSWORD ""
-#define DEBUG_GATEWAY "192.168.0.1"
-#define DEBUG_SUBNET "255.255.255.0"
-#define DEBUG_IS_DYNAMIC_ADDRESS false
-#define DEBUG_STATIC_ADDRESS "192.168.0.2"
+#define DEBUG_GATEWAY "10.0.0.0"
+#define DEBUG_SUBNET "255.255.0.0"
+#define DEBUG_IS_DYNAMIC_ADDRESS true
+#define DEBUG_STATIC_ADDRESS "10.0.0.0"
 
 #define WIFI_HOSTNAME "Datacollector"
 #define WIFI_PASSWORD "123454321"
@@ -24,13 +24,13 @@
 
 // ** ONTOP__CLIENT **
 #define DATACOLLECTOR_CONFIG_PATH "/config/datacollector.txt"
-#define API_SERVER "http://192.168.0.158:3000"
+#define API_SERVER "http://ontop.hs-bochum.de:3000"
 #define API_REGISTER "/api/register"
 #define API_HEARTBEAT "/api/heartbeat"
 
 // ** MQTT__CLIENT **
-#define MQTT_SERVER_ADDRESS ""
-#define MQTT_SERVER_PORT ""
+#define MQTT_SERVER_ADDRESS "ontop.hs-bochum.de"
+#define MQTT_SERVER_PORT 1881
 #define MQTT_USERNAME ""
 #define MQTT_PASSWORD ""
 
