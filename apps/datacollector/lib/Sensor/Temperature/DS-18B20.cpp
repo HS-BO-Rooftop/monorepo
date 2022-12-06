@@ -36,7 +36,7 @@ bool DS18B20::measure() {
   }
 }
 
-int DS18B20::getValue() {
+double DS18B20::getValue() {
   if(measure())
     return value;
   else 
