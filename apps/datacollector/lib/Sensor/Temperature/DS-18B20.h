@@ -8,7 +8,7 @@ class DS18B20
 {
     public:
         DS18B20(gpio_num_t pin);
-        int getValue();
+        double getValue();
     private:
         double value;
         bool measure();
