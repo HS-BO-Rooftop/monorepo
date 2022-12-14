@@ -1,0 +1,56 @@
+{
+  "trigger": [
+    {
+      "type": "sensor",
+      "sensorId": "id",
+      "operator": "eq",
+      "value": "value"
+    },
+    {
+      "type": "time",
+      "value": "hh:mm"
+    },
+    {
+      "type": "water_level",
+      "operator": "eq",
+      "value": "value"
+    }
+  ],
+  "conditions": [
+    {
+      "type": "and",
+      "conditions": [
+        {
+          "type": "sensor",
+          "sensorId": "id",
+          "operator": "eq",
+          "value": "value"
+        },
+        {
+          "type": "time",
+          "value": "hh:mm"
+        },
+        {
+          "type": "water_level",
+          "operator": "eq",
+          "value": "value"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "switch_gpio",
+      "state": "on",
+      "gpio": "gpio",
+      "boardId": "id",
+      "duration": "hh:mm:ss"
+    },
+    {
+      "type": "switch_gpio",
+      "state": "on",
+      "gpio": "gpio",
+      "boardId": "id"
+    }
+  ]
+}

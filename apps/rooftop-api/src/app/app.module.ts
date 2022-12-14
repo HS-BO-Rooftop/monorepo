@@ -8,6 +8,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getMetadataArgsStorage } from 'typeorm';
 import { AuthModule } from '../auth/auth.module';
+import { AutomationsModule } from '../automations/automations.module';
 import { BedsModule } from '../beds/beds.module';
 import { BoardsModule } from '../configurations/boards/boards.module';
 import { HeartbeatModule } from '../heartbeat/heartbeat.module';
@@ -59,6 +60,7 @@ import { VersionController } from './version.controller';
     HeartbeatModule,
     BedsModule,
     SensorDataModule,
+    AutomationsModule,
   ],
   controllers: [VersionController],
   providers: [
