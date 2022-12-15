@@ -4,17 +4,22 @@ import { actionTypes, IAction } from "./IAction";
 
 export class WateringAction implements IAction {
   private logger: Logger;
-  public type: actionTypes = 'gpio';
+  public type: actionTypes = 'gpio_action';
 
-  constructor(private action: boolean,private readonly mqtt: ClientProxy) {
+  constructor(private targetState: boolean,private readonly mqtt: ClientProxy) {
     this.logger = new Logger('WateringAction');
   }
+
+
   serialize(): string {
-    throw new Error("Method not implemented.");
+    return JSON.stringify({
+      action: this.targetState,
+      type: this.type,
+    });
   }
 
   public performAction(): void {
-    this.logger.log(`Watering action: ${this.action}`);
-    this.mqtt.emit('watering', this.action).subscribe();
+    this.logger.log(`Watering action: ${this.targetState}`);
+    this.mqtt.emit('watering', this.targetState).subscribe();
   }
 }

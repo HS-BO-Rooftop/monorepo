@@ -4,21 +4,21 @@ import { actionTypes, IAction } from './IAction';
 
 export class GpioAction implements IAction {
   private logger: Logger;
-  public type: actionTypes = 'gpio';
+  public type: actionTypes = 'gpio_action';
 
   constructor(
     private boardId: string,
     private pinId: string,
-    private newState: boolean,
+    private targetState: boolean,
     private mqtt: ClientProxy
   ) {
     this.logger = new Logger(`GPIO Action: ${boardId}/${pinId}`);
   }
 
   public performAction() {
-    this.logger.debug(`Setting pin ${this.pinId} to ${this.newState}`);
+    this.logger.debug(`Setting pin ${this.pinId} to ${this.targetState}`);
     this.mqtt
-      .emit(`boards/${this.boardId}/pins/${this.pinId}/state`, this.newState)
+      .emit(`boards/${this.boardId}/pins/${this.pinId}/state`, this.targetState)
       .subscribe();
   }
 
@@ -26,7 +26,7 @@ export class GpioAction implements IAction {
     return JSON.stringify({
       boardId: this.boardId,
       pinId: this.pinId,
-      newState: this.newState,
+      newState: this.targetState,
       type: this.type,
     });
   }
