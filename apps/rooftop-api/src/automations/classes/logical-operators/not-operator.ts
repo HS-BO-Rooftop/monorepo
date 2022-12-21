@@ -10,6 +10,7 @@ export class NotLogicalOperator implements IEvaluator {
   public type: evaluatorType = 'not';
 
   constructor(condition: IEvaluator) {
+    this.condition = condition;
     this.condition.isFullfilled
       .subscribe((result: boolean) => {
         this.isFullfilled.next(!result);
@@ -20,6 +21,7 @@ export class NotLogicalOperator implements IEvaluator {
   serialize(): string {
     return JSON.stringify({
       operator: this.operator,
+      type: this.type,
       condition: this.condition.serialize(),
     });
   }

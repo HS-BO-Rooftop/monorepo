@@ -1,6 +1,7 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { Ctx, MessagePattern, MqttContext } from '@nestjs/microservices';
 import { AutomationsService } from './automations.service';
+import { AutomationConfigDto } from './classes/automation-config';
 import { MQTTCacheService } from './mqtt-cache.service';
 
 @Controller('automations')
@@ -25,5 +26,30 @@ export class AutomationsController {
       boardId: splits[1],
       sensorId: splits[3],
     };
+  }
+
+  @Get()
+  async getAutomations() {
+    return this.service.getAutomations();
+  }
+
+  @Get(':id')
+  async getAutomation(id: string) {
+    return this.service.getAutomation(id);
+  }
+
+  @Post()
+  async createAutomation(@Body() data: AutomationConfigDto) {
+    return this.service.createAutomation(data);
+  }
+
+  @Patch(':id')
+  async updateAutomation(@Body() data: AutomationConfigDto, @Param('id') id: string) {
+    return this.service.updateAutomation(id, data);
+  }
+
+  @Delete(':id')
+  async deleteAutomation(@Param('id') id: string) {
+    return this.service.deleteAutomation(id);
   }
 }

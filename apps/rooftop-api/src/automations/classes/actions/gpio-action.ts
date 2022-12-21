@@ -12,11 +12,11 @@ export class GpioAction implements IAction {
     private targetState: boolean,
     private mqtt: ClientProxy
   ) {
-    this.logger = new Logger(`GPIO Action: ${boardId}/${pinId}`);
+    this.logger = new Logger(`GPIO Action: Board ${boardId} / Pin ${pinId}`);
   }
 
   public performAction() {
-    this.logger.debug(`Setting pin ${this.pinId} to ${this.targetState}`);
+    this.logger.debug(`Setting pin to ${this.targetState ? 'HIGH' : 'LOW'}`);
     this.mqtt
       .emit(`boards/${this.boardId}/pins/${this.pinId}/state`, this.targetState)
       .subscribe();

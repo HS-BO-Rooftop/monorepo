@@ -1,8 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
-import { GpioAction } from './classes/actions/gpio-action';
-import { AutomationConfig } from './classes/automation-config';
-import { SensorValueCondition } from './classes/conditions/sensor-value';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AutomationConfig, AutomationConfigDto, IAutomationConfig } from './classes/automation-config';
+import { AutomationEntity } from './entities/automation.entity';
 import { mqttCacheEntry, MQTTCacheService } from './mqtt-cache.service';
 
 @Injectable()
@@ -13,19 +14,80 @@ export class AutomationsService {
   constructor(
     readonly mqttCache: MQTTCacheService,
     @Inject('SENSOR_MQTT')
-    readonly mqttClient: ClientProxy
+    readonly mqttClient: ClientProxy,
+    @InjectRepository(AutomationEntity)
+    private readonly automationRepository: Repository<AutomationEntity>
   ) {
-    const testConfig = new AutomationConfig();
-    testConfig.triggers = [
-      // new TimeCondition('gt', new Date('2021-01-01T08:49:00.000Z')),
-      new SensorValueCondition('1', 'eq', 20, mqttCache.cache)
-    ];
-    testConfig.conditions = [
-      new SensorValueCondition('2', 'gte', 20, mqttCache.cache)
-    ];
-    testConfig.actions = [
-      new GpioAction('1', '1', true, mqttClient),
-    ];
-    this.automationConfigs = [testConfig];
+    this.automationRepository.findOne({
+      where: {
+        id: "102fce80-59a9-4409-a701-9d2a679a403e"
+      }
+    }).then(data => {
+      const automation = AutomationConfig.deserialize(data.data, null, mqttCache.cache, mqttClient)
+      console.log(automation.toString())
+      this.automationConfigs = [automation]
+    })
+  }
+
+  public async getAutomations(enabledOnly = false): Promise<IAutomationConfig[]> {
+    const data = await this.automationRepository.find();
+    const jsonData = data.map(d => JSON.parse(d.data) as IAutomationConfig)
+    return jsonData.filter(d => !enabledOnly || d.active)
+  }
+
+  public async getAutomation(id: string): Promise<IAutomationConfig> {
+    const data = await this.automationRepository.findOne({
+      where: {
+        id
+      }
+    });
+
+    return JSON.parse(data.data) as IAutomationConfig
+  }
+
+  public async updateAutomation(id: string, data: AutomationConfigDto) {
+    const automation = await this.automationRepository.findOne({
+      where: {
+        id
+      }
+    });
+
+    const currentData = JSON.parse(automation.data) as AutomationConfigDto
+
+    // Merge the data
+    data = {
+      ...currentData,
+      ...data
+    }
+
+    automation.data = JSON.stringify(data)
+    await this.automationRepository.save(automation)
+    const config = this.createAutomationConfig(automation)
+    this.upsertAutomation(config)
+  }
+
+  public async createAutomation(data: AutomationConfigDto) {
+    const automation = new AutomationEntity()
+    automation.data = JSON.stringify(data)
+    await this.automationRepository.save(automation)
+    const config = this.createAutomationConfig(automation)
+    this.upsertAutomation(config)
+  }
+
+  public async deleteAutomation(id: string) {
+    await this.automationRepository.delete({
+      id
+    })
+
+    this.automationConfigs = this.automationConfigs.filter(a => a.id !== id)
+  }
+
+  private createAutomationConfig(automation: AutomationEntity) {
+    return AutomationConfig.deserialize(automation.data, null, this.mqttCache.cache, this.mqttClient)
+  }
+
+  private async upsertAutomation(automation: AutomationConfig) {
+    this.automationConfigs = this.automationConfigs.filter(a => a.id !== automation.id)
+    this.automationConfigs.push(automation)
   }
 }

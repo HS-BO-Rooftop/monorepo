@@ -28,6 +28,7 @@ export class AndLogicalOperator extends BaseLogicalOperator implements ISerializ
   serialize(): string {
     return JSON.stringify({
       operator: this.operator,
+      type: this.type,
       conditions: this.conditions.map(cond => cond.serialize()),
     });
   }

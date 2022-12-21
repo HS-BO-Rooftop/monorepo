@@ -4,7 +4,7 @@ import { WeatherService } from '../../../weather/weather.service';
 import { evaluatorType, IEvaluator } from '../IEvaluator';
 import { ISerializeable } from '../ISerializeable';
 
-type weatherTarget = 'rain' | 'sun';
+export type weatherTarget = 'rain' | 'sun';
 
 export class WeatherCondition implements IEvaluator, ISerializeable {
   public type: evaluatorType = 'weather';

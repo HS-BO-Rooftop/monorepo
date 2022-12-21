@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { OutboundResponseSerializer } from '../common/mqtt/outboundResponseSerializer';
 import { AutomationsController } from './automations.controller';
 import { AutomationsService } from './automations.service';
+import { AutomationEntity } from './entities/automation.entity';
 import { MQTTCacheService } from './mqtt-cache.service';
 
 @Module({
@@ -25,6 +27,7 @@ import { MQTTCacheService } from './mqtt-cache.service';
         imports: [ConfigModule],
       },
     ]),
+    TypeOrmModule.forFeature([AutomationEntity])
   ],
   controllers: [AutomationsController],
   providers: [AutomationsService, MQTTCacheService],

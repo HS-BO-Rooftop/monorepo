@@ -13,7 +13,7 @@ export class WateringAction implements IAction {
 
   serialize(): string {
     return JSON.stringify({
-      action: this.targetState,
+      newState: this.targetState,
       type: this.type,
     });
   }

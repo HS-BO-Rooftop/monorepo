@@ -6,3 +6,10 @@ export interface IAction extends ISerializeable {
   type: actionTypes;
   performAction(): void;
 }
+
+export class ActionJsonData {
+  type: actionTypes;
+  boardId?: string;
+  pinId?: string;
+  newState?: boolean;
+}
