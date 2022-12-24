@@ -3,9 +3,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  OneToMany,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 import { BedEntity } from '../../../beds/entities/bed.entity';
+import { BoardSensorEntity } from '../../entities/configuration.entity';
 import { PlantEntity } from '../../plants/entities/plant.entity';
 
 @Entity({ name: 'boards' })
@@ -38,4 +40,7 @@ export class BoardEntity {
   })
   @JoinColumn({ name: 'bed_id' })
   bed: BedEntity;
+
+  @OneToMany(() => BoardSensorEntity, (boardSensor) => boardSensor.board)
+  sensors: BoardSensorEntity[];
 }

@@ -12,7 +12,7 @@ export class PlantDto {
   name_en: string;
 
   @ApiProperty({ maxLength: 1024 })
-  imageUrl: string;
+  image_url: string;
 
   @ApiProperty({ type: () => [BoardDto] })
   boards: BoardDto[];

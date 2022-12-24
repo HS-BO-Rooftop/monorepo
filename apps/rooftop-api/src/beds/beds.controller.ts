@@ -6,17 +6,20 @@ import {
   Param,
   Patch,
   Post,
+  Query
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
+import { TimeRangeRequestDto } from '../weather/dto/time-range-request.dto';
 import { BedsService } from './beds.service';
+import { BedSensorDataDto } from './dto/bed-data.dto';
 import { BedDto } from './dto/bed.dto';
 import { CreateBedDto } from './dto/create-bed.dto';
 import { UpdateBedDto } from './dto/update-bed.dto';
@@ -81,5 +84,19 @@ export class BedsController {
   })
   remove(@Param('id') id: string) {
     return this.bedsService.remove(id);
+  }
+
+  @Get(':id/sensors/data')
+  @ApiOkResponse({
+    type: BedSensorDataDto,
+    isArray: true,
+  })
+  @RNotFoundResponse()
+  @RInternalServerErrorResponse()
+  @ApiOperation({
+    operationId: 'getSensorDataForBed',
+  })
+  getSensorData(@Param('id') id: string, @Query() query: TimeRangeRequestDto) {
+    return this.bedsService.getSensorData(id, query.from, query.to);
   }
 }
