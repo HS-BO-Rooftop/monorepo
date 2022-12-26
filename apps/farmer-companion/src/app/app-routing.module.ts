@@ -28,6 +28,7 @@ const routes: Routes = [
       import('./settings/settings.module').then((m) => m.SettingsModule),
   },
   { path: 'weather', loadChildren: () => import('./weather/weather.module').then(m => m.WeatherModule) },
+  { path: 'beds', loadChildren: () => import('./beds-list/beds-list.module').then(m => m.BedsListModule) },
 ];
 
 @NgModule({

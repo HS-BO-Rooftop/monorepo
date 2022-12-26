@@ -24,6 +24,9 @@ export class BedSensorDataDto {
   @ApiProperty()
   boardId: string;
 
+  @ApiProperty()
+  boardName: string;
+
   @ApiProperty({ type: [SensorData] })
   data: SensorData[];
 }

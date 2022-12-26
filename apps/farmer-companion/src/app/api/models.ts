@@ -38,4 +38,8 @@ export { HeartbeatResponseDto } from './models/heartbeat-response-dto';
 export { CreateBedDto } from './models/create-bed-dto';
 export { BedDto } from './models/bed-dto';
 export { UpdateBedDto } from './models/update-bed-dto';
+export { SensorValue } from './models/sensor-value';
+export { SensorData } from './models/sensor-data';
+export { BedSensorDataDto } from './models/bed-sensor-data-dto';
 export { CreateSensorDataRequestDto } from './models/create-sensor-data-request-dto';
+export { AutomationConfigDto } from './models/automation-config-dto';

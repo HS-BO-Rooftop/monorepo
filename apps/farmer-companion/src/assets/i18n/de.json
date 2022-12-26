@@ -84,5 +84,8 @@
   "Please fill in a first name": "Bitte geben Sie einen Vornamen ein",
   "Please fill in a last name": "Bitte geben Sie einen Nachnamen ein",
   "Please fill in a valid email address": "Bitte geben Sie eine gültige E-Mail Adresse ein",
-  "Please fill in a password": "Bitte geben Sie ein Passwort ein"
+  "Please fill in a password": "Bitte geben Sie ein Passwort ein",
+  "Light": "Licht",
+  "Moisture": "Feuchtigkeit",
+  "Water level": "Wasserstand"
 }

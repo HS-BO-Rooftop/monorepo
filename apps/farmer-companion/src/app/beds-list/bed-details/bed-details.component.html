@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="beds"
+        [text]="'Back' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title translate> {{bedName}} </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="grid grid-cols-1 md:grid-cols-2">
+    <ion-card *ngFor="let sensorData of $sensorData | async">
+      <ion-card-header>
+        <ion-card-title translate>{{sensorData.title}}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <rooftop-data-graph
+        style="height: 250px"
+        [data]="sensorDataToChartData(sensorData.data)"
+        [options]="chartOptions"
+        [defaultZoom]="1.8"
+        ></rooftop-data-graph>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+  

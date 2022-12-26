@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { BedDto } from '../models/bed-dto';
+import { BedSensorDataDto } from '../models/bed-sensor-data-dto';
 import { CreateBedDto } from '../models/create-bed-dto';
 import { UpdateBedDto } from '../models/update-bed-dto';
 
@@ -276,6 +277,63 @@ export class BedsService extends BaseService {
 
     return this.updateBed$Response(params).pipe(
       map((r: StrictHttpResponse<BedDto>) => r.body as BedDto)
+    );
+  }
+
+  /**
+   * Path part for operation getSensorDataForBed
+   */
+  static readonly GetSensorDataForBedPath = '/api/beds/{id}/sensors/data';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getSensorDataForBed()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSensorDataForBed$Response(params: {
+    id: string;
+    from?: string;
+    to?: string;
+    context?: HttpContext
+  }
+): Observable<StrictHttpResponse<Array<BedSensorDataDto>>> {
+
+    const rb = new RequestBuilder(this.rootUrl, BedsService.GetSensorDataForBedPath, 'get');
+    if (params) {
+      rb.path('id', params.id, {});
+      rb.query('from', params.from, {});
+      rb.query('to', params.to, {});
+    }
+
+    return this.http.request(rb.build({
+      responseType: 'json',
+      accept: 'application/json',
+      context: params?.context
+    })).pipe(
+      filter((r: any) => r instanceof HttpResponse),
+      map((r: HttpResponse<any>) => {
+        return r as StrictHttpResponse<Array<BedSensorDataDto>>;
+      })
+    );
+  }
+
+  /**
+   * This method provides access to only to the response body.
+   * To access the full response (for headers, for example), `getSensorDataForBed$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getSensorDataForBed(params: {
+    id: string;
+    from?: string;
+    to?: string;
+    context?: HttpContext
+  }
+): Observable<Array<BedSensorDataDto>> {
+
+    return this.getSensorDataForBed$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<BedSensorDataDto>>) => r.body as Array<BedSensorDataDto>)
     );
   }
 

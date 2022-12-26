@@ -9,7 +9,7 @@ import { BoardPinDto, SensorConfigurationDto } from '../../../api/models';
 import {
   BoardPinsService,
   ConfigurationsService,
-  SensorsService,
+  SensorsService
 } from '../../../api/services';
 import { loadingHelper, LoadingService } from '../../../loading.service';
 import { ToastService } from '../../../toast.service';
@@ -117,7 +117,6 @@ export class BoardSensorSettingsPage implements OnInit {
       );
 
       if (data) {
-        console.log(data);
         this.form.patchValue({
           deviceId: this.boardId,
           sensorId: data.sensor.id,
