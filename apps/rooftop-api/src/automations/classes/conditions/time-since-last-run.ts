@@ -11,7 +11,6 @@ export class TimeSinceLastRunCondition extends BaseOperatorEvaluator<Date> imple
 
   constructor(
     public operator: comparisonOperators,
-    public hours: number,
     public minutes: number,
     public lastRunObs: Observable<Date>
   ) {
@@ -28,36 +27,33 @@ export class TimeSinceLastRunCondition extends BaseOperatorEvaluator<Date> imple
   }
 
   public evaluate(lastRun: Date): boolean {
-    const currentHours = new Date().getHours();
-    const currentMinutes = new Date().getMinutes();
-    const hours = lastRun.getHours();
-    const minutes = lastRun.getMinutes();
+    const now = new Date();
+    const diff = now.getTime() - lastRun.getTime();
+    const minutes = Math.floor(diff / 1000 / 60);
+    return this.compare(minutes, this.minutes);
+  }
 
-    if (this.operator === 'eq') {
-      return currentHours === hours && currentMinutes === minutes;
-    }
-    if (this.operator === 'neq') {
-      return currentHours !== hours || currentMinutes !== minutes;
-    }
-    if (this.operator === 'gt') {
-      return currentHours > hours || currentMinutes > minutes;
-    }
-    if (this.operator === 'gte') {
-      return currentHours >= hours || currentMinutes >= minutes;
-    }
-    if (this.operator === 'lt') {
-      return currentHours < hours || currentMinutes < minutes;
-    }
-    if (this.operator === 'lte') {
-      return currentHours <= hours || currentMinutes <= minutes;
+  public compare(a: number, b: number): boolean {
+    switch (this.operator) {
+      case 'eq':
+        return a === b;
+      case 'neq':
+        return a !== b;
+      case 'gt':
+        return a > b;
+      case 'gte':
+        return a >= b;
+      case 'lt':
+        return a < b;
+      case 'lte':
+        return a <= b;
     }
   }
 
   serialize(): string {
     return JSON.stringify({
       operator: this.operator,
-      hours: this.hours,
-      minutes: this.minutes,
+      target: this.minutes,
       type: this.type,
     });
   }

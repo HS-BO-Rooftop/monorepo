@@ -8,24 +8,24 @@ export class GpioAction implements IAction {
 
   constructor(
     private boardId: string,
-    private pinId: string,
+    private pinName: string,
     private targetState: boolean,
     private mqtt: ClientProxy
   ) {
-    this.logger = new Logger(`GPIO Action: Board ${boardId} / Pin ${pinId}`);
+    this.logger = new Logger(`GPIO Action: Board ${boardId} / Pin ${pinName}`);
   }
 
   public performAction() {
-    this.logger.debug(`Setting pin to ${this.targetState ? 'HIGH' : 'LOW'}`);
+    this.logger.verbose(`Setting pin to ${this.targetState ? 'HIGH' : 'LOW'}`);
     this.mqtt
-      .emit(`boards/${this.boardId}/pins/${this.pinId}/state`, this.targetState)
+      .emit(`boards/${this.boardId}/pins/${this.pinName}/state`, this.targetState)
       .subscribe();
   }
 
   serialize(): string {
     return JSON.stringify({
       boardId: this.boardId,
-      pinId: this.pinId,
+      pinId: this.pinName,
       newState: this.targetState,
       type: this.type,
     });

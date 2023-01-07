@@ -50,6 +50,7 @@
     "@types/jest": "28.1.8",
     "@types/node": "18.7.1",
     "@types/nodemailer": "^6.4.4",
+    "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "5.36.1",
     "@typescript-eslint/parser": "5.36.1",
     "autoprefixer": "^10.4.0",

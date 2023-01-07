@@ -46,14 +46,13 @@ export class EvaluatorFactory {
       case 'time_since_last_run':
         return new TimeSinceLastRunCondition(
           data.operator as comparisonOperators,
-          data.hours,
           data.minutes,
           lastRunObs
         );
       case 'weather':
         return new WeatherCondition(
-          data.operator as comparisonOperators,
           data.target,
+          data.lookaheadminutes,
           weatherService
         );
       default:

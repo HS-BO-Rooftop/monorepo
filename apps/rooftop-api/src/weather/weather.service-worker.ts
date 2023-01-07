@@ -9,7 +9,7 @@ import { BehaviorSubject, lastValueFrom } from 'rxjs';
 import { InfluxDbService } from '../influx-db/influx-db.service';
 import {
   CurrentWeatherResponseDto,
-  DwdWeatherDto,
+  DwdWeatherDto
 } from './dto/dwd/current-weather-response.dto';
 import { WeatherForecastResponseDto } from './dto/dwd/forecast-weather-response.dto';
 
@@ -71,7 +71,7 @@ export class WeatherServiceWorker {
         }
         await this.influx.write('ontop.hs-bochum.de', 'initial', point);
       } catch (error) {
-        console.log(error);
+        console.error(error);
         return;
       }
       this.eventEmitter.emit('dwd.current_weather.updated', weather);

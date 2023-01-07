@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 import {
   InfluxDbService,
   QueryData,
-  QueryRow,
+  QueryRow
 } from '../influx-db/influx-db.service';
 import { CurrentWeatherResponseDto } from './dto/dwd/current-weather-response.dto';
 import { WeatherForecastResponseDto } from './dto/dwd/forecast-weather-response.dto';
@@ -91,14 +91,19 @@ export class WeatherService {
       return this._currentLocalWeather.getValue();
     }
     this._lastLocalWeatherUpdateAt = new Date();
+
+    // Get the the last 14 days of data
+    const now = new Date();
+    const start = subDays(now, 14);
+
     const weather = await this.influx.query<LocalWeatherStationRow>(
       'ontop.hs-bochum.de',
       `
       from(bucket: "initial")
-        |> range(start: 2022-09-04T00:00:00Z, stop: 2022-09-18T00:00:00Z)
+        |> range(start: ${start.toISOString()}, stop: ${now.toISOString()})
         |> filter(fn: (r) => r._measurement == "Wetterstationen")
         |> filter(fn: (r) => r["Station"] == "1")
-        |> aggregateWindow(every: 1d, fn: mean)
+        |> aggregateWindow(every: 1h, fn: mean)
       `
     );
     // Get the latest values
@@ -116,17 +121,19 @@ export class WeatherService {
       `Got new local weather at ${latest.temp._time.toLocaleString()}`
     );
 
-    this._currentLocalWeather.next(
-      Object.entries(latest).reduce((acc, [key, value]) => {
-        if (value === null) return acc;
-        return {
-          ...acc,
-          [key]: value._value,
-        };
-      }, {} as LocalWeatherStationRow)
-    );
+    let data = Object.entries(latest).reduce((acc, [key, value]) => {
+      if (value === null) return acc;
+      return {
+        ...acc,
+        [key]: value._value,
+      };
+    }, {} as LocalWeatherStationRow)
 
-    return this._currentLocalWeather.getValue();
+    data = {...data, time: latest.temp._time};
+
+    this._currentLocalWeather.next(data);
+
+    return data;
   }
 
   /**

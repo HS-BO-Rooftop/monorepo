@@ -5,7 +5,7 @@ import { BoardSensorEntity } from '../../configurations/entities/configuration.e
 import { InfluxDbService } from '../../influx-db/influx-db.service';
 import {
   CreateSensorDataEntry,
-  CreateSensorDataRequestDto,
+  CreateSensorDataRequestDto
 } from './dto/create';
 
 @Injectable()
@@ -16,7 +16,6 @@ export class SensorDataService {
   ) {}
 
   async create(data: CreateSensorDataRequestDto) {
-    console.log('Data', data);
     const dataMap = new Map<string, CreateSensorDataEntry[]>();
     Object.entries(data).forEach(([key, value]) => {
       dataMap.set(key, value);
@@ -64,8 +63,6 @@ export class SensorDataService {
       });
       allPoints.push(...points);
     });
-
-    console.log('All points', allPoints);
 
     await this.influxDb.write('ontop.hs-bochum.de', 'initial', ...allPoints);
   }

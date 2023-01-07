@@ -112,8 +112,6 @@ export class BedsService {
         return { boardId, data: groupedData, boardName: bed.boards.find(b => b.id === boardId)?.name };
       })
     );
-
-    // console.log(sensorData);
     return sensorData;
   }
 

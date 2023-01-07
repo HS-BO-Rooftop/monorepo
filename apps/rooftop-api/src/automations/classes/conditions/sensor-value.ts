@@ -34,10 +34,7 @@ export class SensorValueCondition<T> extends ComparisonEvaluator<T> implements I
         })
       )
       .subscribe((entry) => {
-        console.log('Entry', entry);
-        console.log('Target', this.targetValue);
         const res = this.evaluate(entry.data);
-        console.log('Res', res);
         this.isFullfilled.next(res);
       });
   }

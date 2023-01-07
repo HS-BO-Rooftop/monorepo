@@ -1,15 +1,16 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AutomationConfig, AutomationConfigDto, IAutomationConfig } from './classes/automation-config';
+import { v4 } from 'uuid';
+import { AutomationConfig, AutomationConfigDto } from './classes/automation-config';
 import { AutomationEntity } from './entities/automation.entity';
-import { mqttCacheEntry, MQTTCacheService } from './mqtt-cache.service';
+import { MQTTCacheService } from './mqtt-cache.service';
 
 @Injectable()
 export class AutomationsService {
+  private readonly logger = new Logger(AutomationsService.name);
   private automationConfigs: AutomationConfig[] = [];
-  private previousData: mqttCacheEntry[] = [];
 
   constructor(
     readonly mqttCache: MQTTCacheService,
@@ -18,31 +19,25 @@ export class AutomationsService {
     @InjectRepository(AutomationEntity)
     private readonly automationRepository: Repository<AutomationEntity>
   ) {
-    this.automationRepository.findOne({
-      where: {
-        id: "102fce80-59a9-4409-a701-9d2a679a403e"
-      }
-    }).then(data => {
-      const automation = AutomationConfig.deserialize(data.data, null, mqttCache.cache, mqttClient)
-      console.log(automation.toString())
-      this.automationConfigs = [automation]
-    })
+    this.automationRepository.find().then(data => {
+      this.automationConfigs = data.map(d => this.createAutomationConfig(d))
+    });
   }
 
-  public async getAutomations(enabledOnly = false): Promise<IAutomationConfig[]> {
+  public async getAutomations(enabledOnly = false): Promise<AutomationConfigDto[]> {
     const data = await this.automationRepository.find();
-    const jsonData = data.map(d => JSON.parse(d.data) as IAutomationConfig)
+    const jsonData = data.map(d => JSON.parse(d.data) as AutomationConfigDto)
     return jsonData.filter(d => !enabledOnly || d.active)
   }
 
-  public async getAutomation(id: string): Promise<IAutomationConfig> {
+  public async getAutomation(id: string): Promise<AutomationConfigDto> {
     const data = await this.automationRepository.findOne({
       where: {
         id
       }
     });
 
-    return JSON.parse(data.data) as IAutomationConfig
+    return JSON.parse(data.data) as AutomationConfigDto
   }
 
   public async updateAutomation(id: string, data: AutomationConfigDto) {
@@ -64,14 +59,22 @@ export class AutomationsService {
     await this.automationRepository.save(automation)
     const config = this.createAutomationConfig(automation)
     this.upsertAutomation(config)
+
+    return await this.getAutomation(id);
   }
 
   public async createAutomation(data: AutomationConfigDto) {
     const automation = new AutomationEntity()
+    const id = v4();
+    data.id = id;
+    automation.id = id;
     automation.data = JSON.stringify(data)
-    await this.automationRepository.save(automation)
+    const savedData = await this.automationRepository.save(automation)
     const config = this.createAutomationConfig(automation)
+    await this.automationRepository.save(automation)
     this.upsertAutomation(config)
+
+    return await this.getAutomation(savedData.id);
   }
 
   public async deleteAutomation(id: string) {
