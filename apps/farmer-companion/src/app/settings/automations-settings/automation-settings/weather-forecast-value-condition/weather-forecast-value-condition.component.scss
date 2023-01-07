@@ -1,0 +1,12 @@
+h2{
+  font-weight: bold;
+}
+
+ion-item{
+  --background: none;
+}
+
+ion-toggle{
+  --background-checked: var(--background);
+  --handle-background-checked: #fff;
+}

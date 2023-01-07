@@ -1,0 +1,13 @@
+<h2 translate>Weather</h2>
+
+<div class="flex flex-row items-center gap-2">
+  <ion-icon
+    name="sunny"
+    [style.color]="isRainy ? undefined : 'var(--ion-color-primary)'"
+  ></ion-icon>
+  <ion-toggle [(ngModel)]="isRainy"></ion-toggle>
+  <ion-icon
+    name="rainy"
+    [style.color]="!isRainy ? undefined : 'var(--ion-color-primary)'"
+  ></ion-icon>
+</div>

@@ -14,7 +14,7 @@ import { AutomationConfigDto } from '../models/automation-config-dto';
 @Injectable({
   providedIn: 'root',
 })
-export class ApiService extends BaseService {
+export class AutomationsService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -23,170 +23,201 @@ export class ApiService extends BaseService {
   }
 
   /**
-   * Path part for operation automationsControllerGetAutomations
+   * Path part for operation getAutomations
    */
-  static readonly AutomationsControllerGetAutomationsPath = '/api/automations';
+  static readonly GetAutomationsPath = '/api/automations';
 
   /**
+   * Get all automations.
+   *
+   *
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `automationsControllerGetAutomations()` instead.
+   * To access only the response body, use `getAutomations()` instead.
    *
    * This method doesn't expect any request body.
    */
-  automationsControllerGetAutomations$Response(params?: {
+  getAutomations$Response(params?: {
     context?: HttpContext
   }
-): Observable<StrictHttpResponse<void>> {
+): Observable<StrictHttpResponse<Array<AutomationConfigDto>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.AutomationsControllerGetAutomationsPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AutomationsService.GetAutomationsPath, 'get');
     if (params) {
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*',
+      responseType: 'json',
+      accept: 'application/json',
       context: params?.context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<Array<AutomationConfigDto>>;
       })
     );
   }
 
   /**
+   * Get all automations.
+   *
+   *
+   *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `automationsControllerGetAutomations$Response()` instead.
+   * To access the full response (for headers, for example), `getAutomations$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  automationsControllerGetAutomations(params?: {
+  getAutomations(params?: {
     context?: HttpContext
   }
-): Observable<void> {
+): Observable<Array<AutomationConfigDto>> {
 
-    return this.automationsControllerGetAutomations$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+    return this.getAutomations$Response(params).pipe(
+      map((r: StrictHttpResponse<Array<AutomationConfigDto>>) => r.body as Array<AutomationConfigDto>)
     );
   }
 
   /**
-   * Path part for operation automationsControllerCreateAutomation
+   * Path part for operation createAutomation
    */
-  static readonly AutomationsControllerCreateAutomationPath = '/api/automations';
+  static readonly CreateAutomationPath = '/api/automations';
 
   /**
+   * Creates a new automation.
+   *
+   *
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `automationsControllerCreateAutomation()` instead.
+   * To access only the response body, use `createAutomation()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  automationsControllerCreateAutomation$Response(params: {
+  createAutomation$Response(params: {
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<StrictHttpResponse<void>> {
+): Observable<StrictHttpResponse<AutomationConfigDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.AutomationsControllerCreateAutomationPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, AutomationsService.CreateAutomationPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*',
+      responseType: 'json',
+      accept: 'application/json',
       context: params?.context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<AutomationConfigDto>;
       })
     );
   }
 
   /**
+   * Creates a new automation.
+   *
+   *
+   *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `automationsControllerCreateAutomation$Response()` instead.
+   * To access the full response (for headers, for example), `createAutomation$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  automationsControllerCreateAutomation(params: {
+  createAutomation(params: {
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<void> {
+): Observable<AutomationConfigDto> {
 
-    return this.automationsControllerCreateAutomation$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+    return this.createAutomation$Response(params).pipe(
+      map((r: StrictHttpResponse<AutomationConfigDto>) => r.body as AutomationConfigDto)
     );
   }
 
   /**
-   * Path part for operation automationsControllerGetAutomation
+   * Path part for operation getAutomation
    */
-  static readonly AutomationsControllerGetAutomationPath = '/api/automations/{id}';
+  static readonly GetAutomationPath = '/api/automations/{id}';
 
   /**
+   * Get a specific automation.
+   *
+   *
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `automationsControllerGetAutomation()` instead.
+   * To access only the response body, use `getAutomation()` instead.
    *
    * This method doesn't expect any request body.
    */
-  automationsControllerGetAutomation$Response(params?: {
+  getAutomation$Response(params: {
+    id: string;
     context?: HttpContext
   }
-): Observable<StrictHttpResponse<void>> {
+): Observable<StrictHttpResponse<AutomationConfigDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.AutomationsControllerGetAutomationPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, AutomationsService.GetAutomationPath, 'get');
     if (params) {
+      rb.path('id', params.id, {});
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*',
+      responseType: 'json',
+      accept: 'application/json',
       context: params?.context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<AutomationConfigDto>;
       })
     );
   }
 
   /**
+   * Get a specific automation.
+   *
+   *
+   *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `automationsControllerGetAutomation$Response()` instead.
+   * To access the full response (for headers, for example), `getAutomation$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  automationsControllerGetAutomation(params?: {
+  getAutomation(params: {
+    id: string;
     context?: HttpContext
   }
-): Observable<void> {
+): Observable<AutomationConfigDto> {
 
-    return this.automationsControllerGetAutomation$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+    return this.getAutomation$Response(params).pipe(
+      map((r: StrictHttpResponse<AutomationConfigDto>) => r.body as AutomationConfigDto)
     );
   }
 
   /**
-   * Path part for operation automationsControllerDeleteAutomation
+   * Path part for operation deleteAutomation
    */
-  static readonly AutomationsControllerDeleteAutomationPath = '/api/automations/{id}';
+  static readonly DeleteAutomationPath = '/api/automations/{id}';
 
   /**
+   * Deletes an automation.
+   *
+   *
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `automationsControllerDeleteAutomation()` instead.
+   * To access only the response body, use `deleteAutomation()` instead.
    *
    * This method doesn't expect any request body.
    */
-  automationsControllerDeleteAutomation$Response(params: {
+  deleteAutomation$Response(params: {
     id: string;
     context?: HttpContext
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.AutomationsControllerDeleteAutomationPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, AutomationsService.DeleteAutomationPath, 'delete');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -204,73 +235,85 @@ export class ApiService extends BaseService {
   }
 
   /**
+   * Deletes an automation.
+   *
+   *
+   *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `automationsControllerDeleteAutomation$Response()` instead.
+   * To access the full response (for headers, for example), `deleteAutomation$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  automationsControllerDeleteAutomation(params: {
+  deleteAutomation(params: {
     id: string;
     context?: HttpContext
   }
 ): Observable<void> {
 
-    return this.automationsControllerDeleteAutomation$Response(params).pipe(
+    return this.deleteAutomation$Response(params).pipe(
       map((r: StrictHttpResponse<void>) => r.body as void)
     );
   }
 
   /**
-   * Path part for operation automationsControllerUpdateAutomation
+   * Path part for operation updateAutomation
    */
-  static readonly AutomationsControllerUpdateAutomationPath = '/api/automations/{id}';
+  static readonly UpdateAutomationPath = '/api/automations/{id}';
 
   /**
+   * Updates an automation.
+   *
+   *
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `automationsControllerUpdateAutomation()` instead.
+   * To access only the response body, use `updateAutomation()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  automationsControllerUpdateAutomation$Response(params: {
+  updateAutomation$Response(params: {
     id: string;
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<StrictHttpResponse<void>> {
+): Observable<StrictHttpResponse<AutomationConfigDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, ApiService.AutomationsControllerUpdateAutomationPath, 'patch');
+    const rb = new RequestBuilder(this.rootUrl, AutomationsService.UpdateAutomationPath, 'patch');
     if (params) {
       rb.path('id', params.id, {});
       rb.body(params.body, 'application/json');
     }
 
     return this.http.request(rb.build({
-      responseType: 'text',
-      accept: '*/*',
+      responseType: 'json',
+      accept: 'application/json',
       context: params?.context
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return (r as HttpResponse<any>).clone({ body: undefined }) as StrictHttpResponse<void>;
+        return r as StrictHttpResponse<AutomationConfigDto>;
       })
     );
   }
 
   /**
+   * Updates an automation.
+   *
+   *
+   *
    * This method provides access to only to the response body.
-   * To access the full response (for headers, for example), `automationsControllerUpdateAutomation$Response()` instead.
+   * To access the full response (for headers, for example), `updateAutomation$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  automationsControllerUpdateAutomation(params: {
+  updateAutomation(params: {
     id: string;
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<void> {
+): Observable<AutomationConfigDto> {
 
-    return this.automationsControllerUpdateAutomation$Response(params).pipe(
-      map((r: StrictHttpResponse<void>) => r.body as void)
+    return this.updateAutomation$Response(params).pipe(
+      map((r: StrictHttpResponse<AutomationConfigDto>) => r.body as AutomationConfigDto)
     );
   }
 

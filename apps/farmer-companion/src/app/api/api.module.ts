@@ -20,7 +20,7 @@ import { WeatherService } from './services/weather.service';
 import { HeartbeatService } from './services/heartbeat.service';
 import { BedsService } from './services/beds.service';
 import { DataService } from './services/data.service';
-import { ApiService } from './services/api.service';
+import { AutomationsService } from './services/automations.service';
 
 /**
  * Module that provides all services and configuration.
@@ -46,7 +46,7 @@ import { ApiService } from './services/api.service';
     HeartbeatService,
     BedsService,
     DataService,
-    ApiService,
+    AutomationsService,
     ApiConfiguration
   ],
 })

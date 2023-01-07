@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="settings"
+        [text]="'Back' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title translate> Automation settings </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [formControl]="searchControl"
+      [placeholder]="'Search' | translate"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list *ngIf="filteredAutomations">
+    <ion-item
+      *ngFor="let automation of filteredAutomations | async"
+      [routerLink]="[automation.id]"
+    >
+      <ion-label>
+        {{ automation.name }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

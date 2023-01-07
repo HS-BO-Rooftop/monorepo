@@ -1,0 +1,15 @@
+h2{
+  font-weight: bold;
+}
+
+form {
+  ion-item.ios {
+    --ion-item-background: none;
+    --padding-start: 16px;
+  }
+}
+
+ion-toggle{
+  --background-checked: var(--background);
+  --handle-background-checked: #fff;
+}

@@ -90,3 +90,23 @@ ion-label.required {
     color: var(--ion-color-danger);
   }
 }
+
+// Circle button
+ion-button[shape=circle] {
+  --border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+}
+
+ion-popover {
+  ion-content {
+    --padding-start: 1rem;
+    --padding-end: 1rem;
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+  }
+}

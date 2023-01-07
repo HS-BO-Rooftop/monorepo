@@ -1,0 +1,32 @@
+<h2 translate>Switch GPIO</h2>
+
+<ion-item>
+  <ion-label position="stacked" translate>Board</ion-label>
+  <ion-select
+    [placeholder]="'Please select a board' | translate"
+    [cancelText]="'Cancel' | translate"
+    [(ngModel)]="selectedBoard"
+  >
+    <ion-select-option [value]="board" *ngFor="let board of boards">{{board.name}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-label position="stacked" translate>Pin</ion-label>
+  <ion-select
+    [placeholder]="'Please select a pin' | translate"
+    [cancelText]="'Cancel' | translate"
+    [(ngModel)]="selectedPin"
+  >
+    <ion-select-option [value]="pin" *ngFor="let pin of pins">{{pin.pin}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-label position="stacked" translate>Target state</ion-label>
+  <div class="flex flex-row items-center gap-2">
+    <span translate>Off</span>
+    <ion-toggle [(ngModel)]="targetValue"></ion-toggle>
+    <span translate>On</span>
+  </div>
+</ion-item>

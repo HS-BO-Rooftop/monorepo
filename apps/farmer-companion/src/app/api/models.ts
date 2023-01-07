@@ -42,4 +42,6 @@ export { SensorValue } from './models/sensor-value';
 export { SensorData } from './models/sensor-data';
 export { BedSensorDataDto } from './models/bed-sensor-data-dto';
 export { CreateSensorDataRequestDto } from './models/create-sensor-data-request-dto';
+export { EvaluatorJsonData } from './models/evaluator-json-data';
+export { ActionJsonData } from './models/action-json-data';
 export { AutomationConfigDto } from './models/automation-config-dto';

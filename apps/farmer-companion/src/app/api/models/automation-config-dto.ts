@@ -1,9 +1,12 @@
 /* tslint:disable */
 /* eslint-disable */
+import { ActionJsonData } from './action-json-data';
+import { EvaluatorJsonData } from './evaluator-json-data';
 export interface AutomationConfigDto {
-  actions: Array<string>;
+  actions: Array<ActionJsonData>;
   active: boolean;
-  conditions: Array<string>;
+  conditions: Array<EvaluatorJsonData>;
   id: string;
-  triggers: Array<string>;
+  name: string;
+  triggers: Array<EvaluatorJsonData>;
 }

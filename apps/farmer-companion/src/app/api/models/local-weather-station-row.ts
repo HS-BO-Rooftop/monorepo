@@ -15,6 +15,7 @@ export interface LocalWeatherStationRow {
   rtfreq: number;
   solarradiation: number;
   temp: number;
+  time: string;
   weeklyrain: number;
   windchill: number;
   winddir: number;

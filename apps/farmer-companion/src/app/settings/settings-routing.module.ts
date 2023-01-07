@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AutomationSettingsPage } from './automations-settings/automation-settings/automation-settings.component';
+import { AutomationsSettingsPage } from './automations-settings/automations-settings.component';
 import { BatterySettingsPage } from './battery-settings/battery-settings.component';
 import { BedSettingsPage } from './beds-settings/bed-settings/bed-settings.component';
 import { BedsSettingsPage } from './beds-settings/beds-settings.component';
@@ -44,6 +46,9 @@ const routes: Routes = [
   { path: 'plants', component: PlantsSettingsPage },
   { path: 'sensors', component: SensorsSettingsPage },
   { path: 'battery', component: BatterySettingsPage },
+  { path: 'automations', component: AutomationsSettingsPage },
+  { path: 'automations/create', component: AutomationSettingsPage },
+  { path: 'automations/:automationId', component: AutomationSettingsPage },
   { path: '**', redirectTo: '' },
 ];
 

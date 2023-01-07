@@ -1,0 +1,25 @@
+<h2 translate>Time since last run</h2>
+
+<ion-item>
+  <ion-label position="floating" translate class="required">Operator</ion-label>
+  <ion-select
+    [(ngModel)]="selectedOperator"
+    [disabled]="isTrigger"
+    [cancelText]="'Cancel' | translate"
+  >
+    <ion-select-option
+      translate
+      *ngFor="let operator of operators"
+      [value]="operator.value"
+    >
+      {{ operator.name }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-label position="stacked" translate class="required">Value</ion-label>
+
+  <!-- Time input -->
+  <ion-input type="number"  [placeholder]="'Time in minutes' | translate" [(ngModel)]="selectedValue" min="0" required></ion-input>
+</ion-item>

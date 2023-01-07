@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title> {{ 'Settings' | translate }} </ion-title>
+    <ion-title translate>Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,25 +11,24 @@
   <ion-list>
     <!-- Users header -->
     <ion-list-header>
-      <h1 class="text-xl">{{ 'Users' | translate }}</h1>
+      <h1 class="text-xl" translate>Users</h1>
     </ion-list-header>
 
     <!-- Profile settings link -->
     <ion-item routerLink="profile">
-      <ion-icon md="person-sharp" ios="person-outline" slot="start"></ion-icon>
+      <ion-icon name="person" slot="start"></ion-icon>
       <ion-label>
-        <h2>
-          {{ 'Profile' | translate }}
+        <h2 translate>
+          Profile
         </h2>
       </ion-label>
     </ion-item>
 
     <!-- Users settings link -->
     <ion-item routerLink="users">
-      <ion-icon md="people-sharp" ios="people-outline" slot="start"></ion-icon>
+      <ion-icon name="people" slot="start"></ion-icon>
       <ion-label>
-        <h2>
-          {{ 'Users' | translate }}
+        <h2 translate>Users
         </h2>
       </ion-label>
     </ion-item>
@@ -38,26 +37,22 @@
 
     <!-- Plants and beds header -->
     <ion-list-header>
-      <h1 class="text-xl">{{ 'Plants and beds' | translate }}</h1>
+      <h1 class="text-xl" translate>Plants and beds</h1>
     </ion-list-header>
 
     <!-- Plants settings link -->
     <ion-item routerLink="plants">
-      <ion-icon md="leaf-sharp" ios="leaf-outline" slot="start"></ion-icon>
+      <ion-icon name="leaf" slot="start"></ion-icon>
       <ion-label>
-        <h2>
-          {{ 'Plants' | translate }}
-        </h2>
+        <h2 translate>Plants</h2>
       </ion-label>
     </ion-item>
 
     <!-- Beds settings link -->
     <ion-item routerLink="beds">
-      <ion-icon md="albums-sharp" ios="albums-outline" slot="start"></ion-icon>
+      <ion-icon name="albums" slot="start"></ion-icon>
       <ion-label>
-        <h2>
-          {{ 'Beds' | translate }}
-        </h2>
+        <h2 translate>Beds</h2>
       </ion-label>
     </ion-item>
 
@@ -65,29 +60,36 @@
 
     <!-- Plants Header -->
     <ion-list-header>
-      <h1 class="text-xl">{{ 'Boards and sensors' | translate }}</h1>
+      <h1 class="text-xl" translate>Boards and sensors</h1>
     </ion-list-header>
 
     <!-- Boards settings link -->
     <ion-item routerLink="boards">
-      <ion-icon md="wifi-sharp" ios="wifi-outline" slot="start"></ion-icon>
+      <ion-icon name="wifi" slot="start"></ion-icon>
       <ion-label>
-        <h2>
-          {{ 'Boards' | translate }}
+        <h2 translate>Boards
         </h2>
       </ion-label>
     </ion-item>
 
     <!-- Sensors settings link -->
     <ion-item routerLink="sensors">
-      <ion-icon
-        md="analytics-sharp"
-        ios="analytics-outline"
+      <ion-icon name="analytics"
         slot="start"
       ></ion-icon>
       <ion-label>
-        <h2>
-          {{ 'Sensors' | translate }}
+        <h2 translate>Sensors
+        </h2>
+      </ion-label>
+    </ion-item>
+
+    <!-- Automations settings link -->
+    <ion-item routerLink="automations">
+      <ion-icon name="timer"
+        slot="start"
+      ></ion-icon>
+      <ion-label>
+        <h2 translate>Automations
         </h2>
       </ion-label>
     </ion-item>
@@ -96,19 +98,17 @@
 
     <!-- Power header -->
     <ion-list-header>
-      <h1 class="text-xl">{{ 'Power' | translate }}</h1>
+      <h1 class="text-xl" translate>Power</h1>
     </ion-list-header>
 
     <!-- Battery settings link -->
     <ion-item routerLink="battery">
       <ion-icon
-        md="battery-full-sharp"
-        ios="battery-full-outline"
+        name="battery-full"
         slot="start"
       ></ion-icon>
       <ion-label>
-        <h2>
-          {{ 'Battery' | translate }}
+        <h2 translate>Battery
         </h2>
       </ion-label>
     </ion-item>

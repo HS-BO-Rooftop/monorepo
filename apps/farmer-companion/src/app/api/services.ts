@@ -14,4 +14,4 @@ export { WeatherService } from './services/weather.service';
 export { HeartbeatService } from './services/heartbeat.service';
 export { BedsService } from './services/beds.service';
 export { DataService } from './services/data.service';
-export { ApiService } from './services/api.service';
+export { AutomationsService } from './services/automations.service';
