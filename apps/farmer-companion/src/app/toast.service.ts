@@ -26,7 +26,6 @@ export class ToastService {
   private async workQueue() {
     // Keep presenting messages until queue is empty
     this.messageQueue.subscribe(async (messages) => {
-      console.log('messages', messages);
       if (messages.length === 0) return;
       // Dismiss current toast
       if (this.toast) await this.toast.dismiss();

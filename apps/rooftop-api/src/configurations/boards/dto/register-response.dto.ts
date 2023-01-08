@@ -10,6 +10,7 @@ export class RegisterResponseDto extends BoardDto {
   timestamp: number;
 
   @ApiPropertyOptional({
+    type: [BoardConfigurationDto],
     description:
       'Existing configuration of the board. Returns only active configurations',
   })

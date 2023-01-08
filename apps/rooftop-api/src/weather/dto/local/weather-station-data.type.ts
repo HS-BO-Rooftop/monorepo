@@ -57,4 +57,7 @@ export class LocalWeatherStationRow {
 
   @ApiProperty()
   windspeed: number;
+
+  @ApiProperty()
+  time: Date;
 }

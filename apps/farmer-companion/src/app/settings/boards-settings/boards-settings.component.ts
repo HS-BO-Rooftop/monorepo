@@ -26,7 +26,7 @@ export class BoardsSettingsPage implements OnInit {
     loadingHelper([this.boards]).subscribe({
       next: (loading) => (this.loading.loading = loading),
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.loading.loading = false;
       },
     });
@@ -50,7 +50,7 @@ export class BoardsSettingsPage implements OnInit {
     this.boardsService.findAllBoards().subscribe({
       next: (boards) => this.boards.next(boards),
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.loading.loading = false;
         this.toast.present('Error loading data', 'danger');
       },

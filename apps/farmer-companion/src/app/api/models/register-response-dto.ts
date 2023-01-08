@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+import { BoardConfigurationDto } from './board-configuration-dto';
 import { PlantDto } from './plant-dto';
 export interface RegisterResponseDto {
   bed: null | PlantDto;
@@ -8,7 +9,7 @@ export interface RegisterResponseDto {
   /**
    * Existing configuration of the board. Returns only active configurations
    */
-  configurations?: Array<string>;
+  configurations?: Array<BoardConfigurationDto>;
 
   /**
    * The id of the board

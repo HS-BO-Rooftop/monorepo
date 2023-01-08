@@ -11,7 +11,7 @@ export class HomePage {
     {
       title: 'Beds',
       imageUrl: 'assets/images/home-slider/beds.jpg',
-      routerLink: ['/boards'],
+      routerLink: ['/beds'],
     },
     {
       title: 'Watering',

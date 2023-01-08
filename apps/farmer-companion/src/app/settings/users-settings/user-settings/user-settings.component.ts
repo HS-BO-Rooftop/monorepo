@@ -62,7 +62,7 @@ export class UserSettingsPage implements OnInit {
         this.userData.next(user), (this.loading.loading = false);
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.loading.loading = false;
         this.toast.present('Error loading data', 'danger');
       },
@@ -104,7 +104,7 @@ export class UserSettingsPage implements OnInit {
       },
       error: (error) => {
         this.loading.loading = false;
-        console.log(error);
+        console.error(error);
         this.toast.present('There was an error while deleting.', 'danger');
       },
     });
@@ -119,7 +119,7 @@ export class UserSettingsPage implements OnInit {
           this.navigateBack();
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.toast.present('There was an error while saving.', 'danger');
         },
         complete: () => (this.loading.loading = false),
@@ -131,7 +131,7 @@ export class UserSettingsPage implements OnInit {
           this.navigateBack();
         },
         error: (error) => {
-          console.log(error);
+          console.error(error);
           this.toast.present('There was an error while saving.', 'danger');
         },
         complete: () => (this.loading.loading = false),

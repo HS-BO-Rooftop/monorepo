@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="home"
+        [text]="'Back' | translate"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title translate> Beds </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let bed of beds | async" [routerLink]="['/beds', bed.id]">
+      <ion-card-content>
+        <img [src]="getImageUrl(bed)" alt="">
+        <h1>{{bed.name}}</h1>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
+</ion-content>

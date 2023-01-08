@@ -54,7 +54,7 @@ export class UsersSettingsPage implements OnInit {
     this.usersService.getAllUser().subscribe({
       next: (users) => this.users.next(users),
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.loading.loading = false;
         this.toast.present('Error loading data', 'danger');
       },

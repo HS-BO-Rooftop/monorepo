@@ -50,7 +50,7 @@ export class BedsSettingsPage implements OnInit {
     this.bedsService.findBeds().subscribe({
       next: (beds) => this.beds.next(beds),
       error: (error) => {
-        console.log(error);
+        console.error(error);
         this.loading.loading = false;
         this.toast.present('Error loading data', 'danger');
       },

@@ -1,0 +1,41 @@
+<h2 translate>Switch GPIO for duration</h2>
+
+<ion-item>
+  <ion-label position="stacked" translate>Board</ion-label>
+  <ion-select
+    [placeholder]="'Please select a board' | translate"
+    [cancelText]="'Cancel' | translate"
+    [(ngModel)]="selectedBoard"
+    rqeuired
+  >
+    <ion-select-option [value]="board.id" *ngFor="let board of boards">{{board.name}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-label position="stacked" translate>Pin</ion-label>
+  <ion-select
+    [placeholder]="'Please select a pin' | translate"
+    [cancelText]="'Cancel' | translate"
+    [(ngModel)]="selectedPin"
+    required
+  >
+    <ion-select-option [value]="pin.id" *ngFor="let pin of pins">{{pin.pin}}</ion-select-option>
+  </ion-select>
+</ion-item>
+
+
+<ion-item>
+  <ion-label position="stacked" translate>Target state</ion-label>
+  <div class="flex flex-row items-center gap-2">
+    <span translate>Off</span>
+    <ion-toggle [(ngModel)]="targetValue"></ion-toggle>
+    <span translate>On</span>
+  </div>
+</ion-item>
+
+
+<ion-item>
+  <ion-label position="floating" translate>Duration in minutes</ion-label>
+  <ion-input type="number" [(ngModel)]="duration"></ion-input>
+</ion-item>

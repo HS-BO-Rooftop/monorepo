@@ -4,7 +4,7 @@ import {
   InfluxDB,
   ParameterizedQuery,
   Point,
-  QueryOptions,
+  QueryOptions
 } from '@influxdata/influxdb-client';
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -27,7 +27,7 @@ export type QueryData<T> = {
 @Injectable()
 export class InfluxDbService {
   private readonly logger = new Logger(InfluxDbService.name);
-  private readonly _influx: InfluxDB;
+  public readonly influx: InfluxDB;
 
   constructor(
     private readonly config: ConfigService,
@@ -45,7 +45,7 @@ export class InfluxDbService {
       this.shutdown.shutdown();
     }
 
-    this._influx = new InfluxDB({
+    this.influx = new InfluxDB({
       url: influxUrl,
       token: influxToken,
     });
@@ -54,6 +54,11 @@ export class InfluxDbService {
   public query<RowType>(
     org: string,
     query: string | ParameterizedQuery
+  ): Promise<QueryData<RowType>>;
+  public query<RowType>(
+    org: string,
+    query: string | ParameterizedQuery,
+    mapperFunction: (row: string[], tableMeta: FluxTableMetaData) => RowType
   ): Promise<QueryData<RowType>>;
   public query<RowType>(
     options: QueryOptions,
@@ -86,12 +91,12 @@ export class InfluxDbService {
         },
       };
 
-      this._influx.getQueryApi(org).queryRows(query, observer);
+      this.influx.getQueryApi(org).queryRows(query, observer);
     });
   }
 
   public async write(org: string, bucket: string, ...data: Point[]) {
-    const writeApi = this._influx.getWriteApi(org, bucket);
+    const writeApi = this.influx.getWriteApi(org, bucket);
     try {
       writeApi.writePoints(data);
       await writeApi.close();

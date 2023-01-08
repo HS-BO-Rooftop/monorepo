@@ -16,7 +16,6 @@ export class SensorDataController {
     @Body()
     data: CreateSensorDataRequestDto
   ) {
-    console.log('data', data);
     return this.sensorDataService.create(data);
   }
 }

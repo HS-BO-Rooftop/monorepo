@@ -1,0 +1,27 @@
+<h2 translate>Weather forecast</h2>
+
+<div class="flex flex-row items-center gap-2">
+  <ion-icon
+    name="sunny"
+    [style.color]="isRainy ? undefined : 'var(--ion-color-primary)'"
+  ></ion-icon>
+  <ion-toggle [(ngModel)]="isRainy"></ion-toggle>
+  <ion-icon
+    name="rainy"
+    [style.color]="!isRainy ? undefined : 'var(--ion-color-primary)'"
+  ></ion-icon>
+</div>
+
+<ion-item>
+  <ion-label position="stacked" translate>Within the next</ion-label>
+  <ion-select [placeholder]="'Please select a duration' | translate" [cancelText]="'Cancel' | translate">
+    <ion-select-option [value]="30" translate>30 minutes</ion-select-option>
+    <ion-select-option [value]="60" translate>60 minutes</ion-select-option>
+    <ion-select-option [value]="90" translate>90 minutes</ion-select-option>
+    <ion-select-option [value]="120" translate>2 hours</ion-select-option>
+    <ion-select-option [value]="240" translate>4 hours</ion-select-option>
+    <ion-select-option [value]="360" translate>6 hours</ion-select-option>
+    <ion-select-option [value]="720" translate>12 hours</ion-select-option>
+    <ion-select-option [value]="1440" translate>24 hours</ion-select-option>
+  </ion-select>
+</ion-item>

@@ -1,0 +1,55 @@
+<h2 translate>Sensor value</h2>
+
+<!-- Board select -->
+<ion-item>
+  <ion-label translate position="floating" class="required" translate
+    >Board</ion-label
+  >
+  <ion-select
+    [cancelText]="'Cancel' | translate"
+    [ngModel]="selectedBoard"
+    (ngModelChange)="onBoardChange($event)"
+  >
+    <ion-select-option *ngFor="let board of boards" [value]="board">
+      {{ board.name }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+<!-- Sensor Dropdown -->
+<ion-item>
+  <ion-label translate position="floating" class="required">Sensor</ion-label>
+  <ion-select
+    [cancelText]="'Cancel' | translate"
+    [(ngModel)]="selectedSensor"
+    [disabled]="!selectedBoard || filteredSensors.length === 0"
+    [placeholder]="filteredSensors.length === 0 && selectedBoard ? ('The selected board has no sensors configured' | translate) : undefined"
+  >
+    <ion-select-option *ngFor="let sensor of filteredSensors" [value]="sensor">
+      {{ sensor.sensor.name }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating" translate class="required">Operator</ion-label>
+  <ion-select
+    [cancelText]="'Cancel' | translate"
+    [(ngModel)]="selectedOperator"
+  >
+    <ion-select-option
+      translate
+      *ngFor="let operator of operators"
+      [value]="operator.value"
+    >
+      {{ operator.name }}
+    </ion-select-option>
+  </ion-select>
+</ion-item>
+
+<ion-item>
+  <ion-label position="floating" translate class="required">Value</ion-label>
+
+  <!-- Numerical input -->
+  <ion-input type="number" [(ngModel)]="selectedValue"></ion-input>
+</ion-item>

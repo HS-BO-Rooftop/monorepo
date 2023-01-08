@@ -52,8 +52,6 @@ export class DataGraphComponent implements AfterViewInit {
     this.data?.pipe(first()).subscribe(() => {
       const chart = this.chart?.chart as any;
       if (chart) {
-        console.log(chart.getZoomLevel());
-        console.log('Setting zoom');
         timer(100).subscribe(() => {
           chart.zoom({ x: this.defaultZoom, y: 1 });
           // Pan to the end

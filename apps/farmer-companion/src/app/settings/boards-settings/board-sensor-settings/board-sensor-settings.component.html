@@ -24,7 +24,7 @@
       <ion-label position="floating" translate class="required"
         >Sensor type</ion-label
       >
-      <ion-select formControlName="sensorId">
+      <ion-select formControlName="sensorId" [cancelText]="'Cancel' | translate">
         <ion-select-option
           *ngFor="let sensorType of sensorConfigurations | async"
           [value]="sensorType.id"
@@ -48,7 +48,7 @@
       <ion-label position="floating" translate class="required"
         >Sensor pin</ion-label
       >
-      <ion-select formControlName="pinId">
+      <ion-select formControlName="pinId" [cancelText]="'Cancel' | translate">
         <ion-select-option
           *ngFor="let sensorPin of boardPins | async"
           [value]="sensorPin.id"
