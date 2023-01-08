@@ -144,5 +144,19 @@
   "Automation created": "Automatisierung erstellt",
   "Error updating automation": "Fehler beim Aktualisieren der Automatisierung",
   "Error creating automation": "Fehler beim Erstellen der Automatisierung",
-  "New automation": "Neue Automatisierung"
+  "New automation": "Neue Automatisierung",
+  "Soil moisture": "Bodenfeuchtigkeit",
+  "Plants settings": "Pflanzen Einstellungen",
+  "English name": "Englischer Name",
+  "German name": "Deutscher Name",
+  "Image url": "Bild URL",
+  "Plant settings": "Pflanzen Einstellungen",
+  "Please fill in a url": "Bitte geben Sie eine URL ein",
+  "Plant deleted": "Pflanze gelöscht",
+  "Error deleting plant": "Fehler beim Löschen der Pflanze",
+  "Plant created": "Pflanze angelegt",
+  "Error creating plant": "Fehler beim Anlegen der Pflanze",
+  "Plant updated": "Pflanze aktualisiert",
+  "Error updating plant": "Fehler beim Aktualisieren der Pflanze"
+
 }

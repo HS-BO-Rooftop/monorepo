@@ -8,6 +8,7 @@ import { BedsSettingsPage } from './beds-settings/beds-settings.component';
 import { BoardSensorSettingsPage } from './boards-settings/board-sensor-settings/board-sensor-settings.component';
 import { BoardSettingsPage } from './boards-settings/board-settings/board-settings.component';
 import { BoardsSettingsPage } from './boards-settings/boards-settings.component';
+import { PlantSettingsPage } from './plants-settings/plant-settings/plant-settings.component';
 import { PlantsSettingsPage } from './plants-settings/plants-settings.component';
 import { ProfileSettingsPage } from './profile-settings/profile-settings.component';
 import { SensorsSettingsPage } from './sensors-settings/sensors-settings.component';
@@ -44,6 +45,8 @@ const routes: Routes = [
     component: BoardSensorSettingsPage,
   },
   { path: 'plants', component: PlantsSettingsPage },
+  { path: 'plants/create', component: PlantSettingsPage },
+  { path: 'plants/:id', component: PlantSettingsPage },
   { path: 'sensors', component: SensorsSettingsPage },
   { path: 'battery', component: BatterySettingsPage },
   { path: 'automations', component: AutomationsSettingsPage },
