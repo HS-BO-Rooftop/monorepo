@@ -23,8 +23,7 @@ export class SensorValueCondition<T> extends ComparisonEvaluator<T> implements I
       .pipe(
         map((cache) => {
           const entry = cache.find((entry) => entry.sensorId === sensorId);
-          if (!entry) return null;
-          return entry;
+          return entry ?? null;
         }),
         filter((entry) => entry !== null),
         filter((entry) => {

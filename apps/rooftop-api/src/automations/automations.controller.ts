@@ -22,7 +22,7 @@ export class AutomationsController {
     private readonly cacheService: MQTTCacheService
   ) {}
 
-  @MessagePattern('boards/+/sensors/+/data')
+  @MessagePattern('boards/+/sensors/+/value')
   async handleSensorData(@Ctx() context: MqttContext) {
     const packet = context.getPacket();
     const { sensorId, boardId } = this.parsePath(context);

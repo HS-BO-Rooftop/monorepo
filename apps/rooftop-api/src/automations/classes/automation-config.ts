@@ -98,7 +98,7 @@ export class AutomationConfig implements ISerializeable{
     automationConfig._triggers.next(data.triggers.map((trigger) => EvaluatorFactory.deserialize(trigger, weatherService, automationConfig.lastRun, mqttCache)));
     automationConfig._conditions.next(data.conditions.map((condition) => EvaluatorFactory.deserialize(condition, weatherService, automationConfig.lastRun, mqttCache)));
     automationConfig._actions.next(data.actions.map((action) => ActionFactory.deserialize(action, mqttClientProxy)));
-    
+
     return automationConfig;
   }
 
