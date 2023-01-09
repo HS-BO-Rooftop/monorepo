@@ -91,6 +91,9 @@ export class AutomationsService {
 
   private async upsertAutomation(automation: AutomationConfig) {
     this.automationConfigs = this.automationConfigs.filter(a => a.id !== automation.id)
+    if (!automation.active) {
+      return;
+    }
     this.automationConfigs.push(automation)
   }
 }

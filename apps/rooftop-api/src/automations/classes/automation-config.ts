@@ -25,6 +25,8 @@ export class AutomationConfig implements ISerializeable{
 
   public lastRun = new BehaviorSubject<Date | null>(null);
 
+  public active = true;
+
   private _triggers = new BehaviorSubject<IEvaluator[]>([]);
   private _conditions = new BehaviorSubject<IEvaluator[]>([]);
   private _actions = new BehaviorSubject<IAction[]>([]);
@@ -98,6 +100,7 @@ export class AutomationConfig implements ISerializeable{
     automationConfig._triggers.next(data.triggers.map((trigger) => EvaluatorFactory.deserialize(trigger, weatherService, automationConfig.lastRun, mqttCache)));
     automationConfig._conditions.next(data.conditions.map((condition) => EvaluatorFactory.deserialize(condition, weatherService, automationConfig.lastRun, mqttCache)));
     automationConfig._actions.next(data.actions.map((action) => ActionFactory.deserialize(action, mqttClientProxy)));
+    automationConfig.active = data.active;
 
     return automationConfig;
   }
