@@ -110,3 +110,8 @@ ion-popover {
     --padding-bottom: 1rem;
   }
 }
+
+.danger {
+  color: var(--ion-color-danger) !important;
+  font-weight: bold !important;
+}

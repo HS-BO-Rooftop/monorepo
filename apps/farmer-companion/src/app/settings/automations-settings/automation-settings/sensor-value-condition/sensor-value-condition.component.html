@@ -1,4 +1,9 @@
-<h2 translate>Sensor value</h2>
+<div class="flex flex-row items-center">
+  <h2 translate>Sensor value</h2>
+  <ion-button fill="clear" class="ml-auto" (click)="delete()" translate>
+    <ion-icon name="trash" color="danger"> </ion-icon
+  ></ion-button>
+</div>
 
 <!-- Board select -->
 <ion-item>
@@ -23,7 +28,11 @@
     [cancelText]="'Cancel' | translate"
     [(ngModel)]="selectedSensor"
     [disabled]="!selectedBoard || filteredSensors.length === 0"
-    [placeholder]="filteredSensors.length === 0 && selectedBoard ? ('The selected board has no sensors configured' | translate) : undefined"
+    [placeholder]="
+      filteredSensors.length === 0 && selectedBoard
+        ? ('The selected board has no sensors configured' | translate)
+        : undefined
+    "
   >
     <ion-select-option *ngFor="let sensor of filteredSensors" [value]="sensor">
       {{ sensor.sensor.name }}

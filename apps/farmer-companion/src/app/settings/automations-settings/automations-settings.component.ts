@@ -38,11 +38,14 @@ export class AutomationsSettingsPage implements OnInit {
         map((value) => value?.toLowerCase())
       ),
     ]).subscribe(([automations, search]) => {
-      const filteredBoards =
+      const filteredAutomations =
         automations?.filter((automation) =>
           automation.name?.toLowerCase().includes(search || '')
         ) ?? null;
-      this.filteredAutomations.next(filteredBoards);
+
+      // Sort by active 
+      filteredAutomations?.sort((a, b) => a.active === b.active ? 0 : a.active ? -1 : 1)
+      this.filteredAutomations.next(filteredAutomations);
     });
   }
 

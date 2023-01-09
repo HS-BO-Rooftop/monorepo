@@ -157,6 +157,12 @@
   "Plant created": "Pflanze angelegt",
   "Error creating plant": "Fehler beim Anlegen der Pflanze",
   "Plant updated": "Pflanze aktualisiert",
-  "Error updating plant": "Fehler beim Aktualisieren der Pflanze"
-
+  "Error updating plant": "Fehler beim Aktualisieren der Pflanze",
+  "Please add at least one trigger": "Bitte fügen Sie mindestens einen Auslöser hinzu",
+  "Please add at least one action": "Bitte fügen Sie mindestens eine Aktion hinzu",
+  "Triggers": "Auslöser",
+  "Automation deleted": "Automatisierung gelöscht",
+  "Error deleting automation": "Fehler beim Löschen der Automatisierung",
+  "Are you sure you want to delete this automation?": "Sind Sie sicher, dass Sie diese Automatisierung löschen möchten?",
+  "Active": "Aktiv"
 }

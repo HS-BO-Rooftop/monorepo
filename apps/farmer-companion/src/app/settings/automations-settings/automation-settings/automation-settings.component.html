@@ -6,59 +6,100 @@
         [text]="'Back' | translate"
       ></ion-back-button>
     </ion-buttons>
-    <ion-title>
+    <ion-buttons slot="end" *ngIf="automationData | async">
+      <ion-button fill="clear" (click)="deleteAutomation()">
+        <ion-icon color="danger" name="trash"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title translate>
       <ion-spinner *ngIf="!automationName && !isCreating"></ion-spinner>
-      <ng-container *ngIf="!automationName && isCreating" translate>New automation</ng-container>
-      <ng-container *ngIf="automationName">{{automationName}}</ng-container>
+      <ng-container *ngIf="!automationName && isCreating"
+        >New automation</ng-container
+      >
+      <ng-container *ngIf="automationName">{{ automationName }}</ng-container>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
   <div class="ion-padding-vertical">
+    <ion-item class="mx-2">
+      <ion-label position="stacked" translate class="required">Name</ion-label>
+      <ion-input
+        type="text"
+        [(ngModel)]="automationName"
+        [placeholder]="'Sunny and no rain forecasted' | translate"
+      ></ion-input>
+    </ion-item>
     <ion-item class="mx-2 mb-16">
-      <ion-label position="stacked" translate class="required"
-        >Name</ion-label
-      >
-      <ion-input type="text" 
-      [(ngModel)]="automationName" [placeholder]="'Sunny and no rain forecasted' | translate"></ion-input>
+      <ion-label translate>Active</ion-label>
+      <ion-toggle [(ngModel)]="isActive" *ngIf="isCreating || automationData.value"></ion-toggle>
+      <ion-spinner *ngIf="!automationData.value && !isCreating"></ion-spinner>
     </ion-item>
     <ion-card>
       <ion-card-header class="flex justify-between">
-        <ion-card-title translate>Trigger</ion-card-title>
-        <ion-button fill="outline" shape="circle" (click)="presentTriggersHelpAlert()">
+        <div>
+          <ion-card-title translate>Trigger</ion-card-title>
+          <ion-card-subtitle *ngIf="triggers.length === 0">
+            <ion-text translate color="danger" class="font-bold"> Please add at least one trigger </ion-text>
+          </ion-card-subtitle>
+        </div>
+          <ion-button
+          fill="outline"
+          shape="circle"
+          (click)="presentTriggersHelpAlert()"
+          >
           <ion-icon name="help"></ion-icon>
         </ion-button>
       </ion-card-header>
       <ion-card-content class="flex flex-col gap-8">
         <ng-template #triggersContainer></ng-template>
-        <ion-button translate (click)="presentTriggerActionSheet()">Add new trigger</ion-button>
+        <ion-button translate (click)="presentTriggerActionSheet()"
+          >Add new trigger</ion-button
+        >
       </ion-card-content>
     </ion-card>
 
     <ion-card>
       <ion-card-header class="flex justify-between">
         <ion-card-title translate>Conditions</ion-card-title>
-        <ion-button fill="outline" shape="circle" (click)="presentTriggersHelpAlert()">
+        <ion-button
+          fill="outline"
+          shape="circle"
+          (click)="presentTriggersHelpAlert()"
+        >
           <ion-icon name="help"></ion-icon>
         </ion-button>
       </ion-card-header>
       <ion-card-content class="flex flex-col gap-8">
         <ng-template #conditionsContainer></ng-template>
-        <ion-button translate (click)="presentConditionsActionSheet()">Add new condition</ion-button>
+        <ion-button translate (click)="presentConditionsActionSheet()"
+          >Add new condition</ion-button
+        >
       </ion-card-content>
     </ion-card>
 
     <ion-card>
       <ion-card-header class="flex justify-between">
-        <ion-card-title translate>Actions</ion-card-title>
-        <ion-button fill="outline" shape="circle" (click)="presentActionsHelpAlert()">
+        <div>
+          <ion-card-title translate>Actions</ion-card-title>
+          <ion-card-subtitle *ngIf="actions.length === 0">
+            <ion-text translate color="danger" class="font-bold"> Please add at least one action </ion-text>
+          </ion-card-subtitle>
+        </div>
+        <ion-button
+          fill="outline"
+          shape="circle"
+          (click)="presentActionsHelpAlert()"
+        >
           <ion-icon name="help"></ion-icon>
         </ion-button>
       </ion-card-header>
       <ion-card-content class="flex flex-col gap-8">
         <ng-template #actionsContainer></ng-template>
-        <ion-button translate (click)="presentActionsActionSheet()">Add new action</ion-button>
+        <ion-button translate (click)="presentActionsActionSheet()"
+          >Add new action</ion-button
+        >
       </ion-card-content>
     </ion-card>
   </div>
@@ -70,6 +111,7 @@
     class="mb-4"
     translate
     (click)="save()"
+    [disabled]="actions.length === 0 || triggers.length === 0"
     >Save</ion-button
   >
 </ion-content>

@@ -1,6 +1,8 @@
 import {
   AfterViewInit,
-  Component, ComponentRef, OnInit,
+  Component,
+  ComponentRef,
+  OnInit,
   ViewChild,
   ViewContainerRef
 } from '@angular/core';
@@ -27,7 +29,10 @@ import {
 } from '../../../api/services';
 import { loadingHelper, LoadingService } from '../../../loading.service';
 import { ToastService } from '../../../toast.service';
-import { BaseAutomationAction, BaseAutomationCondition } from './base-automation-condition';
+import {
+  BaseAutomationAction,
+  BaseAutomationCondition
+} from './base-automation-condition';
 import { CurrentWeatherValueConditionComponent } from './current-weather-value-condition/current-weather-value-condition.component';
 import { GpioDurationActionComponent } from './gpio-duration-action/gpio-duration-action.component';
 import { SensorValueConditionComponent } from './sensor-value-condition/sensor-value-condition.component';
@@ -64,13 +69,14 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
   configurationData = new BehaviorSubject<BoardConfigurationDto[] | null>(null);
   pinsData = new BehaviorSubject<BoardPinDto[] | null>(null);
   sensorsData = new BehaviorSubject<BoardConfigurationDto[] | null>(null);
-  
-  public automationName?: string
-  public isCreating = false;
 
-  private triggers: ComponentRef<BaseAutomationCondition>[] = [];
+  public automationName?: string;
+  public isCreating = false;
+  public isActive = true;
+
+  public triggers: ComponentRef<BaseAutomationCondition>[] = [];
   private conditions: ComponentRef<BaseAutomationCondition>[] = [];
-  private actions: ComponentRef<BaseAutomationAction>[] = [];
+  public actions: ComponentRef<BaseAutomationAction>[] = [];
 
   @ViewChild('triggersContainer', { read: ViewContainerRef, static: true })
   triggersContainer?: ViewContainerRef;
@@ -148,7 +154,7 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
         )
       )
       .subscribe(([automation]) => {
-        console.log(automation);
+        this.isActive = automation.active;
         this.automationName = automation.name;
         this.createAutomationElements(automation);
       });
@@ -261,27 +267,26 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
           text: this.translate.instant('Switch GPIO'),
           handler: () => {
             this.actionsContainer &&
-            this.pinsData.value &&
-            this.boardsData.value && 
-            this.createGpioActionComponent(
-              this.actionsContainer,
-              this.boardsData.value,
-              this.pinsData.value
-            );
+              this.pinsData.value &&
+              this.boardsData.value &&
+              this.createGpioActionComponent(
+                this.actionsContainer,
+                this.boardsData.value,
+                this.pinsData.value
+              );
           },
-          
         },
         {
           text: this.translate.instant('Switch GPIO for duration'),
           handler: () => {
             this.actionsContainer &&
-            this.pinsData.value &&
-            this.boardsData.value && 
-            this.createGpioDurationActionComponent(
-              this.actionsContainer,
-              this.boardsData.value,
-              this.pinsData.value
-            );
+              this.pinsData.value &&
+              this.boardsData.value &&
+              this.createGpioDurationActionComponent(
+                this.actionsContainer,
+                this.boardsData.value,
+                this.pinsData.value
+              );
           },
         },
       ],
@@ -322,9 +327,7 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
     alert.present();
   }
 
-  private async createAutomationElements(
-    automation: AutomationConfigDto
-  ) {
+  private async createAutomationElements(automation: AutomationConfigDto) {
     this.createTriggerElements(automation.triggers);
     this.createConditionElements(automation.conditions);
     this.createActionElements(automation.actions);
@@ -338,9 +341,7 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
     selectedBoard?: BoardDto,
     target = false
   ) {
-    const gpioAction = container.createComponent(
-      actionComponentTypes.gpio
-    );
+    const gpioAction = container.createComponent(actionComponentTypes.gpio);
 
     const instance = gpioAction.instance;
     instance.boards = boards;
@@ -391,7 +392,9 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
     instance.selectedOperator = 'eq';
     const hours = targetValue ? targetValue.getHours() : 12;
     const minutes = targetValue ? targetValue.getMinutes() : 0;
-    const formatted = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+    const formatted = `${hours.toString().padStart(2, '0')}:${minutes
+      .toString()
+      .padStart(2, '0')}`;
     instance.selectedValue = formatted;
 
     this.addComponentRefToArray(container, timeTrigger);
@@ -432,8 +435,14 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
     return weatherTrigger;
   }
 
-  public createWeatherForecastComponent(container: ViewContainerRef, target: WeatherForecastValueConditionComponent['isRainy'] = false, look_ahead = 120) {
-    const weatherTrigger = container.createComponent(conditionComponentTypes.weather_forecast);
+  public createWeatherForecastComponent(
+    container: ViewContainerRef,
+    target: WeatherForecastValueConditionComponent['isRainy'] = false,
+    look_ahead = 120
+  ) {
+    const weatherTrigger = container.createComponent(
+      conditionComponentTypes.weather_forecast
+    );
     const instance = weatherTrigger.instance;
     instance.isRainy = target;
     instance.duration = look_ahead;
@@ -478,41 +487,71 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
     return sensorTrigger;
   }
 
-  private addComponentRefToArray(container: ViewContainerRef, ref: ComponentRef<BaseAutomationCondition>) {
+  private addComponentRefToArray(
+    container: ViewContainerRef,
+    ref: ComponentRef<BaseAutomationCondition>
+  ) {
     if (container === this.triggersContainer) {
       this.triggers.push(ref);
       console.log('Added component ref to triggers', this.triggers);
     } else if (container === this.conditionsContainer) {
       this.conditions.push(ref);
       console.log('Added component ref to conditions', this.conditions);
-    }
-    else if (container === this.actionsContainer) {
+    } else if (container === this.actionsContainer) {
       this.actions.push(ref);
       console.log('Added component ref to actions', this.actions);
     }
 
+    // Subscribe to delete event
+    ref.instance.onDelete.subscribe(() => {
+      this.removeComponentRef(ref);
+    });
   }
 
-  private async createElementFromJson(container: ViewContainerRef, jsonData: any, isTrigger = false)
-  {
-    if (!this.sensorsData.value)
-    {
+  private removeComponentRef(ref: ComponentRef<BaseAutomationCondition>) {
+    // Remove element from DOM
+    ref.destroy();
+
+    let index = this.triggers.indexOf(ref);
+    if (index > -1) {
+      this.triggers.splice(index, 1);
+      return;
+    }
+
+    index = this.conditions.indexOf(ref);
+    if (index > -1) {
+      this.conditions.splice(index, 1);
+      return;
+    }
+
+    index = this.actions.indexOf(ref);
+    if (index > -1) {
+      this.actions.splice(index, 1);
+      return;
+    }
+  }
+
+  private async createElementFromJson(
+    container: ViewContainerRef,
+    jsonData: any,
+    isTrigger = false
+  ) {
+    if (!this.sensorsData.value) {
       throw new Error('Could not find sensors');
     }
 
-    if (!this.boardsData.value)
-    {
+    if (!this.boardsData.value) {
       throw new Error('Could not find boards');
     }
 
-    if (!this.pinsData.value)
-    {
+    if (!this.pinsData.value) {
       throw new Error('Could not find pins');
     }
 
-      // Create the component
-      switch (jsonData.type) {
-        case 'weather': {
+    // Create the component
+    switch (jsonData.type) {
+      case 'weather':
+        {
           // If lookaheadminutes is set, it's a forecast condition
           if (jsonData.lookaheadminutes) {
             this.createWeatherForecastComponent(
@@ -520,26 +559,20 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
               jsonData.target as boolean,
               jsonData.lookaheadminutes as number
             );
-          }
-          else {
-            this.createWeatherComponent(
-              container,
-              jsonData.target as boolean
-            );
+          } else {
+            this.createWeatherComponent(container, jsonData.target as boolean);
           }
         }
         break;
-        case 'time': {
+      case 'time':
+        {
           const date = new Date(jsonData.target);
-          
-          this.createTimeComponent(
-            container,
-            isTrigger,
-            date
-          );
+
+          this.createTimeComponent(container, isTrigger, date);
         }
         break;
-        case 'time_since_last_run': {
+      case 'time_since_last_run':
+        {
           this.createTimeSinceLastRunComponent(
             container,
             isTrigger,
@@ -547,19 +580,20 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
           );
         }
         break;
-        case 'sensor':
-          {
-            this.createSensorValueComponent(
-              container,
-              this.sensorsData.value,
-              this.boardsData.value,
-              jsonData.target as number,
-              jsonData.operator as string,
-              jsonData.sensorId as string
-            );
-          }
-          break;
-        case 'gpio_action': {
+      case 'sensor':
+        {
+          this.createSensorValueComponent(
+            container,
+            this.sensorsData.value,
+            this.boardsData.value,
+            jsonData.target as number,
+            jsonData.operator as string,
+            jsonData.sensorId as string
+          );
+        }
+        break;
+      case 'gpio_action':
+        {
           const selectedPin = this.pinsData.value.find(
             (pin) => pin.pin === jsonData.pinId
           );
@@ -578,11 +612,11 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
           );
         }
         break;
-        default:
-          throw new Error('Unknown type: ' + jsonData.type);
+      default:
+        throw new Error('Unknown type: ' + jsonData.type);
     }
   }
-  
+
   private async createTriggerElements(
     triggers: AutomationConfigDto['triggers']
   ) {
@@ -671,12 +705,33 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
 
   async save() {
     if (!this.automationName) {
-      this.toastCtrl.present(this.translate.instant('Please enter a name'), 'danger');
+      this.toastCtrl.present(
+        this.translate.instant('Please enter a name'),
+        'danger'
+      );
+      return;
+    }
+
+    if (this.triggers.length === 0) {
+      this.toastCtrl.present(
+        this.translate.instant('Please add at least one trigger'),
+        'danger'
+      );
+      return;
+    }
+
+    if (this.actions.length === 0) {
+      this.toastCtrl.present(
+        this.translate.instant('Please add at least one action'),
+        'danger'
+      );
       return;
     }
 
     const triggers = this.triggers.map((trigger) => trigger.instance.toJson());
-    const conditions = this.conditions.map((condition) => condition.instance.toJson());
+    const conditions = this.conditions.map((condition) =>
+      condition.instance.toJson()
+    );
     const actions = this.actions.map((action) => action.instance.toJson());
 
     const automation = {} as AutomationConfigDto;
@@ -688,36 +743,93 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
     automation.conditions = conditions;
     automation.actions = actions;
     automation.name = this.automationName;
+    automation.active = this.isActive;
 
     if (automation.id) {
       // Update
-      this.automationsService.updateAutomation({
-        body: automation,
-        id: automation.id,
-      }).subscribe({
-        next: () => {
-          this.toastCtrl.present(this.translate.instant('Automation updated'), 'success');
-          this.navigateBack();
-        },
-        error: (error) => {
-          console.error(error);
-          this.toastCtrl.present('Error updating automation', 'danger');
-        }
-      });
+      this.automationsService
+        .updateAutomation({
+          body: automation,
+          id: automation.id,
+        })
+        .subscribe({
+          next: () => {
+            this.toastCtrl.present(
+              this.translate.instant('Automation updated'),
+              'success'
+            );
+            this.navigateBack();
+          },
+          error: (error) => {
+            console.error(error);
+            this.toastCtrl.present('Error updating automation', 'danger');
+          },
+        });
     } else {
       // Create
       automation.active = true;
       this.automationsService.createAutomation({ body: automation }).subscribe({
         next: () => {
-          this.toastCtrl.present(this.translate.instant('Automation created'), 'success');
+          this.toastCtrl.present(
+            this.translate.instant('Automation created'),
+            'success'
+          );
           this.navigateBack();
         },
         error: (error) => {
           console.error(error);
           this.toastCtrl.present('Error creating automation', 'danger');
-        }
+        },
       });
     }
+  }
+
+  async deleteAutomation() {
+    if (!this.automationData.value) {
+      return;
+    }
+
+    const alert = await this.alertCtrl.create({
+      header: this.translate.instant('Delete automation'),
+      message: this.translate.instant(
+        'Are you sure you want to delete this automation?'
+      ),
+      buttons: [
+        {
+          text: this.translate.instant('Cancel'),
+          role: 'cancel',
+        },
+        {
+          text: this.translate.instant('Delete'),
+          role: 'confirm',
+          cssClass: 'danger',
+          handler: () => {
+            if (!this.automationData.value)
+            {
+              return;
+            }
+            this.automationsService
+              .deleteAutomation({ id: this.automationData.value.id })
+              .subscribe({
+                next: () => {
+                  this.toastCtrl.present(
+                    this.translate.instant('Automation deleted'),
+                    'success'
+                  );
+                  this.navigateBack();
+                },
+                error: (error) => {
+                  console.error(error);
+                  this.toastCtrl.present('Error deleting automation', 'danger');
+                },
+              });
+          },
+
+        },
+      ],
+    });
+
+    await alert.present();
   }
 
   private navigateBack() {

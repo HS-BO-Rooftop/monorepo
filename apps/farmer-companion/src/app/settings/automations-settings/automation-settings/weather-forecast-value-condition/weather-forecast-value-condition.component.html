@@ -1,4 +1,9 @@
-<h2 translate>Weather forecast</h2>
+<div class="flex flex-row items-center">
+  <h2 translate>Weather forecast</h2>
+  <ion-button fill="clear" class="ml-auto" (click)="delete()" translate>
+    <ion-icon name="trash" color="danger"> </ion-icon>
+  </ion-button>
+</div>
 
 <div class="flex flex-row items-center gap-2">
   <ion-icon
@@ -14,7 +19,10 @@
 
 <ion-item>
   <ion-label position="stacked" translate>Within the next</ion-label>
-  <ion-select [placeholder]="'Please select a duration' | translate" [cancelText]="'Cancel' | translate">
+  <ion-select
+    [placeholder]="'Please select a duration' | translate"
+    [cancelText]="'Cancel' | translate"
+  >
     <ion-select-option [value]="30" translate>30 minutes</ion-select-option>
     <ion-select-option [value]="60" translate>60 minutes</ion-select-option>
     <ion-select-option [value]="90" translate>90 minutes</ion-select-option>

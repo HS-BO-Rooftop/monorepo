@@ -6,6 +6,11 @@
         [text]="'Back' | translate"
       ></ion-back-button>
     </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" [routerLink]="['create']">
+        <ion-icon name="add" color="primary"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-title translate> Automation settings </ion-title>
   </ion-toolbar>
   <ion-toolbar>
@@ -22,7 +27,7 @@
       *ngFor="let automation of filteredAutomations | async"
       [routerLink]="[automation.id]"
     >
-      <ion-label>
+      <ion-label [color]="automation.active ? undefined : 'medium'">
         {{ automation.name }}
       </ion-label>
     </ion-item>
