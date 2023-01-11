@@ -15,6 +15,10 @@ export class AutomationConfig implements ISerializeable{
     this._triggers.next(triggers);
   }
 
+  public get triggers() {
+    return this._triggers.value;
+  }
+
   public set conditions(conditions: IEvaluator[]) {
     this._conditions.next(conditions);
   }
@@ -47,11 +51,16 @@ export class AutomationConfig implements ISerializeable{
   constructor(private _id: string = uuidv4(), private _name = '') {
     // Subscribe to all triggers
 
-    this._triggers.subscribe((triggers) => {
+    this._triggers
+    // Only check if automation is active
+      .subscribe((triggers) => {
       // Subscribe to all triggers
       combineLatest(
         triggers.map((trigger) => trigger.isFullfilled)
       ).subscribe((results) => {
+        if (!this.active) {
+          return;
+        }
         const triggersMet = results.some((result) => result);
         this._triggersMet.next(triggersMet);
       });
