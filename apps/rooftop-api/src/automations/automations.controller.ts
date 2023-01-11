@@ -12,6 +12,7 @@ import { ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, 
 import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
 import { AutomationsService } from './automations.service';
 import { AutomationConfigDto } from './classes/automation-config';
+import { AutomationUpdateResponseDto } from './dto/automation-update-response.dto';
 import { MQTTCacheService } from './mqtt-cache.service';
 
 @Controller('automations')
@@ -73,7 +74,7 @@ export class AutomationsController {
   })
   @ApiCreatedResponse({
     description: 'Creates a new automation',
-    type: AutomationConfigDto,
+    type: AutomationUpdateResponseDto,
   })
   createAutomation(@Body() data: AutomationConfigDto) {
     return this.service.createAutomation(data);
@@ -86,7 +87,7 @@ export class AutomationsController {
   })
   @ApiOkResponse({
     description: 'Returns the updated automation',
-    type: AutomationConfigDto,
+    type: AutomationUpdateResponseDto,
   })
   @RNotFoundResponse()
   updateAutomation(

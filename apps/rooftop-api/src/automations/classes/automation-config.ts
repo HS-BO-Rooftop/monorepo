@@ -23,6 +23,10 @@ export class AutomationConfig implements ISerializeable{
     this._actions.next(actions);
   }
 
+  public get actions(): IAction[] {
+    return this._actions.value;
+  }
+
   public lastRun = new BehaviorSubject<Date | null>(null);
 
   public active = true;
