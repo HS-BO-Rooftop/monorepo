@@ -753,11 +753,27 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
           id: automation.id,
         })
         .subscribe({
-          next: () => {
+          next: async (res) => {
             this.toastCtrl.present(
               this.translate.instant('Automation updated'),
               'success'
             );
+            if (res.shouldDisplayWarning) {
+              const alert = await this.alertCtrl.create({
+                header: this.translate.instant('Warning'),
+                message: this.translate.instant(
+                  'The automation contains at least one GPIO action that never turns off.'
+                ),
+                buttons: [
+                  {
+                    text: 'Ok',
+                    role: 'cancel',
+                  },
+                ],
+              });
+
+              alert.present();
+            }
             this.navigateBack();
           },
           error: (error) => {
@@ -769,11 +785,27 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
       // Create
       automation.active = true;
       this.automationsService.createAutomation({ body: automation }).subscribe({
-        next: () => {
+        next: async (res) => {
           this.toastCtrl.present(
             this.translate.instant('Automation created'),
             'success'
           );
+          if (res.shouldDisplayWarning) {
+            const alert = await this.alertCtrl.create({
+              header: this.translate.instant('Warning'),
+              message: this.translate.instant(
+                'The automation contains at least one GPIO action that never turns off.'
+              ),
+              buttons: [
+                {
+                  text: 'Ok',
+                  role: 'cancel',
+                },
+              ],
+            });
+
+            alert.present();
+          }
           this.navigateBack();
         },
         error: (error) => {
@@ -804,8 +836,7 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
           role: 'confirm',
           cssClass: 'danger',
           handler: () => {
-            if (!this.automationData.value)
-            {
+            if (!this.automationData.value) {
               return;
             }
             this.automationsService
@@ -824,7 +855,6 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
                 },
               });
           },
-
         },
       ],
     });

@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
 import { AutomationConfigDto } from '../models/automation-config-dto';
+import { AutomationUpdateResponseDto } from '../models/automation-update-response-dto';
 
 @Injectable({
   providedIn: 'root',
@@ -97,7 +98,7 @@ export class AutomationsService extends BaseService {
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<StrictHttpResponse<AutomationConfigDto>> {
+): Observable<StrictHttpResponse<AutomationUpdateResponseDto>> {
 
     const rb = new RequestBuilder(this.rootUrl, AutomationsService.CreateAutomationPath, 'post');
     if (params) {
@@ -111,7 +112,7 @@ export class AutomationsService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<AutomationConfigDto>;
+        return r as StrictHttpResponse<AutomationUpdateResponseDto>;
       })
     );
   }
@@ -130,10 +131,10 @@ export class AutomationsService extends BaseService {
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<AutomationConfigDto> {
+): Observable<AutomationUpdateResponseDto> {
 
     return this.createAutomation$Response(params).pipe(
-      map((r: StrictHttpResponse<AutomationConfigDto>) => r.body as AutomationConfigDto)
+      map((r: StrictHttpResponse<AutomationUpdateResponseDto>) => r.body as AutomationUpdateResponseDto)
     );
   }
 
@@ -275,7 +276,7 @@ export class AutomationsService extends BaseService {
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<StrictHttpResponse<AutomationConfigDto>> {
+): Observable<StrictHttpResponse<AutomationUpdateResponseDto>> {
 
     const rb = new RequestBuilder(this.rootUrl, AutomationsService.UpdateAutomationPath, 'patch');
     if (params) {
@@ -290,7 +291,7 @@ export class AutomationsService extends BaseService {
     })).pipe(
       filter((r: any) => r instanceof HttpResponse),
       map((r: HttpResponse<any>) => {
-        return r as StrictHttpResponse<AutomationConfigDto>;
+        return r as StrictHttpResponse<AutomationUpdateResponseDto>;
       })
     );
   }
@@ -310,10 +311,10 @@ export class AutomationsService extends BaseService {
     context?: HttpContext
     body: AutomationConfigDto
   }
-): Observable<AutomationConfigDto> {
+): Observable<AutomationUpdateResponseDto> {
 
     return this.updateAutomation$Response(params).pipe(
-      map((r: StrictHttpResponse<AutomationConfigDto>) => r.body as AutomationConfigDto)
+      map((r: StrictHttpResponse<AutomationUpdateResponseDto>) => r.body as AutomationUpdateResponseDto)
     );
   }
 

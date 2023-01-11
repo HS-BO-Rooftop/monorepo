@@ -45,3 +45,4 @@ export { CreateSensorDataRequestDto } from './models/create-sensor-data-request-
 export { EvaluatorJsonData } from './models/evaluator-json-data';
 export { ActionJsonData } from './models/action-json-data';
 export { AutomationConfigDto } from './models/automation-config-dto';
+export { AutomationUpdateResponseDto } from './models/automation-update-response-dto';
