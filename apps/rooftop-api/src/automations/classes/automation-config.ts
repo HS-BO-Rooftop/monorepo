@@ -1,6 +1,6 @@
 import { ClientProxy } from '@nestjs/microservices';
 import { ApiProperty } from '@nestjs/swagger';
-import { BehaviorSubject, combineLatest, firstValueFrom, map, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, firstValueFrom, map, Observable, Subscription } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { WeatherService } from '../../weather/weather.service';
 import { mqttCacheEntry } from '../mqtt-cache.service';
@@ -40,7 +40,10 @@ export class AutomationConfig implements ISerializeable{
   private _actions = new BehaviorSubject<IAction[]>([]);
 
   private _triggersMet = new BehaviorSubject<boolean>(false);
-  private _conditionsMet = new BehaviorSubject<boolean>(false);
+
+  private _triggerSub: Subscription;
+  private _triggerResultSub: Subscription;
+  private _triggersMetSub: Subscription;
 
   private onHold = false;
 
@@ -51,16 +54,19 @@ export class AutomationConfig implements ISerializeable{
   constructor(private _id: string = uuidv4(), private _name = '') {
     // Subscribe to all triggers
 
-    this._triggers
+    this._triggerSub = this._triggers
     // Only check if automation is active
       .subscribe((triggers) => {
       // Subscribe to all triggers
-      combineLatest(
+      this._triggerResultSub = combineLatest(
         triggers.map((trigger) => trigger.isFullfilled)
       ).subscribe((results) => {
         if (!this.active) {
+          this._triggersMet.next(false);
+          this.onHold = false;
           return;
         }
+        console.log(this._name, results);
         const triggersMet = results.some((result) => result);
         this._triggersMet.next(triggersMet);
       });
@@ -69,7 +75,7 @@ export class AutomationConfig implements ISerializeable{
     // Subscribe to triggers and check conditions if triggers are met
     // If conditions are met, perform actions
     // Then ignore triggers until they are not met anymore
-    this._triggersMet.subscribe(async (triggersMet) => {
+    this._triggersMetSub = this._triggersMet.subscribe(async (triggersMet) => {
       if (triggersMet && !this.onHold) {
         // Check if all conditions are met
         if (this._conditions.value.length === 0) {
@@ -88,6 +94,13 @@ export class AutomationConfig implements ISerializeable{
         this.onHold = false;
       }
     });
+  }
+
+  
+  public dispose() {
+    this._triggerSub.unsubscribe();
+    this._triggerResultSub.unsubscribe();
+    this._triggersMetSub.unsubscribe();
   }
 
   private performActions() {

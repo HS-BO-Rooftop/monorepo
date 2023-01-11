@@ -9,8 +9,6 @@ export class SensorValueCondition<T> extends ComparisonEvaluator<T> implements I
   public type: evaluatorType = 'sensor';
   public targetValue: T;
 
-  private _previousValue: T;
-
   constructor(
     public sensorId: string,
     public operator: comparisonOperators,
@@ -25,12 +23,7 @@ export class SensorValueCondition<T> extends ComparisonEvaluator<T> implements I
           const entry = cache.find((entry) => entry.sensorId === sensorId);
           return entry ?? null;
         }),
-        filter((entry) => entry !== null),
-        filter((entry) => {
-          const previousValue = this._previousValue;
-          this._previousValue = entry.data;
-          return previousValue !== entry.data;
-        })
+        filter((entry) => entry !== null)
       )
       .subscribe((entry) => {
         const res = this.evaluate(entry.data);

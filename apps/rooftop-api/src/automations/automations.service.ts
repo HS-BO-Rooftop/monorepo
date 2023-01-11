@@ -104,7 +104,6 @@ export class AutomationsService {
    * @returns If a warning should be displayed or not
    */
   private checkIfWarningShouldBeDisplayed(config: AutomationConfig) {
-    console.log(config);
     const turnOnActions = config.actions
       .filter((a): a is GpioAction => a.type === 'gpio_action')
       .filter((a) => a.targetState === true);
@@ -141,12 +140,19 @@ export class AutomationsService {
   }
 
   private async upsertAutomation(automation: AutomationConfig) {
-    this.automationConfigs = this.automationConfigs.filter(
-      (a) => a.id !== automation.id
-    );
-    if (!automation.active) {
-      return;
+    const index = this.automationConfigs.findIndex((a) => a.id === automation.id);
+
+    // Replace the object if it exists
+    if (index !== -1) {
+      // Delete the object
+      let oldAutomation = this.automationConfigs[index];
+      oldAutomation.dispose();
+      oldAutomation = undefined;
+
+      this.automationConfigs[index] = automation;
+    } else {
+      this.automationConfigs.push(automation);
     }
-    this.automationConfigs.push(automation);
+    console.log('Updated automation', this.automationConfigs.length);
   }
 }
