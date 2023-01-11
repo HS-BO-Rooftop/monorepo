@@ -94,7 +94,7 @@ export class WeatherServiceWorker {
       this._currentDwDWeather.next(data);
       return data;
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
 

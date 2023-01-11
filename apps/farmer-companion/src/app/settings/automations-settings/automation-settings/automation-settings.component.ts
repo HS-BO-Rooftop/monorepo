@@ -493,13 +493,10 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
   ) {
     if (container === this.triggersContainer) {
       this.triggers.push(ref);
-      console.log('Added component ref to triggers', this.triggers);
     } else if (container === this.conditionsContainer) {
       this.conditions.push(ref);
-      console.log('Added component ref to conditions', this.conditions);
     } else if (container === this.actionsContainer) {
       this.actions.push(ref);
-      console.log('Added component ref to actions', this.actions);
     }
 
     // Subscribe to delete event

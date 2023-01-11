@@ -66,7 +66,6 @@ export class AutomationConfig implements ISerializeable{
           this.onHold = false;
           return;
         }
-        console.log(this._name, results);
         const triggersMet = results.some((result) => result);
         this._triggersMet.next(triggersMet);
       });
