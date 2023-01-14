@@ -276,19 +276,20 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
               );
           },
         },
-        {
-          text: this.translate.instant('Switch GPIO for duration'),
-          handler: () => {
-            this.actionsContainer &&
-              this.pinsData.value &&
-              this.boardsData.value &&
-              this.createGpioDurationActionComponent(
-                this.actionsContainer,
-                this.boardsData.value,
-                this.pinsData.value
-              );
-          },
-        },
+        // Todo: Implement in backend
+        // {
+        //   text: this.translate.instant('Switch GPIO for duration'),
+        //   handler: () => {
+        //     this.actionsContainer &&
+        //       this.pinsData.value &&
+        //       this.boardsData.value &&
+        //       this.createGpioDurationActionComponent(
+        //         this.actionsContainer,
+        //         this.boardsData.value,
+        //         this.pinsData.value
+        //       );
+        //   },
+        // },
       ],
     });
     actionSheet.present();
