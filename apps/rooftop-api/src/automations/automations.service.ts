@@ -24,13 +24,19 @@ export class AutomationsService {
     private readonly automationRepository: Repository<AutomationEntity>
   ) {
     this.automationRepository.find().then((data) => {
-      data.forEach(automation => {
+      data.forEach((automation) => {
         const config = this.createAutomationConfig(automation);
-        this.upsertAutomation(config); 
+        this.upsertAutomation(config);
       });
+      this.logger.verbose(`Loaded ${data.length} automations`);
     });
   }
 
+  /**
+   * Gets all automations
+   * @param enabledOnly If only enabled automations should be returned
+   * @returns The requested automations
+   */
   public async getAutomations(
     enabledOnly = false
   ): Promise<AutomationConfigDto[]> {
@@ -39,6 +45,11 @@ export class AutomationsService {
     return jsonData.filter((d) => !enabledOnly || d.active);
   }
 
+  /**
+   * Gets an automation by its id
+   * @param id Id of the automation to get
+   * @returns The automation
+   */
   public async getAutomation(id: string): Promise<AutomationConfigDto> {
     const data = await this.automationRepository.findOne({
       where: {
@@ -49,6 +60,12 @@ export class AutomationsService {
     return JSON.parse(data.data) as AutomationConfigDto;
   }
 
+  /**
+   * Updates an automation and returns it and if a warning should be displayed
+   * @param id Id of the automation to update
+   * @param data Data of the automation to update
+   * @returns The updated automation and if a warning should be displayed
+   */
   public async updateAutomation(id: string, data: AutomationConfigDto) {
     const automation = await this.automationRepository.findOne({
       where: {
@@ -70,12 +87,18 @@ export class AutomationsService {
     this.upsertAutomation(config);
 
     const result = await this.getAutomation(id);
+    this.logger.verbose(`Updated automation ${id}`);
     return {
       automation: result,
       shouldDisplayWarning: this.checkIfWarningShouldBeDisplayed(config),
     };
   }
 
+  /**
+   * Creates an automation and returns it and if a warning should be displayed
+   * @param data Data of the automation to create
+   * @returns The created automation and if a warning should be displayed
+   */
   public async createAutomation(data: AutomationConfigDto) {
     const automation = new AutomationEntity();
     const id = v4();
@@ -86,6 +109,7 @@ export class AutomationsService {
     const config = this.createAutomationConfig(automation);
     await this.automationRepository.save(automation);
     this.upsertAutomation(config);
+    this.logger.verbose(`Created automation ${id}`);
 
     // If the automation has any GPIO actions, that turn on a Pin.
     // We need to check if there is a automation to turn it off, else we need to warn the user.
@@ -122,14 +146,29 @@ export class AutomationsService {
     return shouldDisplayWarning;
   }
 
+  /**
+   * Deletes an automation
+   * @param id Id of the automation to delete
+   */
   public async deleteAutomation(id: string) {
     await this.automationRepository.delete({
       id,
     });
 
+    // Dispose of the automation
+    const automation = this.automationConfigs.find((a) => a.id === id);
+    automation.dispose();
+
     this.automationConfigs = this.automationConfigs.filter((a) => a.id !== id);
+
+    this.logger.verbose(`Deleted automation ${id}`);
   }
 
+  /**
+   * Creates an instance of AutomationConfig from an AutomationEntity
+   * @param automation The automation entity to create the config from
+   * @returns The created config
+   */
   private createAutomationConfig(automation: AutomationEntity) {
     return AutomationConfig.deserialize(
       automation.data,
@@ -140,19 +179,19 @@ export class AutomationsService {
   }
 
   private async upsertAutomation(automation: AutomationConfig) {
-    const index = this.automationConfigs.findIndex((a) => a.id === automation.id);
+    const index = this.automationConfigs.findIndex(
+      (a) => a.id === automation.id
+    );
 
     // Replace the object if it exists
     if (index !== -1) {
       // Delete the object
-      let oldAutomation = this.automationConfigs[index];
+      const oldAutomation = this.automationConfigs[index];
       oldAutomation.dispose();
-      oldAutomation = undefined;
 
       this.automationConfigs[index] = automation;
     } else {
       this.automationConfigs.push(automation);
     }
-    console.log('Updated automation', this.automationConfigs.length);
   }
 }
