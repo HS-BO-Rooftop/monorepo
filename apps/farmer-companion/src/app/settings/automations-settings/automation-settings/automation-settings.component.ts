@@ -276,20 +276,19 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
               );
           },
         },
-        // Todo: Implement in backend
-        // {
-        //   text: this.translate.instant('Switch GPIO for duration'),
-        //   handler: () => {
-        //     this.actionsContainer &&
-        //       this.pinsData.value &&
-        //       this.boardsData.value &&
-        //       this.createGpioDurationActionComponent(
-        //         this.actionsContainer,
-        //         this.boardsData.value,
-        //         this.pinsData.value
-        //       );
-        //   },
-        // },
+        {
+          text: this.translate.instant('Switch GPIO for duration'),
+          handler: () => {
+            this.actionsContainer &&
+              this.pinsData.value &&
+              this.boardsData.value &&
+              this.createGpioDurationActionComponent(
+                this.actionsContainer,
+                this.boardsData.value,
+                this.pinsData.value
+              );
+          },
+        },
       ],
     });
     actionSheet.present();
@@ -607,6 +606,28 @@ export class AutomationSettingsPage implements OnInit, AfterViewInit {
             selectedPin,
             selectedBoard,
             jsonData.newState as boolean
+          );
+        }
+        break;
+      case 'gpio-duration':
+        {
+          const selectedPin = this.pinsData.value.find(
+            (pin) => pin.pin === jsonData.pinId
+          );
+
+
+          const selectedBoard = this.boardsData.value.find(
+            (board) => board.id === jsonData.boardId
+          );
+
+          this.createGpioDurationActionComponent(
+            container,
+            this.boardsData.value,
+            this.pinsData.value,
+            selectedPin,
+            selectedBoard,
+            jsonData.newState as boolean,
+            jsonData.duration as number
           );
         }
         break;

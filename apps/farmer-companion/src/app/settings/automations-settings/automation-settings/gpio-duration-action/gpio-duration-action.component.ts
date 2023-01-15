@@ -17,12 +17,16 @@ export class GpioDurationActionComponent extends BaseAutomationCondition {
   public duration: number | undefined;
 
   public override toJson() {
-    return {
+    const json = {
       type: 'gpio-duration',
-      target: this.targetValue,
+      newState: this.targetValue,
       boardId: this.selectedBoard?.id,
-      pinId: this.selectedPin?.id,
+      pinId: this.selectedPin?.pin,
       duration: this.duration,
     };
+
+    console.log(json);
+
+    return json;
   }
 }
