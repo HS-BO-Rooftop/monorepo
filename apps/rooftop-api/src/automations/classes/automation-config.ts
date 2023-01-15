@@ -100,6 +100,9 @@ export class AutomationConfig implements ISerializeable{
     this._triggerSub.unsubscribe();
     this._triggerResultSub.unsubscribe();
     this._triggersMetSub.unsubscribe();
+
+    // Dispose all actions
+    this._actions.value.forEach((action) => action.dispose());
   }
 
   private performActions() {

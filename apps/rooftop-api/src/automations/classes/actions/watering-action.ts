@@ -18,6 +18,10 @@ export class WateringAction implements IAction {
     });
   }
 
+  dispose(): void {
+    // Nothing to dispose
+  }
+
   public performAction(): void {
     this.logger.log(`Watering action: ${this.targetState}`);
     this.mqtt.emit('watering', this.targetState).subscribe();

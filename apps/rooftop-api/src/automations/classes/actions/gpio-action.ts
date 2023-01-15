@@ -39,6 +39,10 @@ export class GpioAction implements IAction {
       .subscribe();
   }
 
+  dispose(): void {
+    // Nothing to dispose
+  }
+
   serialize(): string {
     return JSON.stringify({
       boardId: this._boardId,
