@@ -18,14 +18,13 @@
 
 <ion-content>
   <ion-list *ngIf="filteredSensors">
-    <ion-list-header *ngFor="let group in filteredSensors | async"></ion-list-header>
-    <!-- <ion-item
-      *ngFor="let sensor  filteredSensors | async"
-      [routerLink]="[sensor.id]"
-    >
-      <ion-label>
-        {{ sensor.name }}
-      </ion-label>
-    </ion-item> -->
+    <ng-container *ngFor="let group of filteredSensors | async">
+      <ion-list-header>{{ group.name }}</ion-list-header>
+      <ion-item *ngFor="let sensor of group.sensors" [routerLink]="[sensor.id]">
+        <ion-label>
+          {{ sensor.name }}
+        </ion-label>
+      </ion-item>
+    </ng-container>
   </ion-list>
 </ion-content>

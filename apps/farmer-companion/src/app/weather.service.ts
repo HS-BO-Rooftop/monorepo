@@ -123,7 +123,7 @@ export class WeatherDataService {
 
   private listenToCurrentWeatherStream(): void {
     const source = new EventSource(
-      `${environment.apiUrl}/weather/current/dwd/sse`
+      `${environment.apiUrl}/api/weather/current/dwd/sse`
     );
     source.addEventListener('message', this.onNewCurrentWeather.bind(this));
   }
@@ -137,7 +137,7 @@ export class WeatherDataService {
 
   private listenToForecastWeatherStream(): void {
     const source = new EventSource(
-      `${environment.apiUrl}/weather/forecast/dwd/sse`
+      `${environment.apiUrl}/api/weather/forecast/dwd/sse`
     );
     source.addEventListener('message', this.onNewWeatherForecast.bind(this));
   }
@@ -151,7 +151,7 @@ export class WeatherDataService {
 
   private listenToCurrentLocalWeatherStream(): void {
     const source = new EventSource(
-      `${environment.apiUrl}/weather/current/local/sse`
+      `${environment.apiUrl}/api/weather/current/local/sse`
     );
     source.addEventListener(
       'message',
