@@ -18,4 +18,7 @@ export class UserDto {
 
   @ApiProperty({ format: 'date-time', nullable: true })
   updatedAt: Date | null;
+
+  @ApiProperty()
+  isAdmin: boolean;
 }

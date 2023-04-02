@@ -3,16 +3,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ShutdownService } from '../shutdown/shutdown.service';
 import { TypeOrmTestModule } from '../test/test-connection';
-import { ApplicationService } from './application.service';
+import { ApplicationsService } from './applications.service';
 import { ApplicationEntity } from './entities/application.entity';
 
 describe('ApplicationService', () => {
-  let service: ApplicationService;
+  let service: ApplicationsService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        ApplicationService,
+        ApplicationsService,
         {
           provide: ConfigService,
           useValue: {
@@ -38,7 +38,7 @@ describe('ApplicationService', () => {
       ],
     }).compile();
 
-    service = module.get<ApplicationService>(ApplicationService);
+    service = module.get<ApplicationsService>(ApplicationsService);
   });
 
   it('should be defined', () => {

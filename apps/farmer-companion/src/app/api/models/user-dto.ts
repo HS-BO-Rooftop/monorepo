@@ -5,6 +5,7 @@ export interface UserDto {
   email: string;
   firstName: string;
   id: string;
+  isAdmin: boolean;
   lastName: string;
   updatedAt: null | string;
 }

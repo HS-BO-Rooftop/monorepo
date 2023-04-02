@@ -6,14 +6,17 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth/auth.guard';
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../../common/responses/NotFoundResponse.dto';
 import { CreatePlantDto } from './dto/create-plant.dto';
@@ -28,6 +31,8 @@ export class PlantsController {
   constructor(private readonly plantsService: PlantsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({
     type: PlantDto,
   })
@@ -63,6 +68,8 @@ export class PlantsController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: PlantDto,
   })
@@ -75,6 +82,8 @@ export class PlantsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiNoContentResponse({
     description: 'Plant deleted successfully',
   })

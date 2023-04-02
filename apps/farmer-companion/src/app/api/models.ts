@@ -1,4 +1,6 @@
 export { LoginRequestDto } from './models/login-request-dto';
+export { TokenPairDto } from './models/token-pair-dto';
+export { RefreshTokenRequestDto } from './models/refresh-token-request-dto';
 export { UserDto } from './models/user-dto';
 export { CreateUserDto } from './models/create-user-dto';
 export { PasswordResetRequestDto } from './models/password-reset-request-dto';

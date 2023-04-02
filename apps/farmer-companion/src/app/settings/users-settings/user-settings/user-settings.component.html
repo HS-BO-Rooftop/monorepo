@@ -83,6 +83,7 @@
       <ion-input
         type="password"
         formControlName="password"
+        [placeholder]="'Leave empty to keep the current password' | translate"
         autocomplete="off"
       ></ion-input>
     </ion-item>
@@ -96,6 +97,14 @@
     >
       Please fill in a password
     </span>
+
+    <!-- IsAdmin -->
+    <ion-item *ngIf="currentUserIsAdmin$ |async">
+      <ion-label position="floating" translate class="required"
+        >Is admin</ion-label
+      >
+      <ion-checkbox formControlName="isAdmin"></ion-checkbox>
+    </ion-item>
   </form>
   <ion-button
     expand="block"

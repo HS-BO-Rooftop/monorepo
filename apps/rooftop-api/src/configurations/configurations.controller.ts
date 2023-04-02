@@ -9,8 +9,10 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiNoContentResponse,
@@ -18,6 +20,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
 import { FindByUUIDDto } from '../common/dto/find-by-uuid.dto';
 import { RBadRequestResponse } from '../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
@@ -36,6 +39,8 @@ export class ConfigurationsController {
   constructor(private readonly configurationsService: ConfigurationsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({
     type: BoardConfigurationDto,
   })
@@ -71,6 +76,8 @@ export class ConfigurationsController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: BoardConfigurationDto,
   })
@@ -89,6 +96,8 @@ export class ConfigurationsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @RNotFoundResponse()
   @ApiNoContentResponse({

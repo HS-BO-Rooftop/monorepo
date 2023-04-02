@@ -10,16 +10,19 @@ import {
   Post,
   Query,
   Sse,
+  UseGuards,
 } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { filter, Observable, Subject } from 'rxjs';
+import { Observable, Subject, filter } from 'rxjs';
+import { AuthGuard } from '../../auth/auth.guard';
 import { FindByUUIDDto } from '../../common/dto/find-by-uuid.dto';
 import { BoardConfigurationUpdatedEvent } from '../../common/events/board-configuration-updated.event';
 import { RBadRequestResponse } from '../../common/responses/BadRequestResponse.dto';
@@ -51,6 +54,8 @@ export class BoardsController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: BoardDto })
   create(@Body() createBoardDto: CreateBoardDto) {
     return this.boardsService.create(createBoardDto);
@@ -79,6 +84,8 @@ export class BoardsController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: BoardDto })
   @RNotFoundResponse()
   @ApiOperation({
@@ -92,6 +99,8 @@ export class BoardsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @RNotFoundResponse()
   @ApiNoContentResponse({ description: 'Board deleted' })

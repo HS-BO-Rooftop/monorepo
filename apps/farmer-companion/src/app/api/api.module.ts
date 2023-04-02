@@ -6,7 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { VersionService } from './services/version.service';
 import { AuthService } from './services/auth.service';
-import { UserService } from './services/user.service';
+import { UsersService } from './services/users.service';
 import { BoardsService } from './services/boards.service';
 import { RegisterService } from './services/register.service';
 import { BoardPinsService } from './services/board-pins.service';
@@ -32,7 +32,7 @@ import { AutomationsService } from './services/automations.service';
   providers: [
     VersionService,
     AuthService,
-    UserService,
+    UsersService,
     BoardsService,
     RegisterService,
     BoardPinsService,

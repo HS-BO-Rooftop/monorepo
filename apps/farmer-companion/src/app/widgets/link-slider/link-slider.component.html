@@ -1,5 +1,5 @@
 <swiper [slidesPerView]="1.5" [spaceBetween]="32">
   <ng-template swiperSlide *ngFor="let card of cards">
-    <rooftop-link-slider-card [options]="card"></rooftop-link-slider-card>
+    <rooftop-link-slider-card [options]="card" [disabled]="card.disabled"></rooftop-link-slider-card>
   </ng-template>
 </swiper>

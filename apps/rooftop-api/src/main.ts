@@ -54,7 +54,8 @@ async function bootstrap() {
     .addTag('Sensors')
     .addTag('Configurations')
     .addTag('Sensor Types')
-    .addTag('Sensor Interfaces');
+    .addTag('Sensor Interfaces')
+    .addBearerAuth();
 
   if (process.env.NODE_ENV === 'development') {
     documentBuilder.addServer(`http://localhost:${port}`);

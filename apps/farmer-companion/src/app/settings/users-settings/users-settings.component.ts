@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { BehaviorSubject, combineLatest, map, startWith } from 'rxjs';
 import { UserDto } from '../../api/models';
-import { UserService } from '../../api/services';
-import { loadingHelper, LoadingService } from '../../loading.service';
+import { UsersService } from '../../api/services';
+import { LoadingService, loadingHelper } from '../../loading.service';
 import { ToastService } from '../../toast.service';
 
 @Component({
@@ -20,7 +20,7 @@ export class UsersSettingsPage implements OnInit {
   constructor(
     private readonly loading: LoadingService,
     private readonly toast: ToastService,
-    private readonly usersService: UserService
+    private readonly usersService: UsersService
   ) {}
 
   ngOnInit(): void {

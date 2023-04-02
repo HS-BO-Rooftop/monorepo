@@ -6,15 +6,18 @@ import {
   Param,
   Patch,
   Post,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags
 } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
 import { TimeRangeRequestDto } from '../weather/dto/time-range-request.dto';
@@ -31,6 +34,8 @@ export class BedsController {
   constructor(private readonly bedsService: BedsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({
     type: BedDto,
   })
@@ -66,6 +71,8 @@ export class BedsController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @RNotFoundResponse()
   @ApiOkResponse({
     type: BedDto,
@@ -78,6 +85,8 @@ export class BedsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiNoContentResponse()
   @ApiOperation({
     operationId: 'deleteBed',

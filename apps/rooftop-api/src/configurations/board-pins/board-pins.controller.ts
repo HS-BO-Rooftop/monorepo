@@ -8,14 +8,17 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth/auth.guard';
 import { FindByUUIDDto } from '../../common/dto/find-by-uuid.dto';
 import { RBadRequestResponse } from '../../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
@@ -33,6 +36,8 @@ export class BoardPinsController {
   constructor(private readonly boardPinsService: BoardPinsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: BoardPinDto })
   create(@Body() createBoardPinDto: CreateBoardPinDto) {
     return this.boardPinsService.create(createBoardPinDto);
@@ -57,6 +62,8 @@ export class BoardPinsController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @RNotFoundResponse()
   @ApiOkResponse({ type: BoardPinDto, description: 'The updated resource' })
   update(
@@ -67,6 +74,8 @@ export class BoardPinsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @RNotFoundResponse()
   @ApiNoContentResponse({ description: 'Board Pin deleted' })

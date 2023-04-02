@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ApplicationEntity } from '../application/entities/application.entity';
+import { ApplicationEntity } from '../applications/entities/application.entity';
 import { RefreshTokenEntity } from '../auth/entities/refresh-token.entity';
 import { UserEntity } from '../user/entities/user.entity';
 

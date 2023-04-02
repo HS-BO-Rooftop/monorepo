@@ -1,14 +1,14 @@
 <rooftop-login-container>
-  <form class="flex h-full flex-col">
+  <form class="flex h-full flex-col" (ngSubmit)="onSubmit()" [formGroup]="form">
     <div class="flex flex-col">
       <ion-item>
         <ion-label position="floating">E-Mail</ion-label>
-        <ion-input></ion-input>
+        <ion-input type="text" formControlName="email"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="floating">{{ 'Password' | translate }}</ion-label>
-        <ion-input></ion-input>
+        <ion-input type="password" formControlName="password"></ion-input>
       </ion-item>
 
       <a

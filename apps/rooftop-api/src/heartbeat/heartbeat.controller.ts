@@ -1,5 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
 import { HeartbeatRequestDto } from './dto/heartbeat-request.dto';
@@ -12,6 +13,8 @@ export class HeartbeatController {
   constructor(private readonly service: HeartbeatService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: HeartbeatResponseDto,
   })

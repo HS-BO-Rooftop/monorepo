@@ -18,7 +18,7 @@ import { UserDto } from '../models/user-dto';
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends BaseService {
+export class UsersService extends BaseService {
   constructor(
     config: ApiConfiguration,
     http: HttpClient
@@ -46,7 +46,7 @@ export class UserService extends BaseService {
   }
 ): Observable<StrictHttpResponse<Array<UserDto>>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UserService.GetAllUserPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.GetAllUserPath, 'get');
     if (params) {
     }
 
@@ -103,7 +103,7 @@ export class UserService extends BaseService {
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UserService.CreateUserPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.CreateUserPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -166,7 +166,7 @@ export class UserService extends BaseService {
   }
 ): Observable<StrictHttpResponse<UserDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UserService.GetUserByIdPath, 'get');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.GetUserByIdPath, 'get');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -234,7 +234,7 @@ export class UserService extends BaseService {
   }
 ): Observable<StrictHttpResponse<UserDto>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UserService.UpdateUserPath, 'put');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.UpdateUserPath, 'put');
     if (params) {
       rb.path('id', params.id, {});
       rb.body(params.body, 'application/json');
@@ -303,7 +303,7 @@ export class UserService extends BaseService {
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UserService.DeleteUserPath, 'delete');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.DeleteUserPath, 'delete');
     if (params) {
       rb.path('id', params.id, {});
     }
@@ -362,7 +362,7 @@ export class UserService extends BaseService {
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UserService.UserControllerRequestPasswordResetPath, 'put');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.UserControllerRequestPasswordResetPath, 'put');
     if (params) {
       rb.body(params.body, 'application/json');
     }
@@ -413,7 +413,7 @@ export class UserService extends BaseService {
   }
 ): Observable<StrictHttpResponse<void>> {
 
-    const rb = new RequestBuilder(this.rootUrl, UserService.UserControllerSetNewPasswordPath, 'post');
+    const rb = new RequestBuilder(this.rootUrl, UsersService.UserControllerSetNewPasswordPath, 'post');
     if (params) {
       rb.body(params.body, 'application/json');
     }

@@ -1,5 +1,6 @@
-import { Body, Controller, NotFoundException, Post } from '@nestjs/common';
-import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, NotFoundException, Post, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth/auth.guard';
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../../common/responses/NotFoundResponse.dto';
 import { ConfigurationsService } from '../configurations.service';
@@ -16,6 +17,8 @@ export class RegisterController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: RegisterResponseDto,
   })

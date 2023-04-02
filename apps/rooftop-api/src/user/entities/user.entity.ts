@@ -1,3 +1,4 @@
+import { hashSync } from 'bcrypt';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -6,7 +7,6 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { hashSync } from 'bcrypt';
 import { RefreshTokenEntity } from '../../auth/entities/refresh-token.entity';
 
 @Entity({ name: 'users' })
@@ -28,6 +28,9 @@ export class UserEntity {
 
   @OneToMany(() => RefreshTokenEntity, (token) => token.user)
   refreshTokens?: RefreshTokenEntity[];
+
+  @Column({ default: false })
+  isAdmin: boolean;
 
   @BeforeInsert()
   @BeforeUpdate()

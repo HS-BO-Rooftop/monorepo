@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppAuthService } from '../../auth.service';
 
 @Component({
   selector: 'rooftop-navigation',
@@ -6,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app-navigation.component.scss'],
 })
 export class AppNavigationComponent implements OnInit {
-  constructor() {}
+  constructor(
+    private readonly _authService: AppAuthService, private readonly _router: Router) {}
 
-  ngOnInit(): void {}
+  ngOnInit(
+  ): void {}
+
+  logout() {
+    this._authService.logout();
+    this._router.navigate(['/landing']);
+  }
 }

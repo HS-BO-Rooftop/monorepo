@@ -1,22 +1,27 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { IsOptional, IsString, MaxLength } from 'class-validator';
+import { IsBoolean, IsOptional, IsString, MaxLength } from 'class-validator';
 
 export class UpdateUserDto {
   @IsString()
   @MaxLength(255)
   @IsOptional()
   @ApiPropertyOptional({ maxLength: 255 })
-  firstName: string;
+  firstName?: string;
 
   @IsString()
   @MaxLength(255)
   @IsOptional()
   @ApiPropertyOptional({ maxLength: 255 })
-  lastName: string;
+  lastName?: string;
 
   @IsString()
   @MaxLength(255)
   @IsOptional()
   @ApiPropertyOptional({ maxLength: 255 })
-  password: string;
+  password?: string;
+
+  @IsBoolean()
+  @IsOptional()
+  @ApiPropertyOptional()
+  isAdmin?: boolean;
 }

@@ -4,8 +4,9 @@ import { ActivatedRoute } from '@angular/router';
 import { AlertController, NavController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, filter } from 'rxjs';
+import { AppAuthService } from '../../../../auth.service';
 import { UserDto } from '../../../api/models';
-import { UserService } from '../../../api/services';
+import { UsersService } from '../../../api/services';
 import { LoadingService } from '../../../loading.service';
 import { ToastService } from '../../../toast.service';
 
@@ -17,6 +18,7 @@ import { ToastService } from '../../../toast.service';
 export class UserSettingsPage implements OnInit {
   userId = new BehaviorSubject<string | null>(null);
   userData = new BehaviorSubject<UserDto | null>(null);
+  currentUserIsAdmin$ = new BehaviorSubject<boolean>(false);
 
   form = this.fb.group({
     email: this.fb.nonNullable.control('', Validators.required),
@@ -24,17 +26,19 @@ export class UserSettingsPage implements OnInit {
     lastName: this.fb.nonNullable.control('', Validators.required),
     password: this.fb.nonNullable.control('', Validators.required),
     id: this.fb.control(''),
+    isAdmin: this.fb.nonNullable.control(false, Validators.required),
   });
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly usersService: UserService,
+    private readonly usersService: UsersService,
     private readonly loading: LoadingService,
     private readonly toast: ToastService,
     private readonly fb: FormBuilder,
     private readonly navCtrl: NavController,
     private readonly alert: AlertController,
-    private readonly translation: TranslateService
+    private readonly translation: TranslateService,
+    private readonly authService: AppAuthService
   ) {}
 
   ngOnInit(): void {
@@ -53,6 +57,10 @@ export class UserSettingsPage implements OnInit {
     this.userData
       .pipe(filter((data): data is UserDto => data !== null))
       .subscribe((data) => this.form.patchValue(data));
+
+    this.authService.isAuthenticated$.pipe(filter((x) => !!x)).subscribe(() => {
+      this.currentUserIsAdmin$.next(this.authService.isAdmin);
+    });
   }
 
   private loadUserData(id: string) {
@@ -164,6 +172,7 @@ export class UserSettingsPage implements OnInit {
         password: this.form.getRawValue().password
           ? this.form.getRawValue().password
           : undefined,
+        isAdmin: this.form.getRawValue().isAdmin,
       },
     });
   }

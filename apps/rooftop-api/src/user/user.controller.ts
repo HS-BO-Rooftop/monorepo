@@ -6,8 +6,11 @@ import {
   Param,
   Post,
   Put,
+  SetMetadata,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
 import { FindByUUIDDto } from '../common/dto/find-by-uuid.dto';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
 import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
@@ -19,7 +22,7 @@ import { UserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
 @Controller('users')
-@ApiTags('User')
+@ApiTags('Users')
 @RInternalServerErrorResponse()
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -39,6 +42,9 @@ export class UserController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
+  @SetMetadata('roles', ['admin'])
   @ApiOperation({ summary: 'Create user', operationId: 'createUser' })
   createUser(@Body() body: CreateUserDto) {
     return this.userService.createOne(body);
@@ -62,6 +68,8 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @RNotFoundResponse()
   @ApiOperation({ summary: 'Deletes a user', operationId: 'deleteUser' })
   deleteUser(@Param() params: FindByUUIDDto) {

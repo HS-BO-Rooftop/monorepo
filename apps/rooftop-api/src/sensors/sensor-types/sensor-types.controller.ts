@@ -8,14 +8,17 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth/auth.guard';
 import { FindByUUIDDto } from '../../common/dto/find-by-uuid.dto';
 import { RBadRequestResponse } from '../../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
@@ -33,6 +36,8 @@ export class SensorTypesController {
   constructor(private readonly sensorTypesService: SensorTypesService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: SensorTypeDto })
   create(@Body() createSensorTypeDto: CreateSensorTypeDto) {
     return this.sensorTypesService.create(createSensorTypeDto);
@@ -57,6 +62,8 @@ export class SensorTypesController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: SensorTypeDto })
   @RNotFoundResponse()
   update(
@@ -67,6 +74,8 @@ export class SensorTypesController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiNoContentResponse({
     description: 'Sensor Type was deleted successfully',

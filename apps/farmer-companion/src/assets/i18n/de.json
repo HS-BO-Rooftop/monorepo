@@ -165,5 +165,7 @@
   "Error deleting automation": "Fehler beim Löschen der Automatisierung",
   "Are you sure you want to delete this automation?": "Sind Sie sicher, dass Sie diese Automatisierung löschen möchten?",
   "Active": "Aktiv",
-  "The automation contains at least one GPIO action that never turns off.": "Die Automatisierung enthält mindestens eine GPIO Aktion, die niemals ausgeschaltet wird."
+  "The automation contains at least one GPIO action that never turns off.": "Die Automatisierung enthält mindestens eine GPIO Aktion, die niemals ausgeschaltet wird.",
+  "Logout": "Abmelden",
+  "Leave empty to keep the current password": "Leer lassen, um das aktuelle Passwort beizubehalten"
 }

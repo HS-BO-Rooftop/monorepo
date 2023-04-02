@@ -8,8 +8,10 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiNoContentResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../../auth/auth.guard';
 import { FindByUUIDDto } from '../../common/dto/find-by-uuid.dto';
 import { RBadRequestResponse } from '../../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../../common/responses/InternalServierErrorResponse.dto';
@@ -29,6 +31,8 @@ export class SensorInterfacesController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({
     type: SensorInterfaceDto,
     description: 'The created sensor interface',
@@ -50,6 +54,8 @@ export class SensorInterfacesController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: SensorInterfaceDto })
   update(
     @Param() params: FindByUUIDDto,
@@ -62,6 +68,8 @@ export class SensorInterfacesController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiNoContentResponse({
     description: 'Successfully deleted sensor interface',

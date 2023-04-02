@@ -4,6 +4,7 @@ export type LinkSliderCardOptions = {
   title: string;
   imageUrl: string;
   routerLink: any[] | string | null | undefined;
+  disabled?: boolean;
 };
 
 @Component({
@@ -13,6 +14,7 @@ export type LinkSliderCardOptions = {
 })
 export class LinkSliderCardComponent implements OnInit {
   @Input() options?: LinkSliderCardOptions;
+  @Input() disabled?: boolean;
 
   constructor() {}
 

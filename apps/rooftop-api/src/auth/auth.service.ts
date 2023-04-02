@@ -1,17 +1,19 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
+import { compare } from 'bcrypt';
+import * as jwt from 'jsonwebtoken';
+import { JwtPayload } from 'jsonwebtoken';
 import { Repository } from 'typeorm';
+import { ApplicationsService } from '../applications/applications.service';
+import { UserEntity } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
+import {
+  RefreshTokenPayload,
+  isRefreshTokenPayload
+} from './dto/refresh-token-payload.dto';
 import { TokenPairDto } from './dto/token-pair.dto';
 import { RefreshTokenEntity } from './entities/refresh-token.entity';
-import * as jwt from 'jsonwebtoken';
-import { ConfigService } from '@nestjs/config';
-import { ApplicationService } from '../application/application.service';
-import {
-  isRefreshTokenPayload,
-  RefreshTokenPayload,
-} from './dto/refresh-token-payload.dto';
-import { compare } from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +28,7 @@ export class AuthService {
     private readonly repo: Repository<RefreshTokenEntity>,
     private readonly userService: UserService,
     private readonly configService: ConfigService,
-    private readonly appService: ApplicationService
+    private readonly appService: ApplicationsService
   ) {
     this.appService.boostrapDone.subscribe((done) => {
       if (done === false) {
@@ -63,10 +65,14 @@ export class AuthService {
       expiresIn: AuthService.REFRESH_TOKEN_LIFETIME,
     });
 
+    const user = await this.userService.findOne(userId);
+
     const accessToken = jwt.sign(
       {
         sub: userId,
+        name: `${user.firstName} ${user.lastName}`,
         clientId,
+        isAdmin: user.isAdmin,
       },
       application.secret,
       {
@@ -106,14 +112,17 @@ export class AuthService {
   /**
    * Creates a new token pair for the user using their refresh token.
    * @param refreshToken The refresh token.
-   * @param clientId The id of the client that requested the token.
    * @returns The new token pair.
    */
-  async validateRefreshToken(
-    refreshToken: string,
-    clientId: string
+  async refreshToken(
+    refreshToken: string
   ): Promise<TokenPairDto> {
-    const application = await this.appService.findOne(clientId);
+    const payload = jwt.decode(refreshToken) as RefreshTokenPayload;
+    const application = await this.appService.findOne(payload.clientId);
+
+    if (!application) {
+      throw new UnauthorizedException('Invalid refresh token');
+    }
 
     const decoded = jwt.verify(refreshToken, application.secret);
 
@@ -125,16 +134,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    if (decoded.clientId !== clientId) {
-      throw new UnauthorizedException('Invalid refresh token');
-    }
-
     const user = await this.userService.findOne(decoded.sub);
     if (!user) {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    const tokenPair = await this.generateTokenPair(user.id, clientId);
+    const tokenPair = await this.generateTokenPair(user.id, payload.clientId);
 
     // Delete the old refresh token
     await this.repo.delete({
@@ -142,5 +147,15 @@ export class AuthService {
     });
 
     return tokenPair;
+  }
+
+  // Validates a token and the user.
+  public async validate(token: string): Promise<UserEntity | null> {
+    const payload = jwt.verify(token, this.applicationSecret) as JwtPayload;
+    if (!payload) {
+      return null;
+    }
+
+    return await this.userService.findOne(payload.sub);
   }
 }

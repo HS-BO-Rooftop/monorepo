@@ -8,14 +8,17 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
 import { FindByUUIDDto } from '../common/dto/find-by-uuid.dto';
 import { RBadRequestResponse } from '../common/responses/BadRequestResponse.dto';
 import { RInternalServerErrorResponse } from '../common/responses/InternalServierErrorResponse.dto';
@@ -33,6 +36,8 @@ export class SensorsController {
   constructor(private readonly sensorsService: SensorsService) {}
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiCreatedResponse({ type: SensorConfigurationDto })
   create(@Body() createSensorDto: CreateSensorConfigurationDto) {
     return this.sensorsService.create(createSensorDto);
@@ -55,6 +60,8 @@ export class SensorsController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOkResponse({ type: SensorConfigurationDto })
   @RNotFoundResponse()
   update(
@@ -65,6 +72,8 @@ export class SensorsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiNoContentResponse()
   @RNotFoundResponse()
   @HttpCode(HttpStatus.NO_CONTENT)

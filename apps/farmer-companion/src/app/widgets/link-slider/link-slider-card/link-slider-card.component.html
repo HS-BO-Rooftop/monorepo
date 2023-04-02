@@ -1,6 +1,10 @@
 <ng-container *ngIf="options">
-  <a [routerLink]="options.routerLink">
+  <a [routerLink]="options.routerLink" *ngIf="!disabled">
     <img [src]="options.imageUrl" alt="" />
     <h2 class="title">{{ options.title | translate }}</h2>
   </a>
+  <div *ngIf="disabled" class="opacity-30">
+    <img [src]="options.imageUrl" alt="" />
+    <h2 class="title">{{ options.title | translate }}</h2>
+  </div>
 </ng-container>

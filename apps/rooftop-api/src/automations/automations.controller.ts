@@ -5,10 +5,12 @@ import {
   Get,
   Param,
   Patch,
-  Post
+  Post,
+  UseGuards
 } from '@nestjs/common';
 import { Ctx, MessagePattern, MqttContext } from '@nestjs/microservices';
-import { ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiCreatedResponse, ApiNoContentResponse, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '../auth/auth.guard';
 import { RNotFoundResponse } from '../common/responses/NotFoundResponse.dto';
 import { AutomationsService } from './automations.service';
 import { AutomationConfigDto } from './classes/automation-config';
@@ -68,6 +70,8 @@ export class AutomationsController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Creates a new automation',
     operationId: 'createAutomation',
@@ -81,6 +85,8 @@ export class AutomationsController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Updates an automation',
     operationId: 'updateAutomation',
@@ -98,6 +104,8 @@ export class AutomationsController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Deletes an automation',
     operationId: 'deleteAutomation',

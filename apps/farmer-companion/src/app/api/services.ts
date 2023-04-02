@@ -1,6 +1,6 @@
 export { VersionService } from './services/version.service';
 export { AuthService } from './services/auth.service';
-export { UserService } from './services/user.service';
+export { UsersService } from './services/users.service';
 export { BoardsService } from './services/boards.service';
 export { RegisterService } from './services/register.service';
 export { BoardPinsService } from './services/board-pins.service';

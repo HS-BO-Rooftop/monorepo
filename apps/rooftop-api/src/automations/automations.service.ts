@@ -3,6 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { v4 } from 'uuid';
+import { WeatherService } from '../weather/weather.service';
 import { GpioAction } from './classes/actions/gpio-action';
 import {
   AutomationConfig,
@@ -21,7 +22,8 @@ export class AutomationsService {
     @Inject('SENSOR_MQTT')
     readonly mqttClient: ClientProxy,
     @InjectRepository(AutomationEntity)
-    private readonly automationRepository: Repository<AutomationEntity>
+    private readonly automationRepository: Repository<AutomationEntity>,
+    private readonly weatherService: WeatherService
   ) {
     this.automationRepository.find().then((data) => {
       data.forEach((automation) => {
@@ -172,7 +174,7 @@ export class AutomationsService {
   private createAutomationConfig(automation: AutomationEntity) {
     return AutomationConfig.deserialize(
       automation.data,
-      null,
+      this.weatherService,
       this.mqttCache.cache,
       this.mqttClient
     );
