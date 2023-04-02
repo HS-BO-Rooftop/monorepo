@@ -23,6 +23,7 @@ import { HttpLoaderFactory } from './translate-loader';
     HttpClientModule,
     AppRoutingModule,
     AppNavigationModule,
+    // ApiModule.forRoot({ }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

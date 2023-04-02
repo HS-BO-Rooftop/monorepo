@@ -12,9 +12,9 @@ import { ToastService } from '../../toast.service';
   styleUrls: ['./sensors-settings.component.scss'],
 })
 export class SensorsSettingsPage implements OnInit {
-  private sensors = new BehaviorSubject<GroupData | null>(null);
+  private sensors = new BehaviorSubject<GroupData[] | null>(null);
   searchControl = new FormControl<string>('');
-  filteredSensors = new BehaviorSubject<GroupData | null>(null);
+  filteredSensors = new BehaviorSubject<GroupData[] | null>(null);
 
   constructor(
     private readonly sensorsService: SensorsService,
@@ -38,7 +38,12 @@ export class SensorsSettingsPage implements OnInit {
         map((value) => value?.toLowerCase())
       ),
     ]).subscribe(([sensors, search]) => {
-      return;
+      const filtered = sensors?.filter(
+        (x) =>
+          x.name.toLowerCase() === search ||
+          x.sensors.filter((y) => y.name.toLowerCase() === search)
+      );
+      this.filteredSensors.next(filtered ?? null);
     });
   }
 
@@ -56,13 +61,17 @@ export class SensorsSettingsPage implements OnInit {
   private groupSensorsByType(sensors: SensorConfigurationDto[]) {
     return sensors.reduce((acc, sensor) => {
       const type = sensor.sensorType.name;
-      if (acc[type]) {
-        acc[type].push(sensor);
+      const group = acc.find((x) => x.name === type);
+      if (group) {
+        group.sensors.push(sensor);
       } else {
-        acc[type] = [sensor];
+        acc.push({
+          name: type,
+          sensors: [sensor],
+        });
       }
       return acc;
-    }, {} as GroupData);
+    }, [] as GroupData[]);
   }
 
   ionViewWillEnter() {
@@ -71,5 +80,6 @@ export class SensorsSettingsPage implements OnInit {
 }
 
 interface GroupData {
-  [typeName: string]: SensorConfigurationDto[];
+  name: string;
+  sensors: SensorConfigurationDto[];
 }
