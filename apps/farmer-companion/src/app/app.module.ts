@@ -7,10 +7,16 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { AuthInterceptor } from '../auth.interceptor';
+import { environment } from '../environments/environment';
+import { ApiModule } from './api/api.module';
 import { AppNavigationModule } from './app-navigation/app-navigation.module';
 import { HttpLoaderFactory } from './translate-loader';
 
@@ -23,7 +29,9 @@ import { HttpLoaderFactory } from './translate-loader';
     HttpClientModule,
     AppRoutingModule,
     AppNavigationModule,
-    // ApiModule.forRoot({ }),
+    ApiModule.forRoot({
+      rootUrl: environment.apiUrl,
+    }),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -34,8 +42,9 @@ import { HttpLoaderFactory } from './translate-loader';
     }),
   ],
   providers: [
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, 
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
